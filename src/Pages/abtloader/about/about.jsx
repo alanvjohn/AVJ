@@ -3,7 +3,7 @@ import "./about.css";
 function About() {
   return (
     <>
-      <div id="about" className=" w-100 mt-5" data-scroll-container>
+      <div id="about" className="w-100" data-scroll-container>
         <div className="aboutmain" data-scroll-section>
           <div className="subabout" >
             <h1 className="heading-about" data-scroll  >About Me</h1>

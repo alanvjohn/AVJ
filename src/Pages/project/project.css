@@ -1,15 +1,13 @@
 /* Main container */
 .project-container {
   background-color: white;
-  padding-bottom: 20%;
-  padding-top: 4%;
+  padding: 4rem 1rem 3rem;
 }
 .project-page {
   background-color: white;
 }
 .project-section {
   background-color: white;
-  margin-bottom: 20%;
   width: 100%;
 }
 /* Title */
