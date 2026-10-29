@@ -86,7 +86,7 @@ function MessageVault() {
     return (
       <div className="vault-page">
         <form className="vault-login" onSubmit={handleSignIn}>
-          <h1>Message Vault</h1>
+          <h1>Vault</h1>
           <p>Sign in to continue.</p>
           <input
             type="email"
@@ -112,10 +112,10 @@ function MessageVault() {
   }
 
   return (
-    <div id="message-vault" className="vault-page">
+    <div id="vault" className="vault-page">
       <div className="vault-list">
         <div className="vault-header">
-          <h1>Message Vault</h1>
+          <h1>Vault</h1>
           <button type="button" onClick={() => signOut(auth)}>
             Sign out
           </button>

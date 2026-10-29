@@ -117,7 +117,7 @@ function App() {
               }
             />
             <Route
-              path="/message-vault"
+              path="/vault"
               element={
                 <motion.div
                   initial="initial"
