@@ -1,14 +1,14 @@
-import { useRef, useEffect } from "react";
+import { lazy, Suspense, useRef, useEffect } from "react";
 import { Routes, Route, Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { LocomotiveScrollProvider } from "react-locomotive-scroll";
 
 // Pages
-import Pageloader from "./Pages/pageloader";
-import Aboutldr from "./Pages/abtloader/aboutldr";
-import Projects from "./Pages/project/projects";
-import Contact from "./Pages/contact/contact";
-import MessageVault from "./Pages/messagevault/messagevault";
+const Pageloader = lazy(() => import("./Pages/pageloader"));
+const Aboutldr = lazy(() => import("./Pages/abtloader/aboutldr"));
+const Projects = lazy(() => import("./Pages/project/projects"));
+const Contact = lazy(() => import("./Pages/contact/contact"));
+const MessageVault = lazy(() => import("./Pages/messagevault/messagevault"));
 import "./App.css";
 
 // Components
@@ -41,7 +41,7 @@ function App() {
     },
     smartphone: {
       lerp: 0.05,
-      smooth: true,
+      smooth: false,
       reloadOnContextChange: true,
     },
   };
@@ -59,7 +59,8 @@ function App() {
       >
         <Navbar />
         <div data-scroll-container ref={ref}>
-          <Routes>
+          <Suspense fallback={<div className="route-loading" aria-label="Loading page" />}>
+            <Routes>
             <Route
               path="/"
               element={
@@ -140,7 +141,8 @@ function App() {
                 </main>
               }
             />
-          </Routes>
+            </Routes>
+          </Suspense>
         </div>
       </LocomotiveScrollProvider>
     </ThemeProvider>

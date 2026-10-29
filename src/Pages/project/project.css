@@ -36,6 +36,8 @@
   background: #dfe7fb;
   box-shadow: 0 8px 18px rgba(47, 69, 112, 0.12);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  content-visibility: auto;
+  contain-intrinsic-size: 340px;
 }
 
 .project-folder:hover {

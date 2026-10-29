@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { debounce } from 'lodash';
 
 import "./marquee.css"
@@ -32,13 +31,16 @@ import {
     SiTypescript,
   } from "react-icons/si";
   import { TiHtml5 } from "react-icons/ti";
-  gsap.registerPlugin(ScrollTrigger);
 const Marquee = () => {
     const marqueeInnerRef = useRef(null);
     const tweenRef = useRef(null); 
     const currentScrollRef = useRef(0); 
 
     useEffect(() => {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        return undefined;
+      }
+
       const marqueeParts = marqueeInnerRef.current?.querySelectorAll(".marquee__part");
       tweenRef.current = gsap
         .to(marqueeParts, {
@@ -63,7 +65,7 @@ const Marquee = () => {
         currentScrollRef.current = newScroll;
       }, 150);
   
-      window.addEventListener("scroll", handleScroll);
+      window.addEventListener("scroll", handleScroll, { passive: true });
       return () => {
         window.removeEventListener("scroll", handleScroll);
         handleScroll.cancel();

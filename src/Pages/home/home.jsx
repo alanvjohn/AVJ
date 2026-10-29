@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 // assets 
 import "./home.css";
-import Me from "../../assets/home/me.png";
+import Me from "../../assets/home/me.webp";
 
 function Home() {
   return (
@@ -25,7 +25,7 @@ function Home() {
                   </div>
                 </div>
                 <div className='col-12 col-md-6 right' >
-                <img src={Me} alt='Profile picture of Alan V John' className='me img-fluid w-75' fetchPriority='auto'/>
+                <img src={Me} alt='Profile picture of Alan V John' className='me img-fluid w-75' fetchPriority='high' width="1200" height="1200"/>
                   <div className="circle"></div>
                 </div>
               </div>

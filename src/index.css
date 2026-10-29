@@ -19,6 +19,11 @@ body.dark-theme {
   color: #ffffff;
 }
 
+.deferred-section {
+  content-visibility: auto;
+  contain-intrinsic-size: 600px;
+}
+
 button,
 a {
   -webkit-tap-highlight-color: transparent;

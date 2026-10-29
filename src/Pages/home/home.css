@@ -162,7 +162,7 @@
       rgba(225, 220, 220, 0.718) 0%,
       rgba(0, 0, 0, 0) 100%
     );
-    backdrop-filter: blur(25px);
+    backdrop-filter: none;
     position: fixed;
     left: 39%;
     top: 50%;

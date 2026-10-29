@@ -1,9 +1,9 @@
 //imports image
-import interestimg from './imgs/project_interest calculator.png'
-import cardealer from "./imgs/project_CarDealership.png"
-import doctorappoinment from "./imgs/project_doctorappoinment.png"
-import videoconferenceapp from "./imgs/project_videoconferenceapp.png"
-import powertech from "./imgs/project_powertech.png"
+import interestimg from './imgs/project_interest calculator.webp'
+import cardealer from "./imgs/project_CarDealership.webp"
+import doctorappoinment from "./imgs/project_doctorappoinment.webp"
+import videoconferenceapp from "./imgs/project_videoconferenceapp.webp"
+import powertech from "./imgs/project_powertech.webp"
 const projectData = [
   {
     id: 1,
