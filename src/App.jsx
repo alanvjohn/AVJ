@@ -8,7 +8,7 @@ import Pageloader from "./Pages/pageloader";
 import Aboutldr from "./Pages/abtloader/aboutldr";
 import Projects from "./Pages/project/projects";
 import Contact from "./Pages/contact/contact";
-import Me from "./Pages/mineonly/me";
+import MessageVault from "./Pages/messagevault/messagevault";
 
 // Components
 import Navbar from "./Components/Navbar/navbar";
@@ -117,7 +117,7 @@ function App() {
               }
             />
             <Route
-              path="/me"
+              path="/message-vault"
               element={
                 <motion.div
                   initial="initial"
@@ -126,7 +126,7 @@ function App() {
                   variants={pageVariants}
                   transition={pageTransition}
                 >
-                  <Me />
+                  <MessageVault />
                 </motion.div>
               }
             />

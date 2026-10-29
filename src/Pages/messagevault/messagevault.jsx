@@ -8,9 +8,9 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "../contact/firebase";
-import "./me.css";
+import "./messagevault.css";
 
-function Me() {
+function MessageVault() {
   const [user, setUser] = useState(null);
   const [messages, setMessages] = useState([]);
   const [password, setPassword] = useState("");
@@ -79,15 +79,15 @@ function Me() {
   };
 
   if (isLoading) {
-    return <div className="adminpage">Checking access...</div>;
+    return <div className="vault-page">Checking access...</div>;
   }
 
   if (!user) {
     return (
-      <div className="adminpage">
-        <form className="admin-login" onSubmit={handleSignIn}>
-          <h1>Private messages</h1>
-          <p>Sign in with the administrator account to continue.</p>
+      <div className="vault-page">
+        <form className="vault-login" onSubmit={handleSignIn}>
+          <h1>Message Vault</h1>
+          <p>Sign in to continue.</p>
           <input
             type="email"
             value={ADMIN_EMAIL}
@@ -102,7 +102,7 @@ function Me() {
             required
             autoComplete="current-password"
           />
-          {error && <p className="admin-error" role="alert">{error}</p>}
+          {error && <p className="vault-error" role="alert">{error}</p>}
           <button type="submit" disabled={isSigningIn}>
             {isSigningIn ? "Signing in..." : "Sign in"}
           </button>
@@ -112,15 +112,15 @@ function Me() {
   }
 
   return (
-    <div id="me" className="adminpage">
-      <div className="messages-list">
-        <div className="admin-header">
-          <h1>Messages</h1>
+    <div id="message-vault" className="vault-page">
+      <div className="vault-list">
+        <div className="vault-header">
+          <h1>Message Vault</h1>
           <button type="button" onClick={() => signOut(auth)}>
             Sign out
           </button>
         </div>
-        {error && <p className="admin-error" role="alert">{error}</p>}
+        {error && <p className="vault-error" role="alert">{error}</p>}
         {messages.length === 0 ? (
           <p>No messages yet.</p>
         ) : (
@@ -140,4 +140,4 @@ function Me() {
   );
 }
 
-export default Me;
+export default MessageVault;
