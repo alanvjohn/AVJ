@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect, useRef } from 'react';
 import Loader from '../loader/loader'; // Ensure the path to Loader is correct
 
 const ThemeContext = createContext();
@@ -6,16 +6,18 @@ const ThemeContext = createContext();
 export const ThemeProvider = ({ children }) => {
   const [theme, setTheme] = useState('light');
   const [isLoading, setIsLoading] = useState(false);
+  const loadingTimerRef = useRef(null);
 
   const applyTheme = (newTheme) => {
+    const safeTheme = newTheme === 'dark' ? 'dark' : 'light';
     setIsLoading(true); // Show loader
-    setTheme(newTheme);
-    document.body.classList.toggle('dark-theme', newTheme === 'dark');
-    localStorage.setItem('theme', newTheme);
-    console.log(`Theme applied: ${newTheme}`);
+    setTheme(safeTheme);
+    document.body.classList.toggle('dark-theme', safeTheme === 'dark');
+    localStorage.setItem('theme', safeTheme);
 
     // Simulate a delay to show the loader
-    setTimeout(() => {
+    window.clearTimeout(loadingTimerRef.current);
+    loadingTimerRef.current = window.setTimeout(() => {
       setIsLoading(false); // Hide loader
     }, 500); // Adjust delay as needed
   };
@@ -46,6 +48,9 @@ export const ThemeProvider = ({ children }) => {
         prefersDarkScheme.removeEventListener('change', handleThemeChange);
       };
     }
+    return () => {
+      window.clearTimeout(loadingTimerRef.current);
+    };
   }, []); // Empty dependency array
 
   return (

@@ -1,0 +1,14 @@
+.not-found {
+  min-height: 70vh;
+  display: grid;
+  place-content: center;
+  gap: 1rem;
+  padding: 2rem;
+  text-align: center;
+  font-family: "Satoshi Variable";
+}
+
+.not-found h1 {
+  margin: 0;
+  font-family: "Soria";
+}

@@ -1,5 +1,5 @@
 import { useContext, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -64,11 +64,11 @@ useEffect(() => {
             navbarScroll
           >
             {currentPath !== '/' && (
-              <Nav.Link href="/" className='links'> Home </Nav.Link>
+              <Nav.Link as={NavLink} to="/" className='links'>Home</Nav.Link>
             )}
-            <Nav.Link href="/about" className='links'> About </Nav.Link>
-            <Nav.Link href="/projects" className='links'> Projects </Nav.Link>
-            <Nav.Link href="/contact" className='links'> Contact </Nav.Link>
+            <Nav.Link as={NavLink} to="/about" className='links'>About</Nav.Link>
+            <Nav.Link as={NavLink} to="/projects" className='links'>Projects</Nav.Link>
+            <Nav.Link as={NavLink} to="/contact" className='links'>Contact</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

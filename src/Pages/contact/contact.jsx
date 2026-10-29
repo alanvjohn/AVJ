@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useContext } from "react";
+import { useState, useContext } from "react";
 import { MdAttachEmail } from "react-icons/md";
 import { FaGithub } from "react-icons/fa";
 import { db, addDoc, collection } from "./firebase"; // Import Firebase config
@@ -7,8 +7,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import ThemeContext from '../../Components/custom/Theme';
 
 
-function Contact({ LocomotiveScrollProvider }) {
-  const contactRef = useRef(null);
+function Contact() {
   const { theme } = useContext(ThemeContext);
 
   // State for form data
@@ -18,23 +17,6 @@ function Contact({ LocomotiveScrollProvider }) {
     message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  // Initialize Locomotive Scroll
-  useEffect(() => {
-    if (contactRef.current) {
-      console.log("Locomotive Scroll is working on Contact page.");
-    } else {
-      console.log("Locomotive Scroll reference is missing.");
-    }
-
-    // Clean up Locomotive Scroll on component unmount
-    return () => {
-      if (LocomotiveScrollProvider) {
-        console.log("Destroying Locomotive Scroll");
-        LocomotiveScrollProvider.destroy();
-      }
-    };
-  }, [LocomotiveScrollProvider]);
 
   // Handle input change
   const handleChange = (e) => {
@@ -46,107 +28,75 @@ function Contact({ LocomotiveScrollProvider }) {
 
   // Handle form submission
 // Handle form submission
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  if (isSubmitting) return;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (isSubmitting) return;
 
-  setIsSubmitting(true);
-  try {
-    // Show a toast while the message is being saved
-  if (theme === 'light') {
-    await toast.promise(
-      addDoc(collection(db, "messages"), {
-        name: formData.name,
-        email: formData.email,
-        message: formData.message,
-        timestamp: new Date().toISOString(), // Add timestamp
-      }),
-      {
-        loading: "sending your message...",
-        success: "Thank you for contacting me.I will get back to you shortly.",
-        error: "Failed to send message. Please try again.",
-      },
-      {
-        position: "top-center",
-        style: {
-          backgroundColor: '#1f1f1f',
-          color: '#fff',
+    setIsSubmitting(true);
+    try {
+      const notificationStyle = theme === "dark"
+        ? { backgroundColor: "#fff", color: "#000" }
+        : { backgroundColor: "#1f1f1f", color: "#fff" };
+
+      await toast.promise(
+        addDoc(collection(db, "messages"), {
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          message: formData.message.trim(),
+          timestamp: new Date().toISOString(),
+        }),
+        {
+          loading: "Sending your message...",
+          success: "Thank you. I will get back to you shortly.",
+          error: "Failed to send message. Please try again.",
         },
-        className: 'teaser1',
-        success: {
-          duration: 5000,
-          icon: '📩',
-       },
-      }
-    );
-  }
-  else if (theme === 'dark') {
-    await toast.promise(
-      addDoc(collection(db, "messages"), {
-        name: formData.name,
-        email: formData.email,
-        message: formData.message,
-        timestamp: new Date().toISOString(), // Add timestamp
-      }),
-      {
-        loading: "sending your message...",
-        success: "Thank you for contacting me.I will get back to you shortly.",
-        error: "Failed to send message. Please try again.",
-      },
-      {
-        position: "top-center",
-        style: {
-          backgroundColor: '#fff',
-          color: '#000',
-        },
-        className: 'teaser1',
-        success: {
-          duration: 5000,
-          icon: '📩',
-       },
-      }
-    );
-  }
+        {
+          position: "top-center",
+          style: notificationStyle,
+          className: "teaser1",
+          success: { duration: 5000, icon: "📩" },
+        }
+      );
+
     setFormData({ name: "", email: "", message: "" });
-  } catch (error) {
-    console.error("Error adding document: ", error);
-    toast.error("Failed to send message. Please try again.", {
-      position: "top-center",
-    });
-  } finally {
-    setIsSubmitting(false);
-  }
-};
+    } catch (error) {
+      console.error("Error adding document: ", error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
 
   return (
     <div className="contactpage">
-      <div className="maincontact " data-scroll-container ref={contactRef}>
+      <div className="maincontact " data-scroll-container>
         <div className="contact container d-flex flex-column flex-wrap justify-content-center" data-scroll-section>
           <h1 className="contactheading" data-scroll data-scroll-delay=".1" data-scroll-class="in-view">
             Contact Me
           </h1>
           <p data-scroll data-scroll-class="in-view">
-            For any queries or suggestions, feel free to contact Me.
+            Have a project in mind? Send me a message and I will get back to you.
           </p>
           <div className="contact-logo container d-flex flex-row" data-scroll>
             <div className="email" data-scroll data-scroll-class="in-view">
               <p>
-                <a href="mailto:alanjohn9626@gmail.com">
+                <a href="mailto:alanjohn9626@gmail.com" aria-label="Email Alan V John">
                   <MdAttachEmail className="email-logo" />
                 </a>
               </p>
             </div>
             <div className="git ms-4" data-scroll data-scroll-class="in-view">
               <p>
-                <a href="https://github.com/alanvjohn" target="_blank" rel="noopener noreferrer">
+                <a href="https://github.com/alanvjohn" target="_blank" rel="noopener noreferrer" aria-label="Alan V John on GitHub">
                   <FaGithub className="github-logo" />
                 </a>
               </p>
             </div>
           </div>
           <form onSubmit={handleSubmit} className="form-group" data-scroll data-scroll-class="in-view">
+            <label htmlFor="contact-name">Name</label>
             <input
+              id="contact-name"
               type="text"
               name="name"
               placeholder="Enter your name"
@@ -156,8 +106,11 @@ const handleSubmit = async (e) => {
               value={formData.name}
               onChange={handleChange}
               required
+              maxLength="100"
             />
+            <label htmlFor="contact-email">Email</label>
             <input
+              id="contact-email"
               type="email"
               name="email"
               placeholder="Enter your email"
@@ -167,8 +120,11 @@ const handleSubmit = async (e) => {
               value={formData.email}
               onChange={handleChange}
               required
+              maxLength="254"
             />
+            <label htmlFor="contact-message">Message</label>
             <textarea
+              id="contact-message"
               placeholder="Enter your message"
               name="message"
               className="form-control m-2"
@@ -179,6 +135,7 @@ const handleSubmit = async (e) => {
               value={formData.message}
               onChange={handleChange}
               required
+              maxLength="5000"
             ></textarea>
             <div className="buttons container-fluid" data-scroll data-scroll-class="in-view">
               <button type="submit" className="btn btn-primary mt-3" disabled={isSubmitting}>

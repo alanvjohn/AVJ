@@ -18,6 +18,13 @@ textarea {
 .contactheading {
   margin: 0;
 }
+
+.form-group label {
+  display: block;
+  margin: 0.75rem 0 0.25rem;
+  font-family: "Satoshi Variable";
+  font-weight: 600;
+}
 .email-logo {
   width: 25px;
   height: 25px;

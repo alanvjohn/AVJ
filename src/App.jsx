@@ -1,5 +1,5 @@
 import { useRef, useEffect } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { LocomotiveScrollProvider } from "react-locomotive-scroll";
 
@@ -9,6 +9,7 @@ import Aboutldr from "./Pages/abtloader/aboutldr";
 import Projects from "./Pages/project/projects";
 import Contact from "./Pages/contact/contact";
 import MessageVault from "./Pages/messagevault/messagevault";
+import "./App.css";
 
 // Components
 import Navbar from "./Components/Navbar/navbar";
@@ -46,8 +47,7 @@ function App() {
   };
 
   useEffect(() => {
-    // Effect will trigger on route change to update the scroll
-    console.log("Route changed:", location.pathname);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, [location]);
 
   return (
@@ -128,6 +128,16 @@ function App() {
                 >
                   <MessageVault />
                 </motion.div>
+              }
+            />
+            <Route
+              path="*"
+              element={
+                <main className="not-found">
+                  <h1>Page not found</h1>
+                  <p>The page you requested does not exist.</p>
+                  <Link to="/">Return home</Link>
+                </main>
               }
             />
           </Routes>

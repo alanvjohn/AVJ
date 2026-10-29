@@ -1,34 +1,12 @@
-import { useRef, useEffect } from 'react'
+import { Link } from 'react-router-dom';
 // assets 
 import "./home.css";
 import Me from "../../assets/home/me.png";
 
-function Home({ LocomotiveScrollProvider }) {
-  const homeRef = useRef(null);
-    // Initialize and check Locomotive Scroll
-    useEffect(() => {
-      if (homeRef.current) {
-        console.log("Locomotive Scroll is working on Home page.");
-      } else {
-        console.log("Locomotive Scroll reference is missing.");
-      }
-    
-      // Ensure LocomotiveScrollProvider is initialized before destroying
-      if (LocomotiveScrollProvider) {
-        console.log("Locomotive Scroll is initialized, destroying now.");
-        LocomotiveScrollProvider.destroy();
-      }
-    
-      return () => {
-        if (LocomotiveScrollProvider) {
-          console.log("Destroying Locomotive Scroll");
-          LocomotiveScrollProvider.destroy();
-        }
-      };
-    }, [LocomotiveScrollProvider]);
+function Home() {
   return (
     <>
-            <div id="home" className='' data-scroll-container ref={homeRef}>
+            <div id="home" className='' data-scroll-container>
               <div className='row homerow container-fluid' data-scroll-section>
                 <div className='col-sm-8 col-md-6 left' data-scroll data-scroll-speed="2" >
                   <h1 className='container titlehome'>
@@ -41,6 +19,10 @@ function Home({ LocomotiveScrollProvider }) {
                     and drive success! <br />
                     Eager to join a dynamic team and grow while contributing to
                   </p>
+                  <div className="home-actions container">
+                    <Link to="/projects" className="home-action">View Projects</Link>
+                    <Link to="/contact" className="home-action home-action-secondary">Contact Me</Link>
+                  </div>
                 </div>
                 <div className='col-12 col-md-6 right' >
                 <img src={Me} alt='Profile picture of Alan V John' className='me img-fluid w-75' fetchPriority='auto'/>

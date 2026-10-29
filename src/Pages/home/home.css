@@ -62,6 +62,38 @@
   font-size: 1rem;
 }
 
+.home-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.home-action {
+  display: inline-block;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.5rem;
+  background: #000;
+  color: #fff;
+  font-family: "Satoshi Variable";
+  text-decoration: none;
+}
+
+.home-action-secondary {
+  background: transparent;
+  border: 1px solid currentColor;
+  color: inherit;
+}
+
+.dark-theme .home-action {
+  background: #fff;
+  color: #000;
+}
+
+.dark-theme .home-action-secondary {
+  background: transparent;
+  color: #fff;
+}
+
 /* Dark Theme */
 .dark-theme .viewhome {
   background-color: #121212;
