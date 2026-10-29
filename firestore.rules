@@ -20,7 +20,9 @@ service cloud.firestore {
       && request.resource.data.message.size() <= 5000
       && request.resource.data.timestamp is string;
 
-      allow read, update, delete: if false;
+      allow read: if request.auth != null
+        && request.auth.token.email == 'alanjohn9626@gmail.com';
+      allow update, delete: if false;
     }
   }
 }

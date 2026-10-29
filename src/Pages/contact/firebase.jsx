@@ -1,6 +1,12 @@
 // firebase.js
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
+import {
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
+} from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyD_vjUprlYOqn963L4i0iDWFzqwJXPdwQQ",
@@ -15,5 +21,17 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app);
+const ADMIN_EMAIL = "alanjohn9626@gmail.com";
 
-export { db, addDoc, collection };
+export {
+  ADMIN_EMAIL,
+  auth,
+  db,
+  addDoc,
+  collection,
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
+};
