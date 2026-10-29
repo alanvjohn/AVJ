@@ -11,9 +11,8 @@ import Marquee from '../Components/marquee/marquee';
 import { gsap } from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 gsap.registerPlugin(ScrollToPlugin);
-import React from 'react'
 
-function pageloader() {
+function Pageloader() {
   return (
     <>
     <section className='section1' ><Home/></section>
@@ -26,4 +25,4 @@ function pageloader() {
   )
 }
 
-export default pageloader
+export default Pageloader

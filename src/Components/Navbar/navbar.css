@@ -5,6 +5,10 @@
 }
 .title {
   color: #000;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
   font-family: Soria;
   font-size: 50px;
   font-style: normal;

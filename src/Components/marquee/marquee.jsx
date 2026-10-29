@@ -1,4 +1,4 @@
-import React,{useEffect , useRef ,useState} from 'react'
+import { useEffect, useRef } from 'react'
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { debounce } from 'lodash';
@@ -33,21 +33,15 @@ import {
   } from "react-icons/si";
   import { TiHtml5 } from "react-icons/ti";
   gsap.registerPlugin(ScrollTrigger);
-const marquee = () => {
-    const startRef = useRef(null)
-    const [isScrollingDown, setIsScrollingDown] = useState(true);
+const Marquee = () => {
     const marqueeInnerRef = useRef(null);
     const tweenRef = useRef(null); 
     const currentScrollRef = useRef(0); 
-    const locoScrollRef = useRef(null);
-    const lastListItemRef= useRef(null);
-  
-  
-  
+
     useEffect(() => {
-      // GSAP Animation
+      const marqueeParts = marqueeInnerRef.current?.querySelectorAll(".marquee__part");
       tweenRef.current = gsap
-        .to(".marquee__part", {
+        .to(marqueeParts, {
           xPercent: -1265,
           yoyo: true,
           ease: "slow(0.1,0.1,true)",
@@ -61,10 +55,8 @@ const marquee = () => {
       const handleScroll = debounce(() => {
         const newScroll = window.pageYOffset;
         if (newScroll > currentScrollRef.current) {
-          setIsScrollingDown(true);
           gsap.to(tweenRef.current, { timeScale: 1 });
         } else {
-          setIsScrollingDown(false);
           gsap.to(tweenRef.current, { timeScale: -1 });
         }
   
@@ -72,7 +64,12 @@ const marquee = () => {
       }, 150);
   
       window.addEventListener("scroll", handleScroll);
-  
+      return () => {
+        window.removeEventListener("scroll", handleScroll);
+        handleScroll.cancel();
+        tweenRef.current?.kill();
+        tweenRef.current = null;
+      };
     }, []);
   return (
     <>
@@ -150,4 +147,4 @@ const marquee = () => {
   )
 }
 
-export default marquee
+export default Marquee

@@ -1,7 +1,7 @@
-import React,{useEffect, useRef} from "react";
+import { useEffect, useRef } from "react";
 import "./about.css";
 
-function about({LocomotiveScrollProvider}) {
+function About({ LocomotiveScrollProvider }) {
   const aboutRef = useRef(null)
   
 
@@ -28,7 +28,7 @@ function about({LocomotiveScrollProvider}) {
           <div className="subabout" >
             <h1 className="heading-about" data-scroll  >About Me</h1>
             <p className="container lh-base abouttext" data-scroll >
-              Hi, I'm Alan V John, a dedicated and hardworking B.Tech graduate
+              Hi, I&apos;m Alan V John, a dedicated and hardworking B.Tech graduate
               in Computer Science & Engineering, class of 2023.Born on December
               6, 2000, I am passionate about technology and committed to
               delivering high-quality work in every project I undertake. My
@@ -41,7 +41,7 @@ function about({LocomotiveScrollProvider}) {
               hands-on individual who enjoys listening to music, solving
               practical challenges, and supporting my parents in my free time. I
               believe in lifelong learning and consistently bring a positive and
-              solution-oriented mindset to all my pursuits Let's connect and
+              solution-oriented mindset to all my pursuits. Let&apos;s connect and
               explore how we can collaborate on exciting projects!
             </p>
           </div>
@@ -51,4 +51,4 @@ function about({LocomotiveScrollProvider}) {
   );
 }
 
-export default about;
+export default About;

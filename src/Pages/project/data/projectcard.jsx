@@ -1,5 +1,3 @@
-import React from 'react';
-
 const ProjectCard = ({ title, description, imgSrc, link }) => {
   return (
 <div className='container'>

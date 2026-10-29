@@ -1,4 +1,4 @@
-import React,{ useContext,useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -10,10 +10,10 @@ import toast, { Toaster } from 'react-hot-toast';
 function NavScrollExample() {
   const location = useLocation();
   const currentPath = location.pathname;
-  const { theme,toggleTheme } = useContext(ThemeContext);
-  const onPageLoad = () => {
+  const { theme, toggleTheme } = useContext(ThemeContext);
+  const onPageLoad = (currentTheme) => {
     toast.dismiss();
-    if (theme === 'light') {
+    if (currentTheme === 'light') {
       toast('Ahh, my eyes! I need a dark theme.🦇', {
         duration: 3000,
         position: 'top-left',
@@ -24,7 +24,7 @@ function NavScrollExample() {
         className: 'teaser',
         icon: '👈',
       });
-    } else if (theme === 'dark') {
+    } else if (currentTheme === 'dark') {
       toast('My eyes are on vacation—bring on the light theme!', {
         duration: 3000,
         position: 'top-left',
@@ -40,14 +40,22 @@ function NavScrollExample() {
   };
 useEffect(() => {
   if (currentPath === '/') {  
-    onPageLoad();
+    onPageLoad(theme);
   }
-}, [theme,currentPath]);
+}, [theme, currentPath]);
 
   return (
     <Navbar expand="md" className="bg-auto m-1 border-bottom border-3 navbar ">
       <Container fluid>
-        <Navbar.Brand href=" " className="title" onClick={toggleTheme}>AVJ</Navbar.Brand>
+        <Navbar.Brand
+          as="button"
+          type="button"
+          className="title"
+          onClick={toggleTheme}
+          aria-label="Toggle theme"
+        >
+          AVJ
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" className='togglebtn'/>
         <Navbar.Collapse id="navbarScroll">
           <Nav

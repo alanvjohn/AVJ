@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect } from 'react';
 import Loader from '../loader/loader'; // Ensure the path to Loader is correct
 
 const ThemeContext = createContext();

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState,useContext } from "react";
+import { useEffect, useRef, useState, useContext } from "react";
 import { MdAttachEmail } from "react-icons/md";
 import { FaGithub } from "react-icons/fa";
 import { db, addDoc, collection } from "./firebase"; // Import Firebase config
@@ -9,7 +9,7 @@ import ThemeContext from '../../Components/custom/Theme';
 
 function Contact({ LocomotiveScrollProvider }) {
   const contactRef = useRef(null);
-  const { theme,toggleTheme } = useContext(ThemeContext);
+  const { theme } = useContext(ThemeContext);
 
   // State for form data
   const [formData, setFormData] = useState({
@@ -17,6 +17,7 @@ function Contact({ LocomotiveScrollProvider }) {
     email: "",
     message: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Initialize Locomotive Scroll
   useEffect(() => {
@@ -47,6 +48,9 @@ function Contact({ LocomotiveScrollProvider }) {
 // Handle form submission
 const handleSubmit = async (e) => {
   e.preventDefault();
+  if (isSubmitting) return;
+
+  setIsSubmitting(true);
   try {
     // Show a toast while the message is being saved
   if (theme === 'light') {
@@ -103,13 +107,14 @@ const handleSubmit = async (e) => {
       }
     );
   }
-    // Reset form after successful submission
-    // setFormData({ name: "", email: "", message: "" });
+    setFormData({ name: "", email: "", message: "" });
   } catch (error) {
     console.error("Error adding document: ", error);
     toast.error("Failed to send message. Please try again.", {
       position: "top-center",
     });
+  } finally {
+    setIsSubmitting(false);
   }
 };
 
@@ -176,8 +181,8 @@ const handleSubmit = async (e) => {
               required
             ></textarea>
             <div className="buttons container-fluid" data-scroll data-scroll-class="in-view">
-              <button type="submit" className="btn btn-primary mt-3">
-                Send Message
+              <button type="submit" className="btn btn-primary mt-3" disabled={isSubmitting}>
+                {isSubmitting ? "Sending..." : "Send Message"}
               </button>
             </div>
           </form>

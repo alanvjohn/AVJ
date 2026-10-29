@@ -1,9 +1,9 @@
-import React,{useRef,useEffect} from 'react'
+import { useRef, useEffect } from 'react'
 // assets 
 import "./home.css";
 import Me from "../../assets/home/me.png";
 
-function home({LocomotiveScrollProvider}) {
+function Home({ LocomotiveScrollProvider }) {
   const homeRef = useRef(null);
     // Initialize and check Locomotive Scroll
     useEffect(() => {
@@ -52,4 +52,4 @@ function home({LocomotiveScrollProvider}) {
   )
 }
 
-export default home
+export default Home

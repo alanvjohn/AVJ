@@ -1,4 +1,3 @@
-import test from './imgs/test.png'
 //imports image
 import interestimg from './imgs/project_interest calculator.png'
 import cardealer from "./imgs/project_CarDealership.png"

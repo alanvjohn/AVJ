@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import "./skill.css";
 const Skill = () => {
   const skillRef = useRef(null);
