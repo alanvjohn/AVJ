@@ -5,10 +5,10 @@
   position: sticky;
 }
 .homerow {
-  height: 100vh;
+  min-height: 100vh;
+  height: auto;
   display: flex;
   justify-content: start;
-  max-height: 669px;
   background-color: white;
 }
 .titlehome {

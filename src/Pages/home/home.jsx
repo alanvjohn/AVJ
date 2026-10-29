@@ -6,7 +6,7 @@ import Me from "../../assets/home/me.webp";
 function Home() {
   return (
     <>
-            <div id="home" className='' data-scroll-container>
+            <div id="home" className=''>
               <div className='row homerow container-fluid' data-scroll-section>
                 <div className='col-sm-8 col-md-6 left' data-scroll data-scroll-speed="2" >
                   <h1 className='container titlehome'>

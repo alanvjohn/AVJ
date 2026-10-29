@@ -4,7 +4,7 @@ import projectData from './data/projectdata';
 const Projects = () => {
   return (
     <div className="project-page">
-      <div className="project-container" data-scroll-container>
+      <div className="project-container">
         <section className="project-section" data-scroll-section>
           <h1 className="project-title" data-scroll data-scroll-speed="2">
             Projects

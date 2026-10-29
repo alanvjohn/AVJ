@@ -4,7 +4,7 @@ const Skills = () => {
   const skillRef = useRef(null);
   return (
     <>
-    <div data-scroll-container ref={skillRef}>
+    <div ref={skillRef}>
       <div className="skill-holder" data-scroll-section id="stick">
       <div className="bg-skill">
               <h1 className="header-skills"             
