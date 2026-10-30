@@ -39,10 +39,11 @@
   overflow: hidden;
   z-index: 0;
 }
-.me {
+.hero-tilt {
   position: absolute;
   z-index: 1000;
   width: min(38vw, 560px) !important;
+  height: min(38vw, 560px);
   left: auto;
   top: 12%;
   right: 5%;
@@ -130,7 +131,7 @@
   );
 }
 
-.dark-theme .me {
+.dark-theme .hero-tilt {
   filter: grayscale(50%);
 }
 
@@ -153,10 +154,11 @@
   .parahome {
     font-size: 1rem;
   }
-  .me {
+  .hero-tilt {
     position: absolute;
     z-index: 1;
     width: 80% !important;
+    height: 80vw;
     left: auto;
     right: -15%;
     top: 52%;
@@ -195,8 +197,9 @@
     top: 18%;
   }
 
-  .me {
-    left: auto;
+  .hero-tilt {
+    width: min(42vw, 430px) !important;
+    height: min(42vw, 430px);
     right: 3%;
     top: 24%;
   }
@@ -211,8 +214,9 @@
     font-size: clamp(3.5rem, 7vw, 5rem);
   }
 
-  .me {
+  .hero-tilt {
     width: min(42vw, 430px) !important;
+    height: min(42vw, 430px);
     right: 2%;
     top: 20%;
   }

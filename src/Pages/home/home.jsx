@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 // assets 
 import "./home.css";
 import Me from "../../assets/home/me.webp";
+import TiltedCard from "../../Components/reactbits/TiltedCard";
 
 function Home() {
   return (
@@ -25,7 +26,20 @@ function Home() {
                   </div>
                 </div>
                 <div className='col-12 col-md-6 right' >
-                <img src={Me} alt='Profile picture of Alan V John' className='me img-fluid w-75' fetchPriority='high' width="1200" height="1200"/>
+                  <div className="hero-tilt">
+                    <TiltedCard
+                      imageSrc={Me}
+                      altText="Profile picture of Alan V John"
+                      containerHeight="100%"
+                      containerWidth="100%"
+                      imageHeight="100%"
+                      imageWidth="100%"
+                      scaleOnHover={1.03}
+                      rotateAmplitude={8}
+                      showMobileWarning={false}
+                      showTooltip={false}
+                    />
+                  </div>
                   <div className="circle"></div>
                 </div>
               </div>
