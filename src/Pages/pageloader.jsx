@@ -5,12 +5,6 @@ const About = lazy(() => import('./abtloader/about/about'))
 const Skill = lazy(() => import('./abtloader/Skills/skills'))
 const Contact = lazy(() => import('./contact/contact'))
 const Projects = lazy(() => import('./project/projects'))
-const Marquee = lazy(() => import('../Components/marquee/marquee'))
-
-//gsap
-import { gsap } from 'gsap';
-import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
-gsap.registerPlugin(ScrollToPlugin);
 
 function PageSection({ children, className }) {
   return (
@@ -25,7 +19,6 @@ function Pageloader() {
     <>
     <section className='section1' ><Home /></section>
     <PageSection className='section2'><About /></PageSection>
-    <PageSection className='section3'><Marquee /></PageSection>
     <PageSection className='section3'><Skill /></PageSection>
     <PageSection className='section4'><Projects /></PageSection>
     <PageSection className='section5'><Contact /></PageSection>

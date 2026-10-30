@@ -1,33 +1,58 @@
 import "./about.css";
 
+const skills = [
+  "JavaScript",
+  "Dart",
+  "TypeScript",
+  "Python",
+  "React",
+  "Flutter",
+  "Node.js",
+  "Firebase",
+  "MongoDB",
+  "PostgreSQL",
+];
+
 function About() {
   return (
-    <>
-      <div id="about" className="w-100">
-        <div className="aboutmain" data-scroll-section>
-          <div className="subabout" >
-            <h1 className="heading-about" data-scroll  >About Me</h1>
-            <p className="container lh-base abouttext" data-scroll >
-              Hi, I&apos;m Alan V John, a dedicated and hardworking B.Tech graduate
-              in Computer Science & Engineering, class of 2023.Born on December
-              6, 2000, I am passionate about technology and committed to
-              delivering high-quality work in every project I undertake. My
-              professional journey began with a 6-month internship at Luminar
-              Technolab in Kochi, where I honed my skills as a React JS
-              developer and earned a <span className="fw-bold">NACTECT certification</span>. Currently, I am
-              expanding my expertise as a <span className="fw-bold">Flutter developer</span> during my internship
-              with Zidio development. Beyond my technical skills, which you can
-              explore in the dedicated skills section, I am a grounded and
-              hands-on individual who enjoys listening to music, solving
-              practical challenges, and supporting my parents in my free time. I
-              believe in lifelong learning and consistently bring a positive and
-              solution-oriented mindset to all my pursuits. Let&apos;s connect and
-              explore how we can collaborate on exciting projects!
+    <div id="about" className="w-100">
+      <div className="aboutmain" data-scroll-section>
+        <div className="about-layout">
+          <div className="about-intro">
+            <p className="about-eyebrow">01 / About</p>
+            <h1 className="heading-about">Building useful digital experiences.</h1>
+            <p className="abouttext">
+              I&apos;m Alan V John, a software engineer from Kerala focused on
+              thoughtful interfaces, reliable applications, and continuous
+              learning. I work across web and mobile projects, from React
+              applications to Flutter products and Firebase-backed services.
+            </p>
+            <p className="abouttext">
+              My GitHub work reflects a practical, product-minded approach:
+              learn a technology, build something real, and keep improving it.
             </p>
           </div>
+          <aside className="about-card">
+            <p className="about-eyebrow">Currently building with</p>
+            <div className="about-skill-grid">
+              {skills.map((skill) => (
+                <span key={skill} className="about-skill">
+                  {skill}
+                </span>
+              ))}
+            </div>
+            <a
+              className="about-github-link"
+              href="https://github.com/alanvjohn"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View GitHub profile <span aria-hidden="true">↗</span>
+            </a>
+          </aside>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

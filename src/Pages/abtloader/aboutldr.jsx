@@ -1,11 +1,11 @@
 import About from "./about/about"
-import Skill from "./Skills/skill"
+import Skills from "./Skills/skills"
 
 function aboutldr() {
   return (
     <>
         <About />
-        <Skill />
+        <Skills />
     </>
   )
 }
