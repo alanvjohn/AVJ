@@ -31,6 +31,8 @@ function NavScrollExample() {
         style: {
           backgroundColor: '#1f1f1f',
           color: '#fff',
+          padding: '0.85rem 1rem',
+          minWidth: 'min(32rem, calc(100vw - 2rem))',
         },
         className: 'teaser',
       });
@@ -52,6 +54,8 @@ function NavScrollExample() {
         style: {
           backgroundColor: '#fff',
           color: '#000',
+          padding: '0.85rem 1rem',
+          minWidth: 'min(32rem, calc(100vw - 2rem))',
         },
         className: 'teaser',
       });

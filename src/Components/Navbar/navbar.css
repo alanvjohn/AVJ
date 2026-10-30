@@ -36,15 +36,18 @@
   text-underline-offset: 0.35rem;
 }
 .teaser {
-  margin-left: 80px;
-  margin-top: 1%;
+  margin: 0.75rem 0 0 1rem;
+  border-radius: 0.75rem !important;
 }
 
 .theme-toast-content {
   display: flex;
+  flex-direction: row;
   align-items: center;
   gap: 0.75rem;
-  min-width: min(28rem, calc(100vw - 3rem));
+  width: 100%;
+  min-width: 0;
+  white-space: nowrap;
 }
 
 .theme-toast-emoji {
@@ -55,6 +58,8 @@
   display: grid;
   gap: 0.15rem;
   flex: 1;
+  min-width: 0;
+  line-height: 1.15;
 }
 
 .theme-toast-content strong {
@@ -62,8 +67,10 @@
 }
 
 .theme-toast-content small {
+  overflow: hidden;
   opacity: 0.72;
   font-size: 0.78rem;
+  text-overflow: ellipsis;
 }
 
 .theme-toast-content button {
@@ -88,11 +95,15 @@
 
 @media (max-width: 600px) {
   .teaser {
-    margin-left: 0;
+    margin: 0.5rem 0.5rem 0;
   }
 
   .theme-toast-content {
-    min-width: min(22rem, calc(100vw - 2rem));
+    gap: 0.5rem;
+  }
+
+  .theme-toast-content button {
+    flex: 0 0 auto;
   }
 }
 /* darktheme */
