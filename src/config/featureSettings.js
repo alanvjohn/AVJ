@@ -4,6 +4,7 @@ export const defaultFeatureSettings = {
   cursor: true,
   reactBitsCards: true,
   heroBackground: "ascii",
+  loaderStyle: "letter-glitch",
 };
 
 const storageKey = "avj-feature-settings";

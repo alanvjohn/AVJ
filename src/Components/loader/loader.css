@@ -30,6 +30,89 @@
   background: inherit;
   animation: d10 5s infinite;
 }
+
+.loader-effect {
+  width: min(22rem, 76vw);
+  height: min(12rem, 34vw);
+}
+
+.letter-glitch-loader {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 0.4rem;
+  padding: 1.25rem;
+  border: 1px solid rgba(118, 109, 244, 0.35);
+  background: rgba(118, 109, 244, 0.04);
+  color: #766df4;
+  font: 600 clamp(0.75rem, 2vw, 1rem) monospace;
+  text-align: center;
+  box-shadow: 0 0 3rem rgba(118, 109, 244, 0.14);
+}
+
+.letter-glitch-loader span {
+  animation: letter-glitch 1.1s steps(2, end) infinite;
+}
+
+@keyframes letter-glitch {
+  0%, 100% { opacity: 0.25; transform: translate(0); }
+  45% { opacity: 1; color: #5de1d0; transform: translate(2px, -1px); }
+  60% { opacity: 0.45; transform: translate(-1px, 1px); }
+}
+
+.shape-grid-loader {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.65rem;
+  transform: perspective(20rem) rotateX(38deg) rotateZ(-8deg);
+}
+
+.shape-grid-loader span {
+  border: 1px solid rgba(118, 109, 244, 0.65);
+  background: rgba(118, 109, 244, 0.16);
+  animation: shape-pulse 1.6s ease-in-out infinite alternate;
+}
+
+.shape-grid-loader span:nth-child(3n) { animation-delay: 0.3s; }
+.shape-grid-loader span:nth-child(4n) { animation-delay: 0.7s; }
+
+@keyframes shape-pulse {
+  from { transform: translateY(0) scale(0.82); opacity: 0.3; }
+  to { transform: translateY(-0.4rem) scale(1); opacity: 1; }
+}
+
+.dot-grid-loader {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  align-content: center;
+  gap: 1rem;
+  padding: 1.5rem;
+}
+
+.dot-grid-loader span {
+  width: 0.45rem;
+  height: 0.45rem;
+  justify-self: center;
+  border-radius: 50%;
+  background: #766df4;
+  box-shadow: 0 0 0.8rem rgba(118, 109, 244, 0.8);
+  animation: dot-bounce 1.25s ease-in-out infinite;
+}
+
+.dot-grid-loader span:nth-child(3n) { animation-delay: 0.2s; }
+.dot-grid-loader span:nth-child(4n) { animation-delay: 0.4s; }
+
+@keyframes dot-bounce {
+  0%, 100% { transform: scale(0.65); opacity: 0.3; }
+  50% { transform: scale(1.35); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .letter-glitch-loader span,
+  .shape-grid-loader span,
+  .dot-grid-loader span {
+    animation: none;
+  }
+}
 @keyframes d10 {
   0% {
     transform: translate(20px) rotate(0);

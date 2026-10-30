@@ -27,6 +27,14 @@ const heroBackgroundOptions = [
   ["plain", "Plain", "No decorative hero background."],
 ];
 
+const loaderOptions = [
+  ["letter-glitch", "Letter Glitch", "Flickering letters inspired by the React Bits background."],
+  ["random", "Random Shapes / Dots", "Chooses Shape Grid or Dot Grid each time a loader appears."],
+  ["shape-grid", "Shape Grid", "Animated perspective shapes for a geometric loading state."],
+  ["dot-grid", "Dot Grid", "A springy animated dot pattern for a lighter loading state."],
+  ["classic", "Classic", "The original compact AVJ loading indicator."],
+];
+
 function VaultAdmin() {
   const [user, setUser] = useState(null);
   const [isCheckingAccess, setIsCheckingAccess] = useState(true);
@@ -69,6 +77,16 @@ function VaultAdmin() {
     });
     setSettings(nextSettings);
     setSavedMessage("Hero background saved. Refreshing...");
+    window.setTimeout(() => window.location.reload(), 500);
+  };
+
+  const updateLoaderStyle = (event) => {
+    const nextSettings = saveFeatureSettings({
+      ...settings,
+      loaderStyle: event.target.value,
+    });
+    setSettings(nextSettings);
+    setSavedMessage("Loader style saved. Refreshing...");
     window.setTimeout(() => window.location.reload(), 500);
   };
 
@@ -143,6 +161,29 @@ function VaultAdmin() {
           </label>
           <p className="admin-setting-hint">
             {heroBackgroundOptions.find(([value]) => value === settings.heroBackground)?.[2]}
+          </p>
+        </section>
+
+        <section className="vault-admin-settings" aria-labelledby="loader-settings-title">
+          <div>
+            <p className="vault-admin-eyebrow">Loading experience</p>
+            <h2 id="loader-settings-title">Page loader</h2>
+            <p>Choose the animation shown while lazy-loaded pages are preparing.</p>
+          </div>
+          <label className="admin-select-label" htmlFor="loader-style">
+            Loader style
+            <select
+              id="loader-style"
+              value={settings.loaderStyle}
+              onChange={updateLoaderStyle}
+            >
+              {loaderOptions.map(([value, label]) => (
+                <option key={value} value={value}>{label}</option>
+              ))}
+            </select>
+          </label>
+          <p className="admin-setting-hint">
+            {loaderOptions.find(([value]) => value === settings.loaderStyle)?.[2]}
           </p>
         </section>
 
