@@ -1,0 +1,54 @@
+.custom-cursor,
+.custom-cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+  pointer-events: none;
+  border-radius: 50%;
+  transform: translate3d(-100px, -100px, 0);
+}
+
+.custom-cursor {
+  width: 8px;
+  height: 8px;
+  margin: -4px 0 0 -4px;
+  background: #111;
+}
+
+.custom-cursor-ring {
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  border: 1px solid rgba(17, 17, 17, 0.55);
+  transition: width 0.2s ease, height 0.2s ease, margin 0.2s ease,
+    background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.custom-cursor-ring.is-interactive {
+  width: 52px;
+  height: 52px;
+  margin: -26px 0 0 -26px;
+  border-color: #174ea6;
+  background: rgba(23, 78, 166, 0.08);
+}
+
+.dark-theme .custom-cursor {
+  background: #fff;
+}
+
+.dark-theme .custom-cursor-ring {
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+.dark-theme .custom-cursor-ring.is-interactive {
+  border-color: #8bb9ff;
+  background: rgba(139, 185, 255, 0.12);
+}
+
+@media (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .custom-cursor,
+  .custom-cursor-ring {
+    display: none;
+  }
+}

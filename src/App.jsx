@@ -13,6 +13,7 @@ import "./App.css";
 // Components
 import Navbar from "./Components/Navbar/navbar";
 import Loader from "./Components/loader/loader";
+import Cursor from "./Components/Cursor/cursor";
 import { ThemeProvider } from "./Components/custom/Theme";
 
 // Framer Motion transitions
@@ -35,6 +36,7 @@ function App() {
 
   return (
     <ThemeProvider>
+      <Cursor />
       <Navbar />
       <div>
         <Suspense fallback={<Loader />}>
