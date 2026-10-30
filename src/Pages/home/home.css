@@ -237,6 +237,13 @@
   }
 }
 
+@media (max-width: 767.98px) {
+  .me,
+  .circle {
+    display: none;
+  }
+}
+
 /* Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) and (max-width: 767.98px) {
   h1 {
