@@ -3,6 +3,7 @@ import { getFeatureSettings } from "../../config/featureSettings";
 import "./loader.css";
 
 const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+const loaderStyles = ["letter-glitch", "shape-grid", "dot-grid", "classic"];
 
 function LetterGlitchLoader() {
   const cells = useMemo(
@@ -45,7 +46,9 @@ const Loader = () => {
   const { loaderStyle } = getFeatureSettings();
   const selectedStyle = loaderStyle === "random"
     ? (Math.random() > 0.5 ? "shape-grid" : "dot-grid")
-    : loaderStyle;
+    : loaderStyle === "random-all"
+      ? loaderStyles[Math.floor(Math.random() * loaderStyles.length)]
+      : loaderStyle;
 
   let effect = <div className="custom-loader" />;
   if (selectedStyle === "letter-glitch") effect = <LetterGlitchLoader />;

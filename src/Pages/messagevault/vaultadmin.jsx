@@ -30,6 +30,7 @@ const heroBackgroundOptions = [
 const loaderOptions = [
   ["letter-glitch", "Letter Glitch", "Flickering letters inspired by the React Bits background."],
   ["random", "Random Shapes / Dots", "Chooses Shape Grid or Dot Grid each time a loader appears."],
+  ["random-all", "Random Everything", "Chooses any available loader style each time a loader appears."],
   ["shape-grid", "Shape Grid", "Animated perspective shapes for a geometric loading state."],
   ["dot-grid", "Dot Grid", "A springy animated dot pattern for a lighter loading state."],
   ["classic", "Classic", "The original compact AVJ loading indicator."],
