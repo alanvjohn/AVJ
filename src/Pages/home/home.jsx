@@ -3,25 +3,28 @@ import { Link } from 'react-router-dom';
 import "./home.css";
 import Me from "../../assets/home/me.webp";
 import GradientASCII from "../../Components/reactbits/GradientASCII";
+import { getFeatureSettings } from "../../config/featureSettings";
 
 function Home() {
+  const { heroBackground } = getFeatureSettings();
+
   return (
     <>
-            <div id="home" className='home-page'>
-              <div className="security-grid" aria-hidden="true" />
-              <GradientASCII />
+            <div id="home" className={`home-page hero-background-${heroBackground}`}>
+              {heroBackground !== "plain" && <div className="security-grid" aria-hidden="true" />}
+              {heroBackground === "ascii" && <GradientASCII />}
               <div className='row homerow container-fluid reveal-on-scroll'>
                 <div className='col-sm-8 col-md-6 left'>
-                  <p className="home-eyebrow">Software engineering · Cybersecurity</p>
+                  <p className="home-eyebrow">Technology · Learning · Building</p>
                   <h1 className='container titlehome'>
-                    Building secure <br />
-                    digital experiences.
+                    Learning, building, <br />
+                    and exploring technology.
                   </h1>
                   <p className='container parahome'> 
-                    I&apos;m Alan V. John, a software engineer and MSc Cybersecurity
-                    student based in Kerala. I build useful applications while
-                    developing a deeper practice in secure software and application
-                    security.
+                    I&apos;m Alan V. John, a student at the University of Worcester
+                    in the UK, originally from Kerala. I enjoy learning
+                    technology, building useful applications, and improving my
+                    skills through practical projects.
                   </p>
                   <div className="home-actions container">
                     <Link to="/projects" className="home-action">View Projects</Link>

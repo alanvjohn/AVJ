@@ -22,14 +22,13 @@ function About() {
             <p className="about-eyebrow">01 / About</p>
             <h1 className="heading-about">Building useful digital experiences.</h1>
             <p className="abouttext">
-              I&apos;m Alan V John, a software engineer from Kerala focused on
-              thoughtful interfaces, reliable applications, and continuous
-              learning. I work across web and mobile projects, from React
-              applications to Flutter products and Firebase-backed services.
+              I&apos;m Alan V John, a student at the University of Worcester in
+              the UK, originally from Kerala. I enjoy learning technology and
+              turning what I learn into thoughtful, useful applications.
             </p>
             <p className="abouttext">
-              My GitHub work reflects a practical, product-minded approach:
-              learn a technology, build something real, and keep improving it.
+              My GitHub work reflects a practical approach: explore a
+              technology, build something real, and keep improving it.
             </p>
           </div>
           <aside className="about-card">

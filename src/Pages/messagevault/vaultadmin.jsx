@@ -21,6 +21,12 @@ const featureLabels = {
   reactBitsCards: ["React Bits card tilt", "Subtle 3D interaction on project previews."],
 };
 
+const heroBackgroundOptions = [
+  ["ascii", "ASCII gradient", "Animated characters that respond to the pointer."],
+  ["grid", "Grid only", "A quiet technical grid without the ASCII animation."],
+  ["plain", "Plain", "No decorative hero background."],
+];
+
 function VaultAdmin() {
   const [user, setUser] = useState(null);
   const [isCheckingAccess, setIsCheckingAccess] = useState(true);
@@ -54,6 +60,16 @@ function VaultAdmin() {
   const resetFeatures = () => {
     saveFeatureSettings(defaultFeatureSettings);
     window.location.reload();
+  };
+
+  const updateHeroBackground = (event) => {
+    const nextSettings = saveFeatureSettings({
+      ...settings,
+      heroBackground: event.target.value,
+    });
+    setSettings(nextSettings);
+    setSavedMessage("Hero background saved. Refreshing...");
+    window.setTimeout(() => window.location.reload(), 500);
   };
 
   if (isCheckingAccess) {
@@ -105,6 +121,29 @@ function VaultAdmin() {
               </button>
             </article>
           ))}
+        </section>
+
+        <section className="vault-admin-settings" aria-labelledby="hero-settings-title">
+          <div>
+            <p className="vault-admin-eyebrow">Site appearance</p>
+            <h2 id="hero-settings-title">Hero background</h2>
+            <p>Choose the decorative background shown behind the homepage introduction.</p>
+          </div>
+          <label className="admin-select-label" htmlFor="hero-background">
+            Background style
+            <select
+              id="hero-background"
+              value={settings.heroBackground}
+              onChange={updateHeroBackground}
+            >
+              {heroBackgroundOptions.map(([value, label]) => (
+                <option key={value} value={value}>{label}</option>
+              ))}
+            </select>
+          </label>
+          <p className="admin-setting-hint">
+            {heroBackgroundOptions.find(([value]) => value === settings.heroBackground)?.[2]}
+          </p>
         </section>
 
         <section className="vault-admin-preview">

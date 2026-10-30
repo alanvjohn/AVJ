@@ -3,6 +3,7 @@ export const defaultFeatureSettings = {
   revealAnimations: true,
   cursor: true,
   reactBitsCards: true,
+  heroBackground: "ascii",
 };
 
 const storageKey = "avj-feature-settings";

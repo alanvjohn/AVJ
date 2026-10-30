@@ -59,6 +59,36 @@
   background: #eef1f6; color: #5b6680; font-family: "Satoshi Variable"; cursor: pointer;
 }
 .feature-switch.is-on { border-color: #174ea6; background: #174ea6; color: #fff; }
+.vault-admin-settings {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 280px);
+  gap: 1rem 2rem;
+  align-items: end;
+  margin: 1rem 0;
+  padding: 1.5rem;
+  border: 1px solid #dfe5f2;
+  border-radius: 1rem;
+  background: #fff;
+}
+.vault-admin-settings h2 { margin: 0 0 0.35rem; color: #17213a; font-size: 1.2rem; }
+.vault-admin-settings p { margin: 0; color: #5b6680; font-family: "Satoshi Variable"; }
+.admin-select-label {
+  display: grid;
+  gap: 0.5rem;
+  color: #17213a;
+  font-family: "Satoshi Variable";
+  font-weight: 600;
+}
+.admin-select-label select {
+  width: 100%;
+  border: 1px solid #b7c0d2;
+  border-radius: 0.65rem;
+  padding: 0.7rem 0.8rem;
+  background: #fff;
+  color: #17213a;
+  font: inherit;
+}
+.admin-setting-hint { grid-column: 1 / -1; font-size: 0.9rem; }
 .vault-admin-preview { align-items: center; }
 .admin-card-preview { width: 180px; height: 160px; flex: 0 0 180px; }
 .vault-admin-saved { margin-top: 1rem !important; color: #16794c !important; font-size: 0.9rem; }
@@ -73,10 +103,16 @@
 .dark-theme .vault-admin-locked p,
 .dark-theme .feature-control p { color: #b6bdcc; }
 .dark-theme .feature-control h2 { color: #fff; }
+.dark-theme .vault-admin-settings { border-color: #363b48; background: #1d1d1d; }
+.dark-theme .vault-admin-settings h2,
+.dark-theme .admin-select-label { color: #fff; }
+.dark-theme .vault-admin-settings p { color: #b6bdcc; }
+.dark-theme .admin-select-label select { border-color: #53617e; background: #242424; color: #fff; }
 .dark-theme .vault-admin-actions button,
 .dark-theme .reset-features { border-color: #53617e; color: #8bb9ff; }
 @media (max-width: 700px) {
   .vault-admin-header, .vault-admin-preview { align-items: stretch; flex-direction: column; }
   .vault-admin-grid { grid-template-columns: 1fr; }
+  .vault-admin-settings { grid-template-columns: 1fr; }
   .admin-card-preview { align-self: center; }
 }
