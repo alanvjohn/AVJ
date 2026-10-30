@@ -1,3 +1,16 @@
+.homerow,
+html,
+body {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.homerow::-webkit-scrollbar,
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+}
+
 .mainhome {
   display: flex;
   align-items: center;
@@ -9,12 +22,34 @@
   overflow: hidden;
   min-height: 100vh;
   height: auto;
+  width: 100%;
+  margin-right: 0;
+  margin-left: 0;
+  padding-right: 0;
+  padding-left: 0;
   display: flex;
   justify-content: start;
   background-color: white;
 }
 .titlehome {
-  font-size: 6rem;
+  margin-bottom: 1.25rem;
+  font-size: clamp(3rem, 7vw, 6rem);
+  letter-spacing: -0.06em;
+  line-height: 0.95;
+  text-wrap: balance;
+}
+
+.titlehome::before {
+  display: block;
+  margin-bottom: 1.25rem;
+  color: #777;
+  content: "SOFTWARE ENGINEER / CREATIVE BUILDER";
+  font-family: "Satoshi Variable";
+  font-size: clamp(0.7rem, 1vw, 0.9rem);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  line-height: 1.2;
+  text-transform: uppercase;
 }
 .left {
   display: flex;
@@ -33,6 +68,7 @@
   align-items: center;
   background-color: white;
   width: 100%;
+  margin: 0;
   height: 100%;
   position: absolute;
   inset: 0;
@@ -44,8 +80,8 @@
   z-index: 1000;
   width: min(38vw, 560px) !important;
   left: auto;
-  top: 12%;
-  right: 5%;
+  top: 30%;
+  right: 0;
 }
 .circle {
   border-radius: 50%; /* Simplified border-radius */
@@ -56,15 +92,18 @@
   );
   backdrop-filter: blur(25px);
   position: absolute;
-  left: 58%;
-  top: 3%;
+  left: 55%;
+  right: 0;
+  top: 15%;
   width: min(58vw, 760px);
   height: min(58vw, 760px);
   z-index: 0;
 }
 .parahome {
-  width: 100%;
+  max-width: 38rem;
   font-size: 1rem;
+  line-height: 1.7;
+  text-wrap: balance;
 }
 
 .home-actions {
@@ -140,7 +179,6 @@
   .left {
     width: 100%;
     margin-top: -5%;
-    padding-top: -5%;
   }
   .right {
     background-color: white;
