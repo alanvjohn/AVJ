@@ -14,7 +14,18 @@ function NavScrollExample() {
   const onPageLoad = (currentTheme) => {
     toast.dismiss();
     if (currentTheme === 'light') {
-      toast('Ahh, my eyes! I need a dark theme.🦇', {
+      toast((t) => (
+        <div className="theme-toast-content">
+          <span className="theme-toast-emoji" aria-hidden="true">🦇</span>
+          <span>
+            <strong>Light mode unlocked!</strong>
+            <small>Tap AVJ if you want to enter the dark side.</small>
+          </span>
+          <button type="button" onClick={() => { toast.dismiss(t.id); toggleTheme(); }}>
+            Switch
+          </button>
+        </div>
+      ), {
         duration: 3000,
         position: 'top-left',
         style: {
@@ -22,19 +33,27 @@ function NavScrollExample() {
           color: '#fff',
         },
         className: 'teaser',
-        icon: '👈',
       });
     } else if (currentTheme === 'dark') {
-      toast('My eyes are on vacation—bring on the light theme!', {
+      toast((t) => (
+        <div className="theme-toast-content">
+          <span className="theme-toast-emoji" aria-hidden="true">🌙</span>
+          <span>
+            <strong>Welcome to the dark side!</strong>
+            <small>Your pixels are now working undercover.</small>
+          </span>
+          <button type="button" onClick={() => { toast.dismiss(t.id); toggleTheme(); }}>
+            Go light
+          </button>
+        </div>
+      ), {
         duration: 3000,
         position: 'top-left',
         style: {
           backgroundColor: '#fff',
           color: '#000',
-          minWidth:'30%',
         },
         className: 'teaser',
-        icon: '👈',
       });
     }
   };
