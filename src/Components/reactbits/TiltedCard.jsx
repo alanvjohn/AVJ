@@ -22,6 +22,7 @@ export default function TiltedCard({
   showTooltip = true,
   overlayContent = null,
   displayOverlayContent = false,
+  enabled = true,
 }) {
   const ref = useRef(null);
 
@@ -38,6 +39,17 @@ export default function TiltedCard({
   });
 
   const [lastY, setLastY] = useState(0);
+
+  if (!enabled) {
+    return (
+      <img
+        src={imageSrc}
+        alt={altText}
+        className="tilted-card-static-img"
+        style={{ width: imageWidth, height: imageHeight }}
+      />
+    );
+  }
 
   function handleMouse(e) {
     if (!ref.current) return;

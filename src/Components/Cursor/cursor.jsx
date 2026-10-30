@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import "./cursor.css";
+import { getFeatureSettings } from "../../config/featureSettings";
 
 function Cursor() {
   const cursorRef = useRef(null);
@@ -14,6 +15,9 @@ function Cursor() {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
     if (!finePointer.matches || reducedMotion.matches) {
+      return undefined;
+    }
+    if (!getFeatureSettings().cursor) {
       return undefined;
     }
 

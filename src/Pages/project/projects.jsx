@@ -2,8 +2,10 @@ import { useMemo, useState } from 'react';
 import './project.css';
 import projectData from './data/projectdata';
 import TiltedCard from '../../Components/reactbits/TiltedCard';
+import { getFeatureSettings } from '../../config/featureSettings';
 
 const Projects = () => {
+  const [featureSettings] = useState(getFeatureSettings);
   const [activeFilter, setActiveFilter] = useState('All');
   const filters = ['All', ...new Set(projectData.flatMap((project) => project.tags))];
   const visibleProjects = useMemo(
@@ -56,6 +58,7 @@ const Projects = () => {
                     rotateAmplitude={6}
                     showMobileWarning={false}
                     showTooltip={false}
+                    enabled={featureSettings.reactBitsCards}
                   />
                 </div>
                 <div className="folder-content">

@@ -8,6 +8,7 @@ const Aboutldr = lazy(() => import("./Pages/abtloader/aboutldr"));
 const Projects = lazy(() => import("./Pages/project/projects"));
 const Contact = lazy(() => import("./Pages/contact/contact"));
 const MessageVault = lazy(() => import("./Pages/messagevault/messagevault"));
+const VaultAdmin = lazy(() => import("./Pages/messagevault/vaultadmin"));
 import "./App.css";
 
 // Components
@@ -110,6 +111,20 @@ function App() {
                   transition={pageTransition}
                 >
                   <MessageVault />
+                </motion.div>
+              }
+            />
+            <Route
+              path="/vault/admin"
+              element={
+                <motion.div
+                  initial="initial"
+                  animate="in"
+                  exit="out"
+                  variants={pageVariants}
+                  transition={pageTransition}
+                >
+                  <VaultAdmin />
                 </motion.div>
               }
             />

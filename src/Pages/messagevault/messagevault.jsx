@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { collection as firestoreCollection, getDocs } from "firebase/firestore";
 import {
   ADMIN_EMAIL,
@@ -116,9 +117,12 @@ function MessageVault() {
       <div className="vault-list">
         <div className="vault-header">
           <h1>Vault</h1>
-          <button type="button" onClick={() => signOut(auth)}>
-            Sign out
-          </button>
+          <div className="vault-header-actions">
+            <Link to="/vault/admin">Admin controls</Link>
+            <button type="button" onClick={() => signOut(auth)}>
+              Sign out
+            </button>
+          </div>
         </div>
         {error && <p className="vault-error" role="alert">{error}</p>}
         {messages.length === 0 ? (

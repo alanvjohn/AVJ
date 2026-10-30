@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import Lenis from "lenis";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { getFeatureSettings } from "../../config/featureSettings";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -10,11 +11,12 @@ function ScrollExperience() {
     const reducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
+    const featureSettings = getFeatureSettings();
     const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
     const lenis = new Lenis({
       autoRaf: false,
       lerp: coarsePointer ? 0.1 : 0.08,
-      smoothWheel: !coarsePointer,
+      smoothWheel: featureSettings.lenis && !coarsePointer,
       syncTouch: false,
     });
     lenis.on("scroll", ScrollTrigger.update);
@@ -27,7 +29,7 @@ function ScrollExperience() {
     gsap.ticker.lagSmoothing(0);
 
     const revealContext = gsap.context(() => {
-      if (!reducedMotion) {
+      if (!reducedMotion && featureSettings.revealAnimations) {
         gsap.utils.toArray(".reveal-on-scroll").forEach((element) => {
           gsap.fromTo(
             element,

@@ -46,6 +46,27 @@
   gap: 1rem;
 }
 
+.vault-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.vault-header-actions a {
+  color: #174ea6;
+  font-family: "Satoshi Variable";
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.vault-header-actions a:hover {
+  text-decoration: underline;
+}
+
+.dark-theme .vault-header-actions a {
+  color: #8bb9ff;
+}
+
 .vault-list ul {
   list-style: none;
   padding: 0;

@@ -41,6 +41,13 @@
   transform: translateZ(0);
 }
 
+.tilted-card-static-img {
+  display: block;
+  max-width: 100%;
+  object-fit: cover;
+  border-radius: 15px;
+}
+
 .tilted-card-overlay {
   position: absolute;
   top: 0;
