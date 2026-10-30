@@ -78,7 +78,7 @@ function Contact() {
             Have a software or cybersecurity project in mind? Send me a
             message and I will get back to you.
           </p>
-          <div className="contact-logo container d-flex flex-row">
+          <div className="contact-logo d-flex flex-row">
             <div className="email">
               <p>
                 <a href="mailto:alanjohn9626@gmail.com" aria-label="Email Alan V John">
@@ -101,7 +101,7 @@ function Contact() {
               type="text"
               name="name"
               placeholder="Enter your name"
-              className="form-control m-2"
+              className="form-control contact-form-control"
               value={formData.name}
               onChange={handleChange}
               required
@@ -113,7 +113,7 @@ function Contact() {
               type="email"
               name="email"
               placeholder="Enter your email"
-              className="form-control m-2"
+              className="form-control contact-form-control"
               value={formData.email}
               onChange={handleChange}
               required
@@ -124,15 +124,14 @@ function Contact() {
               id="contact-message"
               placeholder="Enter your message"
               name="message"
-              className="form-control m-2"
-                rows="5"
-                cols="30"
+              className="form-control contact-form-control"
+              rows="5"
               value={formData.message}
               onChange={handleChange}
               required
               maxLength="5000"
             ></textarea>
-            <div className="buttons container-fluid">
+            <div className="buttons">
               <button type="submit" className="btn btn-primary mt-3" disabled={isSubmitting}>
                 {isSubmitting ? "Sending..." : "Send Message"}
               </button>
