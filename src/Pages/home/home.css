@@ -40,12 +40,13 @@
   z-index: 0;
 }
 .me {
-  position: absolute;
+  position: Absolute;
   z-index: 1000;
   width: min(38vw, 560px) !important;
-  left: auto;
-  top: 12%;
-  right: 5%;
+  right: 0;
+  top: 30%;
+  padding-right: 0;
+  margin-right: 0;
 }
 .circle {
   border: 1px solid rgba(111, 143, 206, 0.28);
@@ -61,8 +62,8 @@
     0 20px 80px rgba(109, 139, 202, 0.14);
   backdrop-filter: blur(12px);
   position: absolute;
-  left: 58%;
-  top: 3%;
+  right: -10%;
+  top: 20%;
   width: min(58vw, 760px);
   height: min(58vw, 760px);
   z-index: 0;
