@@ -47,6 +47,12 @@
   box-shadow: 0 14px 26px rgba(47, 69, 112, 0.2);
 }
 
+@media (hover: hover) and (pointer: fine) {
+  .project-folder:hover .folder-tab {
+    transform: translateY(-2px);
+  }
+}
+
 .project-folder:focus-visible {
   outline: 3px solid #174ea6;
   outline-offset: 4px;

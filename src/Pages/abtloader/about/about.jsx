@@ -16,7 +16,7 @@ const skills = [
 function About() {
   return (
     <div id="about" className="w-100">
-      <div className="aboutmain" data-scroll-section>
+      <div className="aboutmain reveal-on-scroll" data-scroll-section>
         <div className="about-layout">
           <div className="about-intro">
             <p className="about-eyebrow">01 / About</p>

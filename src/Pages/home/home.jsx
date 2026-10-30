@@ -7,7 +7,7 @@ function Home() {
   return (
     <>
             <div id="home" className=''>
-              <div className='row homerow container-fluid'>
+              <div className='row homerow container-fluid reveal-on-scroll'>
                 <div className='col-sm-8 col-md-6 left'>
                   <h1 className='container titlehome'>
                     Hello, I am <br />

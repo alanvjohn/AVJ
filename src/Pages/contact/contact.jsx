@@ -69,7 +69,7 @@ function Contact() {
 
   return (
     <div className="contactpage">
-      <div className="maincontact ">
+      <div className="maincontact reveal-on-scroll">
         <div className="contact container d-flex flex-column flex-wrap justify-content-center">
           <h1 className="contactheading">
             Contact Me

@@ -14,7 +14,7 @@
   background-color: white;
 }
 .titlehome {
-  font-size: 6rem;
+  font-size: clamp(3.25rem, 7vw, 6rem);
 }
 .left {
   display: flex;
@@ -172,8 +172,8 @@
     position: absolute;
     left: 39%;
     top: 45%;
-    width: 800px;
-    height: 800px;
+    width: 130vw;
+    height: 130vw;
     z-index: 0;
   }
 }
@@ -181,7 +181,7 @@
 /* Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) and (max-width: 767.98px) {
   h1 {
-    font-size: var(--Number-2, 80px);
+    font-size: clamp(3rem, 8vw, 5rem);
   }
 
   p {
@@ -189,14 +189,38 @@
   }
 
   .circle {
-    width: 800px;
-    height: 800px;
-    left: 100px;
-    top: 200px;
+    width: 90vw;
+    height: 90vw;
+    left: 30%;
+    top: 18%;
   }
 
   .me {
-    left: 50px;
-    top: 100px;
+    left: auto;
+    right: 3%;
+    top: 24%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .left {
+    width: 58%;
+  }
+
+  .titlehome {
+    font-size: clamp(3.5rem, 7vw, 5rem);
+  }
+
+  .me {
+    width: min(42vw, 430px) !important;
+    right: 2%;
+    top: 20%;
+  }
+
+  .circle {
+    left: 52%;
+    top: 12%;
+    width: 62vw;
+    height: 62vw;
   }
 }

@@ -19,6 +19,10 @@ body.dark-theme {
   color: #ffffff;
 }
 
+.reveal-on-scroll {
+  opacity: 1;
+}
+
 button,
 a {
   -webkit-tap-highlight-color: transparent;

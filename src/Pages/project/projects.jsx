@@ -4,7 +4,7 @@ import projectData from './data/projectdata';
 const Projects = () => {
   return (
     <div className="project-page">
-      <div className="project-container">
+      <div className="project-container reveal-on-scroll">
         <section className="project-section">
           <h1 className="project-title">
             Projects
@@ -16,7 +16,7 @@ const Projects = () => {
                 href={project.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="project-folder"
+                className="project-folder reveal-on-scroll"
                 aria-label={`Open ${project.title} project`}
               >
                 <div className="folder-tab" aria-hidden="true" />

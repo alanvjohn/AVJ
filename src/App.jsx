@@ -14,6 +14,7 @@ import "./App.css";
 import Navbar from "./Components/Navbar/navbar";
 import Loader from "./Components/loader/loader";
 import Cursor from "./Components/Cursor/cursor";
+import ScrollExperience from "./Components/ScrollExperience/scroll-experience";
 import { ThemeProvider } from "./Components/custom/Theme";
 
 // Framer Motion transitions
@@ -36,6 +37,7 @@ function App() {
 
   return (
     <ThemeProvider>
+      <ScrollExperience />
       <Cursor />
       <Navbar />
       <div>
