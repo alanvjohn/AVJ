@@ -23,7 +23,7 @@ function Home() {
                   </p>
                   <div className="home-actions container">
                     <Link to="/projects" className="home-action">View Projects</Link>
-                    <Link to="/about#security-focus" className="home-action home-action-secondary">Security Focus</Link>
+                    <Link to="/contact" className="home-action home-action-secondary">Contact Me</Link>
                   </div>
                 </div>
                 <div className='col-12 col-md-6 right' >
