@@ -67,6 +67,7 @@ function VaultAdmin() {
   const [isCheckingAccess, setIsCheckingAccess] = useState(true);
   const [settings, setSettings] = useState(getFeatureSettings);
   const [savedMessage, setSavedMessage] = useState("");
+  const [saveError, setSaveError] = useState("");
   const [diagnostics, setDiagnostics] = useState({
     score: "--",
     loadTime: "--",
@@ -193,39 +194,48 @@ function VaultAdmin() {
     };
   }, []);
 
+  const saveSettingsAndReload = async (nextSettings, message) => {
+    setSaveError("");
+    setSavedMessage("");
+
+    try {
+      const savedSettings = await saveFeatureSettings(nextSettings);
+      setSettings(savedSettings);
+      setSavedMessage(message);
+      window.setTimeout(() => window.location.reload(), 500);
+    } catch (error) {
+      console.error("Unable to save site settings:", error);
+      setSaveError(
+        error?.code === "permission-denied"
+          ? "Firebase rejected this save. Publish the latest firestore.rules and confirm you are signed in as the admin account."
+          : "Unable to save site settings. Check the browser console and Firebase connection."
+      );
+    }
+  };
+
   const updateFeature = async (feature) => {
-    const nextSettings = await saveFeatureSettings({
+    await saveSettingsAndReload({
       ...settings,
       [feature]: !settings[feature],
-    });
-    setSettings(nextSettings);
-    setSavedMessage("Saved. Refreshing this page to apply the change...");
-    window.setTimeout(() => window.location.reload(), 500);
+    }, "Saved. Refreshing this page to apply the change...");
   };
 
   const resetFeatures = async () => {
-    await saveFeatureSettings(defaultFeatureSettings);
-    window.location.reload();
+    await saveSettingsAndReload(defaultFeatureSettings, "Settings reset. Refreshing...");
   };
 
   const updateHeroBackground = async (event) => {
-    const nextSettings = await saveFeatureSettings({
+    await saveSettingsAndReload({
       ...settings,
       heroBackground: event.target.value,
-    });
-    setSettings(nextSettings);
-    setSavedMessage("Hero background saved. Refreshing...");
-    window.setTimeout(() => window.location.reload(), 500);
+    }, "Hero background saved. Refreshing...");
   };
 
   const updateLoaderStyle = async (event) => {
-    const nextSettings = await saveFeatureSettings({
+    await saveSettingsAndReload({
       ...settings,
       loaderStyle: event.target.value,
-    });
-    setSettings(nextSettings);
-    setSavedMessage("Loader style saved. Refreshing...");
-    window.setTimeout(() => window.location.reload(), 500);
+    }, "Loader style saved. Refreshing...");
   };
 
   const updateAsciiSetting = (key, value) => {
@@ -233,10 +243,7 @@ function VaultAdmin() {
   };
 
   const saveAsciiSettings = async () => {
-    const nextSettings = await saveFeatureSettings(settings);
-    setSettings(nextSettings);
-    setSavedMessage("Gradient ASCII settings saved. Refreshing...");
-    window.setTimeout(() => window.location.reload(), 500);
+    await saveSettingsAndReload(settings, "Gradient ASCII settings saved. Refreshing...");
   };
 
   if (isCheckingAccess) {
@@ -481,6 +488,7 @@ function VaultAdmin() {
               Reset feature settings
             </button>
             {savedMessage && <p className="vault-admin-saved" role="status">{savedMessage}</p>}
+            {saveError && <p className="vault-admin-error" role="alert">{saveError}</p>}
           </div>
           <div className="admin-card-preview">
             <TiltedCard

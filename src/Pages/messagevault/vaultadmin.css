@@ -212,6 +212,7 @@
 .vault-admin-preview { align-items: center; }
 .admin-card-preview { width: 180px; height: 160px; flex: 0 0 180px; }
 .vault-admin-saved { margin-top: 1rem !important; color: #16794c !important; font-size: 0.9rem; }
+.vault-admin-error { margin-top: 1rem !important; color: #b42318 !important; font-size: 0.9rem; }
 .vault-admin-locked { max-width: 34rem; margin: 8rem auto; padding: 2rem; border-radius: 1.25rem; background: #fff; text-align: center; }
 .dark-theme .vault-admin-page { background: #121212; color: #fff; }
 .dark-theme .vault-admin-header,
