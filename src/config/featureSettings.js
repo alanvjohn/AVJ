@@ -2,6 +2,7 @@ import {
   db,
   doc,
   getDoc,
+  onSnapshot,
   serverTimestamp,
   setDoc,
 } from "../Pages/contact/firebase";
@@ -59,4 +60,22 @@ export async function saveFeatureSettings(settings) {
     updatedAt: serverTimestamp(),
   });
   return nextSettings;
+}
+
+export function subscribeFeatureSettings(onSettings, onRefresh) {
+  return onSnapshot(doc(db, "siteSettings", "appearance"), (snapshot) => {
+    if (!snapshot.exists()) return;
+
+    const data = snapshot.data();
+    onSettings({ ...defaultFeatureSettings, ...data });
+    if (data.refreshAt) onRefresh(data.refreshAt);
+  }, (error) => {
+    console.error("Unable to subscribe to public site settings:", error);
+  });
+}
+
+export async function requestVisitorRefresh() {
+  await setDoc(doc(db, "siteSettings", "appearance"), {
+    refreshAt: serverTimestamp(),
+  }, { merge: true });
 }

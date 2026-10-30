@@ -6,24 +6,32 @@ import "./contact.css";
 import toast, { Toaster } from 'react-hot-toast';
 import ThemeContext from '../../Components/custom/Theme';
 
+const contactDraftKey = "avj-contact-draft";
+const emptyFormData = { name: "", email: "", message: "" };
 
 function Contact() {
   const { theme } = useContext(ThemeContext);
 
-  // State for form data
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
+  const [formData, setFormData] = useState(() => ({
+    ...emptyFormData,
+    ...(() => {
+      try {
+        return JSON.parse(localStorage.getItem(contactDraftKey)) || {};
+      } catch {
+        return {};
+      }
+    })(),
+  }));
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Handle input change
   const handleChange = (e) => {
-    setFormData({
+    const nextFormData = {
       ...formData,
       [e.target.name]: e.target.value,
-    });
+    };
+    setFormData(nextFormData);
+    localStorage.setItem(contactDraftKey, JSON.stringify(nextFormData));
   };
 
   // Handle form submission
@@ -59,6 +67,7 @@ function Contact() {
       );
 
     setFormData({ name: "", email: "", message: "" });
+    localStorage.removeItem(contactDraftKey);
     } catch (error) {
       console.error("Error adding document: ", error);
     } finally {

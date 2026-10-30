@@ -18,6 +18,7 @@ import TiltedCard from "../../Components/reactbits/TiltedCard";
 import {
   defaultFeatureSettings,
   getFeatureSettings,
+  requestVisitorRefresh,
   saveFeatureSettings,
 } from "../../config/featureSettings";
 import "./vaultadmin.css";
@@ -257,6 +258,18 @@ function VaultAdmin() {
     await saveSettingsAndReload(settings, "Gradient ASCII settings saved. Refreshing...");
   };
 
+  const refreshVisitors = async () => {
+    setSaveError("");
+    setSavedMessage("");
+    try {
+      await requestVisitorRefresh();
+      setSavedMessage("Refresh signal sent to active visitors.");
+    } catch (error) {
+      console.error("Unable to refresh visitors:", error);
+      setSaveError("Unable to send the refresh signal. Check Firebase rules and connection.");
+    }
+  };
+
   if (isCheckingAccess) {
     return <main className="vault-admin-page">Checking access...</main>;
   }
@@ -285,6 +298,7 @@ function VaultAdmin() {
           </div>
           <div className="vault-admin-actions">
             <Link to="/vault" className="vault-admin-link">Back to Vault</Link>
+            <button type="button" onClick={refreshVisitors}>Refresh all visitors</button>
             <button type="button" onClick={() => signOut(auth)}>Sign out</button>
           </div>
         </header>

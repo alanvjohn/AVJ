@@ -37,29 +37,40 @@ service cloud.firestore {
           'asciiMouseInteraction',
           'asciiIntro',
           'asciiLightMode',
+          'refreshAt',
           'updatedAt'
         ])
-        && request.resource.data.heroBackground in ['ascii', 'grid', 'plain']
-        && request.resource.data.loaderStyle in [
+        && (!('heroBackground' in request.resource.data)
+          || request.resource.data.heroBackground in ['ascii', 'grid', 'plain'])
+        && (!('loaderStyle' in request.resource.data)
+          || request.resource.data.loaderStyle in [
           'letter-glitch',
           'random',
           'random-all',
           'shape-grid',
           'dot-grid',
           'classic'
-        ]
-        && request.resource.data.asciiPreset in [
+        ])
+        && (!('asciiPreset' in request.resource.data)
+          || request.resource.data.asciiPreset in [
           'atmosphere',
           'lagoon',
           'rose',
           'corona',
           'violet'
-        ]
-        && request.resource.data.asciiCharacters in ['classic', 'letters', 'symbols']
-        && request.resource.data.asciiMouseInteraction is bool
-        && request.resource.data.asciiIntro is bool
-        && request.resource.data.asciiLightMode is bool
-        && request.resource.data.updatedAt is timestamp;
+        ])
+        && (!('asciiCharacters' in request.resource.data)
+          || request.resource.data.asciiCharacters in ['classic', 'letters', 'symbols'])
+        && (!('asciiMouseInteraction' in request.resource.data)
+          || request.resource.data.asciiMouseInteraction is bool)
+        && (!('asciiIntro' in request.resource.data)
+          || request.resource.data.asciiIntro is bool)
+        && (!('asciiLightMode' in request.resource.data)
+          || request.resource.data.asciiLightMode is bool)
+        && (!('refreshAt' in request.resource.data)
+          || request.resource.data.refreshAt is timestamp)
+        && (!('updatedAt' in request.resource.data)
+          || request.resource.data.updatedAt is timestamp);
     }
 
     match /adminLoginLogs/{logId} {

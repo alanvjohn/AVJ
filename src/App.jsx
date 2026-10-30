@@ -18,7 +18,11 @@ import Cursor from "./Components/Cursor/cursor";
 import ScrollExperience from "./Components/ScrollExperience/scroll-experience";
 import { ThemeProvider } from "./Components/custom/Theme";
 import FeatureSettingsContext from "./config/FeatureSettingsContext";
-import { getFeatureSettings, loadFeatureSettings } from "./config/featureSettings";
+import {
+  getFeatureSettings,
+  loadFeatureSettings,
+  subscribeFeatureSettings,
+} from "./config/featureSettings";
 
 // Framer Motion transitions
 const pageVariants = {
@@ -40,7 +44,31 @@ function App() {
   }, [location]);
 
   useEffect(() => {
-    loadFeatureSettings().then(setFeatureSettings);
+    let isMounted = true;
+    let hasReceivedInitialSnapshot = false;
+    let lastRefreshValue = null;
+
+    const unsubscribe = subscribeFeatureSettings((settings) => {
+      setFeatureSettings(settings);
+    }, (refreshAt) => {
+      const refreshValue = refreshAt?.toMillis
+        ? refreshAt.toMillis()
+        : String(refreshAt);
+      if (hasReceivedInitialSnapshot && lastRefreshValue !== refreshValue) {
+        window.location.reload();
+      }
+      lastRefreshValue = refreshValue;
+      hasReceivedInitialSnapshot = true;
+    });
+
+    loadFeatureSettings().then((settings) => {
+      if (isMounted) setFeatureSettings(settings);
+    });
+
+    return () => {
+      isMounted = false;
+      unsubscribe();
+    };
   }, []);
 
   return (
