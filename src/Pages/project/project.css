@@ -1,7 +1,30 @@
 .project-page,
 .project-container,
 .project-section {
-  background-color: #fff;
+  background-color: transparent;
+}
+
+.project-page {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  background: #fff;
+}
+
+.project-page::before {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(23, 78, 166, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(23, 78, 166, 0.06) 1px, transparent 1px);
+  background-size: 34px 34px;
+  content: "";
+  pointer-events: none;
+}
+
+.project-container {
+  position: relative;
+  z-index: 1;
 }
 
 .project-container {
@@ -193,7 +216,17 @@
 .dark-theme .project-page,
 .dark-theme .project-container,
 .dark-theme .project-section {
-  background-color: #121212;
+  background-color: transparent;
+}
+
+.dark-theme .project-page {
+  background: #121212;
+}
+
+.dark-theme .project-page::before {
+  background-image:
+    linear-gradient(rgba(139, 185, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(139, 185, 255, 0.08) 1px, transparent 1px);
 }
 
 .dark-theme .project-folder {
