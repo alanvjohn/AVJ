@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import {
   ADMIN_EMAIL,
   auth,
+  db,
+  doc,
+  getDoc,
   onAuthStateChanged,
   signOut,
 } from "../contact/firebase";
@@ -41,6 +44,12 @@ function VaultAdmin() {
   const [isCheckingAccess, setIsCheckingAccess] = useState(true);
   const [settings, setSettings] = useState(getFeatureSettings);
   const [savedMessage, setSavedMessage] = useState("");
+  const [diagnostics, setDiagnostics] = useState({
+    score: "--",
+    loadTime: "--",
+    connection: "Checking...",
+    firebase: "Checking...",
+  });
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -54,6 +63,44 @@ function VaultAdmin() {
     });
 
     return unsubscribe;
+  }, []);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const measureDiagnostics = async () => {
+      const navigationEntry = performance.getEntriesByType("navigation")[0];
+      const loadTime = navigationEntry?.loadEventEnd
+        ? navigationEntry.loadEventEnd
+        : performance.now();
+      const score = Math.max(0, Math.min(100, Math.round(100 - loadTime / 80)));
+      const connection = navigator.connection;
+      const connectionLabel = connection
+        ? `${connection.effectiveType || "unknown"}${connection.downlink ? ` · ${connection.downlink} Mbps` : ""}`
+        : "Browser API unavailable";
+
+      let firebaseStatus = "Connected";
+      try {
+        await getDoc(doc(db, "siteSettings", "appearance"));
+      } catch (error) {
+        console.error("Firebase diagnostics failed:", error);
+        firebaseStatus = "Unavailable";
+      }
+
+      if (isMounted) {
+        setDiagnostics({
+          score,
+          loadTime: `${Math.round(loadTime)} ms`,
+          connection: connectionLabel,
+          firebase: firebaseStatus,
+        });
+      }
+    };
+
+    measureDiagnostics();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const updateFeature = async (feature) => {
@@ -122,6 +169,36 @@ function VaultAdmin() {
             <button type="button" onClick={() => signOut(auth)}>Sign out</button>
           </div>
         </header>
+
+        <section className="admin-diagnostics" aria-labelledby="diagnostics-title">
+          <div className="admin-diagnostics-heading">
+            <p className="vault-admin-eyebrow">Live diagnostics</p>
+            <h2 id="diagnostics-title">Page health</h2>
+            <p>Quick browser and Firebase checks for this admin session.</p>
+          </div>
+          <div className="diagnostic-metric">
+            <span>Page score</span>
+            <strong>{diagnostics.score}<small>/100</small></strong>
+            <em>Estimated load score</em>
+          </div>
+          <div className="diagnostic-metric">
+            <span>Loading speed</span>
+            <strong>{diagnostics.loadTime}</strong>
+            <em>Page load time</em>
+          </div>
+          <div className="diagnostic-metric">
+            <span>Connection</span>
+            <strong>{diagnostics.connection}</strong>
+            <em>Browser network estimate</em>
+          </div>
+          <div className="diagnostic-metric">
+            <span>Firebase</span>
+            <strong className={diagnostics.firebase === "Connected" ? "is-success" : "is-error"}>
+              {diagnostics.firebase}
+            </strong>
+            <em>Firestore read check</em>
+          </div>
+        </section>
 
         <section className="vault-admin-grid" aria-label="Feature controls">
           {Object.entries(featureLabels).map(([feature, [title, description]]) => (

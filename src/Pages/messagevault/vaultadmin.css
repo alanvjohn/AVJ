@@ -48,6 +48,57 @@
 }
 .vault-admin-link { color: #174ea6; font-family: "Satoshi Variable"; font-weight: 600; text-decoration: none; }
 .vault-admin-link:hover { text-decoration: underline; }
+.admin-diagnostics {
+  display: grid;
+  grid-template-columns: minmax(210px, 1.3fr) repeat(4, minmax(120px, 1fr));
+  gap: 0.75rem;
+  margin: 1rem 0;
+  padding: 1.25rem;
+  border: 1px solid #dfe5f2;
+  border-radius: 1rem;
+  background: #fff;
+}
+.admin-diagnostics-heading h2 {
+  margin: 0 0 0.35rem;
+  color: #17213a;
+  font-size: 1.25rem;
+}
+.admin-diagnostics-heading p:last-child {
+  margin: 0;
+  color: #5b6680;
+  font-family: "Satoshi Variable";
+  font-size: 0.9rem;
+}
+.diagnostic-metric {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.2rem;
+  padding: 0.8rem;
+  border-radius: 0.75rem;
+  background: #f4f6fb;
+}
+.diagnostic-metric span,
+.diagnostic-metric em {
+  color: #5b6680;
+  font-family: "Satoshi Variable";
+  font-size: 0.75rem;
+  font-style: normal;
+}
+.diagnostic-metric strong {
+  overflow: hidden;
+  color: #17213a;
+  font-size: clamp(1rem, 2vw, 1.35rem);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.diagnostic-metric strong small {
+  font-size: 0.7em;
+  font-weight: 400;
+}
+.diagnostic-metric strong.is-success { color: #16794c; }
+.diagnostic-metric strong.is-error { color: #b42318; }
 .vault-admin-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin: 1rem 0; }
 .feature-control {
   display: flex; align-items: center; justify-content: space-between; gap: 1rem;
@@ -102,6 +153,13 @@
 .dark-theme .vault-admin-preview p,
 .dark-theme .vault-admin-locked p,
 .dark-theme .feature-control p { color: #b6bdcc; }
+.dark-theme .admin-diagnostics { border-color: #363b48; background: #1d1d1d; }
+.dark-theme .admin-diagnostics-heading h2,
+.dark-theme .diagnostic-metric strong { color: #fff; }
+.dark-theme .admin-diagnostics-heading p:last-child,
+.dark-theme .diagnostic-metric span,
+.dark-theme .diagnostic-metric em { color: #b6bdcc; }
+.dark-theme .diagnostic-metric { background: #242424; }
 .dark-theme .feature-control h2 { color: #fff; }
 .dark-theme .vault-admin-settings { border-color: #363b48; background: #1d1d1d; }
 .dark-theme .vault-admin-settings h2,
@@ -112,6 +170,8 @@
 .dark-theme .reset-features { border-color: #53617e; color: #8bb9ff; }
 @media (max-width: 700px) {
   .vault-admin-header, .vault-admin-preview { align-items: stretch; flex-direction: column; }
+  .admin-diagnostics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .admin-diagnostics-heading { grid-column: 1 / -1; }
   .vault-admin-grid { grid-template-columns: 1fr; }
   .vault-admin-settings { grid-template-columns: 1fr; }
   .admin-card-preview { align-self: center; }
