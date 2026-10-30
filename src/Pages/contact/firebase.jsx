@@ -1,6 +1,6 @@
 // firebase.js
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc } from "firebase/firestore";
+import { getFirestore, collection, addDoc, doc, getDoc, setDoc } from "firebase/firestore";
 import {
   getAuth,
   onAuthStateChanged,
@@ -30,8 +30,11 @@ export {
   db,
   addDoc,
   collection,
+  doc,
+  getDoc,
   getAuth,
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
+  setDoc,
 };

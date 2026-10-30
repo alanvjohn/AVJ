@@ -56,8 +56,8 @@ function VaultAdmin() {
     return unsubscribe;
   }, []);
 
-  const updateFeature = (feature) => {
-    const nextSettings = saveFeatureSettings({
+  const updateFeature = async (feature) => {
+    const nextSettings = await saveFeatureSettings({
       ...settings,
       [feature]: !settings[feature],
     });
@@ -66,13 +66,13 @@ function VaultAdmin() {
     window.setTimeout(() => window.location.reload(), 500);
   };
 
-  const resetFeatures = () => {
-    saveFeatureSettings(defaultFeatureSettings);
+  const resetFeatures = async () => {
+    await saveFeatureSettings(defaultFeatureSettings);
     window.location.reload();
   };
 
-  const updateHeroBackground = (event) => {
-    const nextSettings = saveFeatureSettings({
+  const updateHeroBackground = async (event) => {
+    const nextSettings = await saveFeatureSettings({
       ...settings,
       heroBackground: event.target.value,
     });
@@ -81,8 +81,8 @@ function VaultAdmin() {
     window.setTimeout(() => window.location.reload(), 500);
   };
 
-  const updateLoaderStyle = (event) => {
-    const nextSettings = saveFeatureSettings({
+  const updateLoaderStyle = async (event) => {
+    const nextSettings = await saveFeatureSettings({
       ...settings,
       loaderStyle: event.target.value,
     });

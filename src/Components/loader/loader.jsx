@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { getFeatureSettings } from "../../config/featureSettings";
+import { useFeatureSettings } from "../../config/FeatureSettingsContext";
 import "./loader.css";
 
 const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -43,7 +43,8 @@ function DotGridLoader() {
 }
 
 const Loader = () => {
-  const { loaderStyle } = getFeatureSettings();
+  const settings = useFeatureSettings();
+  const loaderStyle = settings?.loaderStyle ?? "letter-glitch";
   const selectedStyle = loaderStyle === "random"
     ? (Math.random() > 0.5 ? "shape-grid" : "dot-grid")
     : loaderStyle === "random-all"

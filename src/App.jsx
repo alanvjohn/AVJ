@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { Routes, Route, Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 
@@ -17,6 +17,8 @@ import Loader from "./Components/loader/loader";
 import Cursor from "./Components/Cursor/cursor";
 import ScrollExperience from "./Components/ScrollExperience/scroll-experience";
 import { ThemeProvider } from "./Components/custom/Theme";
+import FeatureSettingsContext from "./config/FeatureSettingsContext";
+import { getFeatureSettings, loadFeatureSettings } from "./config/featureSettings";
 
 // Framer Motion transitions
 const pageVariants = {
@@ -31,19 +33,25 @@ const pageTransition = {
 
 function App() {
   const location = useLocation();
+  const [featureSettings, setFeatureSettings] = useState(getFeatureSettings);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [location]);
 
+  useEffect(() => {
+    loadFeatureSettings().then(setFeatureSettings);
+  }, []);
+
   return (
     <ThemeProvider>
-      <ScrollExperience />
-      <Cursor />
-      <Navbar />
-      <div>
-        <Suspense fallback={<Loader />}>
-          <Routes>
+      <FeatureSettingsContext.Provider value={featureSettings}>
+        <ScrollExperience />
+        <Cursor />
+        <Navbar />
+        <div>
+          <Suspense fallback={<Loader />}>
+            <Routes>
             <Route
               path="/"
               element={
@@ -138,9 +146,10 @@ function App() {
                 </main>
               }
             />
-          </Routes>
-        </Suspense>
-      </div>
+            </Routes>
+          </Suspense>
+        </div>
+      </FeatureSettingsContext.Provider>
     </ThemeProvider>
   );
 }

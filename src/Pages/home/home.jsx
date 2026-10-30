@@ -3,10 +3,11 @@ import { Link } from 'react-router-dom';
 import "./home.css";
 import Me from "../../assets/home/me.webp";
 import GradientASCII from "../../Components/reactbits/GradientASCII";
-import { getFeatureSettings } from "../../config/featureSettings";
+import { useFeatureSettings } from "../../config/FeatureSettingsContext";
 
 function Home() {
-  const { heroBackground } = getFeatureSettings();
+  const settings = useFeatureSettings();
+  const heroBackground = settings?.heroBackground ?? "ascii";
 
   return (
     <>
