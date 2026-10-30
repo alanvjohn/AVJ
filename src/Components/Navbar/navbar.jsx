@@ -67,6 +67,7 @@ useEffect(() => {
               <Nav.Link as={NavLink} to="/" className='links'>Home</Nav.Link>
             )}
             <Nav.Link as={NavLink} to="/about" className='links'>About</Nav.Link>
+            <Nav.Link as={NavLink} to="/about#security-focus" className='links'>Security</Nav.Link>
             <Nav.Link as={NavLink} to="/projects" className='links'>Projects</Nav.Link>
             <Nav.Link as={NavLink} to="/contact" className='links'>Contact</Nav.Link>
           </Nav>

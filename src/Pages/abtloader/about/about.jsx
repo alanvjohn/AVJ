@@ -20,20 +20,32 @@ function About() {
         <div className="about-layout">
           <div className="about-intro">
             <p className="about-eyebrow">01 / About</p>
-            <h1 className="heading-about">Building useful digital experiences.</h1>
+            <h1 className="heading-about">Building useful, secure digital experiences.</h1>
             <p className="abouttext">
-              I&apos;m Alan V John, a software engineer from Kerala focused on
-              thoughtful interfaces, reliable applications, and continuous
-              learning. I work across web and mobile projects, from React
-              applications to Flutter products and Firebase-backed services.
+              I&apos;m Alan V John, a software engineer and MSc Cybersecurity
+              student from Kerala. I focus on thoughtful interfaces, reliable
+              applications, and the security decisions that help products earn
+              user trust.
             </p>
             <p className="abouttext">
-              My GitHub work reflects a practical, product-minded approach:
-              learn a technology, build something real, and keep improving it.
+              My work combines product development with continuous security
+              learning: understand the risk, build in a controlled environment,
+              and improve the result through testing and iteration.
             </p>
           </div>
+          <div className="security-focus" id="security-focus">
+            <p className="about-eyebrow">Security focus</p>
+            <div className="security-focus-grid">
+              <span>Secure software development</span>
+              <span>Web application security</span>
+              <span>Network security</span>
+              <span>Security testing</span>
+              <span>Cloud security fundamentals</span>
+              <span>Digital forensics foundations</span>
+            </div>
+          </div>
           <aside className="about-card">
-            <p className="about-eyebrow">Currently building with</p>
+            <p className="about-eyebrow">Development toolkit</p>
             <div className="about-skill-grid">
               {skills.map((skill) => (
                 <span key={skill} className="about-skill">

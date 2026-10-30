@@ -6,22 +6,24 @@ import Me from "../../assets/home/me.webp";
 function Home() {
   return (
     <>
-            <div id="home" className=''>
+            <div id="home" className='home-page'>
+              <div className="security-grid" aria-hidden="true" />
               <div className='row homerow container-fluid reveal-on-scroll'>
                 <div className='col-sm-8 col-md-6 left'>
+                  <p className="home-eyebrow">Software engineering · Cybersecurity</p>
                   <h1 className='container titlehome'>
-                    Hello, I am <br />
-                    Alan V.John
+                    Building secure <br />
+                    digital experiences.
                   </h1>
                   <p className='container parahome'> 
-                    A passionate software engineer based in Kerala. <br />
-                    I create bespoke software solutions to elevate your online presence
-                    and drive success! <br />
-                    Eager to join a dynamic team and grow while contributing to
+                    I&apos;m Alan V. John, a software engineer and MSc Cybersecurity
+                    student based in Kerala. I build useful applications while
+                    developing a deeper practice in secure software and application
+                    security.
                   </p>
                   <div className="home-actions container">
                     <Link to="/projects" className="home-action">View Projects</Link>
-                    <Link to="/contact" className="home-action home-action-secondary">Contact Me</Link>
+                    <Link to="/about#security-focus" className="home-action home-action-secondary">Security Focus</Link>
                   </div>
                 </div>
                 <div className='col-12 col-md-6 right' >

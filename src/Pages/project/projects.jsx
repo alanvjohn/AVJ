@@ -20,8 +20,13 @@ const Projects = () => {
       <div className="project-container reveal-on-scroll">
         <section className="project-section">
           <h1 className="project-title">
-            Projects
+            Selected work
           </h1>
+          <p className="project-intro">
+            Product builds, experiments, and security-focused learning. Each
+            project is developed responsibly and documented around what I
+            learned.
+          </p>
           <div className="project-filters" aria-label="Filter projects by technology">
             {filters.map((filter) => (
               <button

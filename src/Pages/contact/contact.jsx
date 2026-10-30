@@ -75,7 +75,8 @@ function Contact() {
             Contact Me
           </h1>
           <p>
-            Have a project in mind? Send me a message and I will get back to you.
+            Have a software or cybersecurity project in mind? Send me a
+            message and I will get back to you.
           </p>
           <div className="contact-logo container d-flex flex-row">
             <div className="email">

@@ -8,7 +8,7 @@
 
 .about-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+  grid-template-columns: minmax(0, 1.1fr) minmax(240px, 0.75fr) minmax(260px, 0.75fr);
   gap: clamp(2rem, 8vw, 8rem);
   max-width: 1180px;
   margin: 0 auto;
@@ -41,6 +41,24 @@
   color: #4b5563;
   font-size: 1.05rem;
   line-height: 1.75;
+}
+
+.security-focus {
+  align-self: stretch;
+}
+
+.security-focus-grid {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.security-focus-grid span {
+  padding: 0.75rem 0.85rem;
+  border-left: 2px solid #174ea6;
+  background: #f7f8fa;
+  color: #374151;
+  font-family: "Satoshi Variable";
+  font-size: 0.9rem;
 }
 
 .about-card {
@@ -108,6 +126,21 @@
 .dark-theme .about-card {
   border-color: #333;
   background: #1d1d1d;
+}
+.dark-theme .security-focus-grid span {
+  background: #1d1d1d;
+  color: #d1d5db;
+}
+
+@media (max-width: 1000px) {
+  .about-layout {
+    grid-template-columns: minmax(0, 1fr) minmax(260px, 0.8fr);
+  }
+
+  .security-focus {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
 }
 .dark-theme .about-skill {
   border-color: #444;

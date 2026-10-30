@@ -5,7 +5,7 @@ const Skills = () => {
     <section className="skill-holder reveal-on-scroll">
       <div className="skills-heading">
         <p className="skills-eyebrow">02 / Toolkit</p>
-        <h1 className="header-skills">Tools I use to turn ideas into products.</h1>
+        <h1 className="header-skills">Tools I use to build and secure products.</h1>
       </div>
       <div className="skillslist">
         {skills.map((skill) => (

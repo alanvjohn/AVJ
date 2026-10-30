@@ -18,6 +18,15 @@
   text-transform: uppercase;
 }
 
+.project-intro {
+  max-width: 650px;
+  margin: -1rem auto 2rem;
+  color: #46516c;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  text-align: center;
+}
+
 .project-filters {
   display: flex;
   flex-wrap: wrap;
@@ -226,6 +235,10 @@
 .dark-theme .project-filter {
   border-color: #53617e;
   color: #d7def0;
+}
+
+.dark-theme .project-intro {
+  color: #c5ccdc;
 }
 
 .dark-theme .project-filter.is-active,
