@@ -16,17 +16,17 @@ export const defaultFeatureSettings = {
   asciiPreset: "atmosphere",
   asciiCharacters: "classic",
   asciiCellSize: 15,
-  asciiDensity: 0.8,
-  asciiOpacity: 0.75,
-  asciiGlow: 0.2,
+  asciiDensity: 1,
+  asciiOpacity: 1,
+  asciiGlow: 1,
   asciiSpeed: 1,
   asciiGrain: 0.08,
   asciiMouseInteraction: true,
-  asciiIntro: true,
+  asciiIntro: false,
   asciiLightMode: false,
 };
 
-const storageKey = "avj-feature-settings";
+const storageKey = "avj-feature-settings-v2";
 
 export function getFeatureSettings() {
   try {

@@ -79,7 +79,7 @@ function GradientASCII() {
       context.clearRect(0, 0, width, height);
       const preset = presets[ascii.preset] || presets.atmosphere;
       const characters = characterSets[ascii.characters] || characterSets.classic;
-      context.font = `${Math.max(10, ascii.cellSize * 0.72)}px monospace`;
+      context.font = `${Math.max(10, ascii.cellSize * 0.8)}px monospace`;
       context.textAlign = "center";
       context.textBaseline = "middle";
 
@@ -95,10 +95,9 @@ function GradientASCII() {
           const wave = reducedMotion.matches
             ? 0
             : Math.sin(time / (1600 / Math.max(ascii.speed, 0.1)) + column * 0.22) * ascii.grain;
-          const noise = Math.random() * ascii.grain;
           const intensity = Math.max(
             0,
-            Math.min(1, (glow + wave + noise) * ascii.density + (ascii.intro ? 0.1 : 0))
+            Math.min(1, (glow + wave) * ascii.density + (ascii.intro ? 0.1 : 0))
           );
           const characterIndex = Math.min(
             characters.length - 1,
@@ -108,7 +107,7 @@ function GradientASCII() {
           if (characterIndex === 0) continue;
 
           const color = intensity > 0.55 ? preset.colors[1] : preset.colors[0];
-          const alpha = Math.min(1, ascii.opacity * (0.25 + intensity * 0.75));
+          const alpha = Math.min(1, ascii.opacity * (0.12 + intensity * 0.48));
           context.fillStyle = ascii.lightMode
             ? `rgba(25, 35, 60, ${alpha})`
             : `rgba(${color}, ${alpha})`;
