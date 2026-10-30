@@ -16,7 +16,7 @@
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  opacity: 0.65;
+  opacity: 0.7;
   background-image:
     linear-gradient(rgba(23, 78, 166, 0.06) 1px, transparent 1px),
     linear-gradient(90deg, rgba(23, 78, 166, 0.06) 1px, transparent 1px),
@@ -31,7 +31,7 @@
   display: flex;
   justify-content: start;
   background-color: transparent;
-  z-index: 1;
+  z-index: 2;
 }
 .home-eyebrow {
   margin: 0 0 1.25rem;
@@ -154,11 +154,11 @@
   background: #121212;
 }
 .dark-theme .security-grid {
-  opacity: 0.45;
+  opacity: 0.82;
   background-image:
-    linear-gradient(rgba(139, 185, 255, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(139, 185, 255, 0.08) 1px, transparent 1px),
-    radial-gradient(circle at 78% 42%, rgba(64, 91, 145, 0.38), transparent 34%);
+    linear-gradient(rgba(139, 185, 255, 0.14) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(139, 185, 255, 0.14) 1px, transparent 1px),
+    radial-gradient(circle at 78% 42%, rgba(64, 91, 145, 0.48), transparent 34%);
 }
 .dark-theme .home-eyebrow {
   color: #8bb9ff;

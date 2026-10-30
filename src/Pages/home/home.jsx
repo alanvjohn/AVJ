@@ -2,12 +2,14 @@ import { Link } from 'react-router-dom';
 // assets 
 import "./home.css";
 import Me from "../../assets/home/me.webp";
+import GradientASCII from "../../Components/reactbits/GradientASCII";
 
 function Home() {
   return (
     <>
             <div id="home" className='home-page'>
               <div className="security-grid" aria-hidden="true" />
+              <GradientASCII />
               <div className='row homerow container-fluid reveal-on-scroll'>
                 <div className='col-sm-8 col-md-6 left'>
                   <p className="home-eyebrow">Software engineering · Cybersecurity</p>
