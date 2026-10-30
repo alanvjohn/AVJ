@@ -100,10 +100,25 @@
 
   .theme-toast-content {
     gap: 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  .theme-toast-emoji {
+    font-size: 1.05rem;
+  }
+
+  .theme-toast-content strong {
+    font-size: 0.8rem;
+  }
+
+  .theme-toast-content small {
+    font-size: 0.66rem;
   }
 
   .theme-toast-content button {
     flex: 0 0 auto;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.68rem;
   }
 }
 /* darktheme */

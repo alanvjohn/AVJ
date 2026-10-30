@@ -74,6 +74,13 @@ function App() {
   return (
     <ThemeProvider>
       <FeatureSettingsContext.Provider value={featureSettings}>
+        <div className="portrait-only-notice" role="status">
+          <div className="portrait-only-card">
+            <span aria-hidden="true">📱</span>
+            <h1>Please rotate your phone</h1>
+            <p>This portfolio is designed for portrait view.</p>
+          </div>
+        </div>
         <ScrollExperience />
         <Cursor />
         <Navbar />
