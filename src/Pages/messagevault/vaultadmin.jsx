@@ -42,6 +42,8 @@ const loaderOptions = [
 const asciiPresetOptions = [
   ["atmosphere", "Atmosphere"],
   ["lagoon", "Lagoon"],
+  ["rose", "Rose"],
+  ["corona", "Corona"],
   ["violet", "Violet"],
 ];
 

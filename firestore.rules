@@ -54,7 +54,13 @@ service cloud.firestore {
           'dot-grid',
           'classic'
         ]
-        && request.resource.data.asciiPreset in ['atmosphere', 'lagoon', 'violet']
+        && request.resource.data.asciiPreset in [
+          'atmosphere',
+          'lagoon',
+          'rose',
+          'corona',
+          'violet'
+        ]
         && request.resource.data.asciiCharacters in ['classic', 'letters', 'symbols']
         && request.resource.data.asciiCellSize is number
         && request.resource.data.asciiDensity is number

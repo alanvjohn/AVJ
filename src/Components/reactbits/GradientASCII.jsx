@@ -21,6 +21,14 @@ const presets = {
     colors: ["167, 139, 250", "244, 114, 182"],
     multiplier: 2,
   },
+  rose: {
+    colors: ["251, 113, 133", "244, 114, 182"],
+    multiplier: 2.2,
+  },
+  corona: {
+    colors: ["251, 191, 36", "251, 146, 60"],
+    multiplier: 2.4,
+  },
 };
 
 function GradientASCII() {
