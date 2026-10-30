@@ -17,6 +17,7 @@ function ScrollExperience() {
       smoothWheel: !coarsePointer,
       syncTouch: false,
     });
+    lenis.on("scroll", ScrollTrigger.update);
 
     const animateScroll = (time) => {
       lenis.raf(time * 1000);
@@ -50,6 +51,7 @@ function ScrollExperience() {
     return () => {
       gsap.ticker.remove(animateScroll);
       revealContext.revert();
+      lenis.off("scroll", ScrollTrigger.update);
       lenis.destroy();
     };
   }, []);
