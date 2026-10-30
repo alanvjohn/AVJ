@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { LocomotiveScrollProvider } from "react-locomotive-scroll";
 
 // Pages
-const Pageloader = lazy(() => import("./Pages/pageloader"));
+import Pageloader from "./Pages/pageloader";
 const Aboutldr = lazy(() => import("./Pages/abtloader/aboutldr"));
 const Projects = lazy(() => import("./Pages/project/projects"));
 const Contact = lazy(() => import("./Pages/contact/contact"));
@@ -13,6 +13,7 @@ import "./App.css";
 
 // Components
 import Navbar from "./Components/Navbar/navbar";
+import Loader from "./Components/loader/loader";
 import { ThemeProvider } from "./Components/custom/Theme";
 
 // Framer Motion transitions
@@ -59,7 +60,7 @@ function App() {
       >
         <Navbar />
         <div data-scroll-container ref={ref}>
-          <Suspense fallback={<div className="route-loading" aria-label="Loading page" />}>
+          <Suspense fallback={<Loader />}>
             <Routes>
             <Route
               path="/"
