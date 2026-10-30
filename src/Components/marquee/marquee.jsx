@@ -1,7 +1,3 @@
-import { useEffect, useRef } from 'react'
-import { gsap } from "gsap";
-import { debounce } from 'lodash';
-
 import "./marquee.css"
 import {
     FaJs,
@@ -31,121 +27,50 @@ import {
     SiTypescript,
   } from "react-icons/si";
   import { TiHtml5 } from "react-icons/ti";
+
+const icons = [
+  TiHtml5,
+  FaJs,
+  FaReact,
+  FaVuejs,
+  SiFlutter,
+  SiDart,
+  SiMongodb,
+  SiHive,
+  FaPython,
+  FaFigma,
+  SiCanva,
+  SiAdobephotoshop,
+  SiNextdotjs,
+  FaNode,
+  SiExpress,
+  SiTailwindcss,
+  SiFirebase,
+  SiPostgresql,
+  SiDocker,
+  SiKubernetes,
+  SiRedux,
+  SiTypescript,
+];
+
 const Marquee = () => {
-    const marqueeInnerRef = useRef(null);
-    const tweenRef = useRef(null); 
-    const currentScrollRef = useRef(0); 
+    const renderIcons = (hidden = false) => (
+      <div className="marquee__group" aria-hidden={hidden}>
+        {icons.map((Icon, index) => (
+          <div className="marquee__part" key={`${hidden ? "duplicate-" : ""}${index}`}>
+            <Icon className="skill-icon" />
+          </div>
+        ))}
+      </div>
+    );
 
-    useEffect(() => {
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        return undefined;
-      }
-
-      const marqueeParts = marqueeInnerRef.current?.querySelectorAll(".marquee__part");
-      tweenRef.current = gsap
-        .to(marqueeParts, {
-          xPercent: -1265,
-          yoyo: true,
-          ease: "slow(0.1,0.1,true)",
-          repeat: -1,
-          duration: 5,
-        })
-        .totalProgress(0.5);
-  
-      gsap.set(marqueeInnerRef.current, { xPercent: 0 });
-  
-      const handleScroll = debounce(() => {
-        const newScroll = window.pageYOffset;
-        if (newScroll > currentScrollRef.current) {
-          gsap.to(tweenRef.current, { timeScale: 1 });
-        } else {
-          gsap.to(tweenRef.current, { timeScale: -1 });
-        }
-  
-        currentScrollRef.current = newScroll;
-      }, 150);
-  
-      window.addEventListener("scroll", handleScroll, { passive: true });
-      return () => {
-        window.removeEventListener("scroll", handleScroll);
-        handleScroll.cancel();
-        tweenRef.current?.kill();
-        tweenRef.current = null;
-      };
-    }, []);
   return (
-    <>
-          <section className="marquee">
-        <div className="marquee__inner" ref={marqueeInnerRef}>
-          <div className="marquee__part">
-            <TiHtml5 className="skill-icon" />
-          </div>
-          <div className="marquee__part">
-            <FaJs className="skill-icon" />
-          </div>
-          <div className="marquee__part">
-            <FaReact className="skill-icon" />
-          </div>
-          <div className="marquee__part">
-            <FaVuejs className="skill-icon" />
-          </div>
-          <div className="marquee__part">
-            <SiFlutter className="skill-icon" />
-          </div>
-          <div className="marquee__part">
-            <SiDart className="skill-icon" />
-          </div>
-          <div className="marquee__part">
-            <SiMongodb className="skill-icon" />
-          </div>
-          <div className="marquee__part">
-            <SiHive className="skill-icon" />
-          </div>
-          <div className="marquee__part">
-            <FaPython className="skill-icon" />
-          </div>
-          <div className="marquee__part">
-            <FaFigma className="skill-icon" />
-          </div>
-          <div className="marquee__part">
-            <SiCanva className="skill-icon" />
-          </div>
-          <div className="marquee__part">
-            <SiAdobephotoshop className="skill-icon" />
-          </div>
-          <div className="marquee__part">
-            <SiNextdotjs className="skill-icon" />
-          </div>
-          <div className="marquee__part">
-            <FaNode className="skill-icon" />
-          </div>
-          <div className="marquee__part">
-            <SiExpress className="skill-icon" />
-          </div>
-          <div className="marquee__part">
-            <SiTailwindcss className="skill-icon" />
-          </div>
-          <div className="marquee__part">
-            <SiFirebase className="skill-icon" />
-          </div>
-          <div className="marquee__part">
-            <SiPostgresql className="skill-icon" />
-          </div>
-          <div className="marquee__part">
-            <SiDocker className="skill-icon" />
-          </div>
-          <div className="marquee__part">
-            <SiKubernetes className="skill-icon" />
-          </div>
-          <div className="marquee__part">
-            <SiRedux className="skill-icon" />
-          </div>
-          <div className="marquee__part">
-            <SiTypescript className="skill-icon" />
-          </div>
-        </div>
-      </section>
-    </>
+    <section className="marquee" aria-label="Technology skills">
+      <div className="marquee__inner">
+        {renderIcons()}
+        {renderIcons(true)}
+      </div>
+    </section>
   )
 }
 

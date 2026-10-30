@@ -1,8 +1,7 @@
 
 .marquee__part {
     flex-shrink: 0;
-    padding: 0 4px;
-    padding-left: 20%;
+    padding: 0 28px;
   }
   
   .marquee {
@@ -12,25 +11,45 @@
     font-weight: 600;
     font-size: 1.667vw;
     padding: 32px 0;
-    position: relative;
     overflow: hidden;
   }
   
   .marquee__inner {
     -webkit-font-smoothing: antialiased;
-    width: fit-content;
     display: flex;
-    flex: auto;
-    flex-direction: row;
+    width: max-content;
     align-items: center;
+    animation: marquee-scroll 30s linear infinite;
+    will-change: transform;
+  }
+
+  .marquee__group {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  @keyframes marquee-scroll {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee__inner {
+      animation: none;
+    }
   }
   .skill-icon {
-    width: 200%;
-    height: 200%;
+    width: 2rem;
+    height: 2rem;
   }
   @media (max-width: 575.98px) {
     .skill-icon {
-      width: 300%;
-      height: 200%;
+      width: 1.75rem;
+      height: 1.75rem;
     }
   }
