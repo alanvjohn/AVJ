@@ -10,35 +10,40 @@ const projectData = [
     title: "Interest Calculator",
     description: "This is a sleek and efficient Flutter-based interest calculator that simplifies financial calculations",
     imgSrc: interestimg,
-    link: "https://github.com/itsmealan2000/Interest_calculator_flutter"
+    link: "https://github.com/itsmealan2000/Interest_calculator_flutter",
+    tags: ["Flutter", "Dart"]
   },
   {
     id: 2,
     title: "Car Dealership",
     description: "A modern car dealership website offering easy browsing, vehicle comparisons, and seamless booking for a hassle-free car buying experience.",
     imgSrc: cardealer,
-    link: "https://github.com/itsmealan2000/Car_website.git"
+    link: "https://github.com/itsmealan2000/Car_website.git",
+    tags: ["HTML", "CSS", "JavaScript"]
   },
   {
     id: 3,
     title: "Doc Here",
     description: "Effortlessly book doctor appointments, manage health records, and access personalized care through a user-friendly appointment website.",
     imgSrc: doctorappoinment,
-    link: "https://github.com/itsmealan2000/DocHere.git"
+    link: "https://github.com/itsmealan2000/DocHere.git",
+    tags: ["React", "Node.js", "MongoDB"]
   },
   {
     id: 4,
     title: "Video Conference App",
     description: "Connect seamlessly with a video conferencing app powered by Jitsi, high-quality calls for effortless collaboration.",
     imgSrc: videoconferenceapp,
-    link: "https://github.com/itsmealan2000/Videoconference_group1.git"
+    link: "https://github.com/itsmealan2000/Videoconference_group1.git",
+    tags: ["Flutter", "Dart", "Jitsi"]
   },
   {
     id: 5,
     title: "Powertech Website",
     description: "A professional website for Powertech, showcasing their services and expertise in the industry.",
     imgSrc: powertech,
-    link: "https://www.powertech.ind.in/"
+    link: "https://www.powertech.ind.in/",
+    tags: ["HTML", "CSS", "JavaScript"]
   },
 
 ];
