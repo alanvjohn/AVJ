@@ -37,16 +37,15 @@ function GradientASCII() {
   const ascii = {
     preset: settings?.asciiPreset ?? "atmosphere",
     characters: settings?.asciiCharacters ?? "classic",
-    cellSize: Number(settings?.asciiCellSize ?? 15),
-    density: Number(settings?.asciiDensity ?? 0.8),
-    opacity: Number(settings?.asciiOpacity ?? 0.75),
-    glow: Number(settings?.asciiGlow ?? 0.2),
-    speed: Number(settings?.asciiSpeed ?? 1),
-    grain: Number(settings?.asciiGrain ?? 0.08),
     mouseInteraction: settings?.asciiMouseInteraction ?? true,
-    intro: settings?.asciiIntro ?? true,
+    intro: settings?.asciiIntro ?? false,
     lightMode: settings?.asciiLightMode ?? false,
   };
+  const density = 1;
+  const opacity = 1;
+  const glowStrength = 1;
+  const speed = 1;
+  const grain = 0.08;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -68,8 +67,8 @@ function GradientASCII() {
       const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
       width = bounds.width;
       height = bounds.height;
-      columns = Math.ceil(width / ascii.cellSize);
-      rows = Math.ceil(height / (ascii.cellSize * 1.2));
+      columns = Math.ceil(width / 15);
+      rows = Math.ceil(height / 18);
       canvas.width = width * pixelRatio;
       canvas.height = height * pixelRatio;
       context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
@@ -79,7 +78,7 @@ function GradientASCII() {
       context.clearRect(0, 0, width, height);
       const preset = presets[ascii.preset] || presets.atmosphere;
       const characters = characterSets[ascii.characters] || characterSets.classic;
-      context.font = `${Math.max(10, ascii.cellSize * 0.8)}px monospace`;
+      context.font = "12px monospace";
       context.textAlign = "center";
       context.textBaseline = "middle";
 
@@ -91,13 +90,13 @@ function GradientASCII() {
             x / width - pointer.x,
             (y / height - pointer.y) * 0.8
           );
-          const glow = Math.max(0, 1 - distance * preset.multiplier) * ascii.glow;
+          const glow = Math.max(0, 1 - distance * preset.multiplier) * glowStrength;
           const wave = reducedMotion.matches
             ? 0
-            : Math.sin(time / (1600 / Math.max(ascii.speed, 0.1)) + column * 0.22) * ascii.grain;
+            : Math.sin(time / 1600 + column * 0.22) * grain;
           const intensity = Math.max(
             0,
-            Math.min(1, (glow + wave) * ascii.density + (ascii.intro ? 0.1 : 0))
+            Math.min(1, (glow + wave) * density + (ascii.intro ? 0.1 : 0))
           );
           const characterIndex = Math.min(
             characters.length - 1,
@@ -107,7 +106,7 @@ function GradientASCII() {
           if (characterIndex === 0) continue;
 
           const color = intensity > 0.55 ? preset.colors[1] : preset.colors[0];
-          const alpha = Math.min(1, ascii.opacity * (0.12 + intensity * 0.48));
+          const alpha = Math.min(1, opacity * (0.12 + intensity * 0.48));
           context.fillStyle = ascii.lightMode
             ? `rgba(25, 35, 60, ${alpha})`
             : `rgba(${color}, ${alpha})`;
@@ -142,16 +141,10 @@ function GradientASCII() {
       window.removeEventListener("pointermove", handlePointerMove);
     };
   }, [
-    ascii.cellSize,
-    ascii.density,
-    ascii.glow,
-    ascii.grain,
     ascii.intro,
     ascii.lightMode,
     ascii.mouseInteraction,
-    ascii.opacity,
     ascii.preset,
-    ascii.speed,
     ascii.characters,
   ]);
 

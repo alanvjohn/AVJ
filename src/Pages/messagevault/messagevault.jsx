@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { collection as firestoreCollection, getDocs } from "firebase/firestore";
 import {
   ADMIN_EMAIL,
   auth,
+  addDoc,
+  collection,
   db,
   onAuthStateChanged,
   signInWithEmailAndPassword,
@@ -39,7 +40,7 @@ function MessageVault() {
     const fetchMessages = async () => {
       try {
         const querySnapshot = await getDocs(
-          firestoreCollection(db, "messages")
+          collection(db, "messages")
         );
         const messagesArray = querySnapshot.docs.map((messageDoc) => ({
           id: messageDoc.id,
@@ -69,7 +70,16 @@ function MessageVault() {
     setError("");
 
     try {
-      await signInWithEmailAndPassword(auth, ADMIN_EMAIL, password);
+      const credential = await signInWithEmailAndPassword(auth, ADMIN_EMAIL, password);
+      try {
+        await addDoc(collection(db, "adminLoginLogs"), {
+          email: credential.user.email,
+          uid: credential.user.uid,
+          timestamp: new Date().toISOString(),
+        });
+      } catch (logError) {
+        console.error("Admin login succeeded but could not be logged:", logError);
+      }
       setPassword("");
     } catch (signInError) {
       console.error("Admin sign-in failed:", signInError);

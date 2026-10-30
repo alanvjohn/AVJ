@@ -34,12 +34,6 @@ service cloud.firestore {
           'loaderStyle',
           'asciiPreset',
           'asciiCharacters',
-          'asciiCellSize',
-          'asciiDensity',
-          'asciiOpacity',
-          'asciiGlow',
-          'asciiSpeed',
-          'asciiGrain',
           'asciiMouseInteraction',
           'asciiIntro',
           'asciiLightMode',
@@ -62,16 +56,28 @@ service cloud.firestore {
           'violet'
         ]
         && request.resource.data.asciiCharacters in ['classic', 'letters', 'symbols']
-        && request.resource.data.asciiCellSize is number
-        && request.resource.data.asciiDensity is number
-        && request.resource.data.asciiOpacity is number
-        && request.resource.data.asciiGlow is number
-        && request.resource.data.asciiSpeed is number
-        && request.resource.data.asciiGrain is number
         && request.resource.data.asciiMouseInteraction is bool
         && request.resource.data.asciiIntro is bool
         && request.resource.data.asciiLightMode is bool
         && request.resource.data.updatedAt is timestamp;
+    }
+
+    match /adminLoginLogs/{logId} {
+      allow create: if request.auth != null
+        && request.auth.token.email == 'alanjohn9626@gmail.com'
+        && request.resource.data.keys().hasOnly([
+          'email',
+          'uid',
+          'timestamp'
+        ])
+        && request.resource.data.email == request.auth.token.email
+        && request.resource.data.email is string
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.uid is string
+        && request.resource.data.timestamp is string;
+      allow read: if request.auth != null
+        && request.auth.token.email == 'alanjohn9626@gmail.com';
+      allow update, delete: if false;
     }
   }
 }

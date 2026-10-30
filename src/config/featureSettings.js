@@ -15,12 +15,6 @@ export const defaultFeatureSettings = {
   loaderStyle: "letter-glitch",
   asciiPreset: "atmosphere",
   asciiCharacters: "classic",
-  asciiCellSize: 15,
-  asciiDensity: 1,
-  asciiOpacity: 1,
-  asciiGlow: 1,
-  asciiSpeed: 1,
-  asciiGrain: 0.08,
   asciiMouseInteraction: true,
   asciiIntro: false,
   asciiLightMode: false,
@@ -59,16 +53,10 @@ export async function saveFeatureSettings(settings) {
     loaderStyle: nextSettings.loaderStyle,
     asciiPreset: nextSettings.asciiPreset,
     asciiCharacters: nextSettings.asciiCharacters,
-    asciiCellSize: nextSettings.asciiCellSize,
-    asciiDensity: nextSettings.asciiDensity,
-    asciiOpacity: nextSettings.asciiOpacity,
-    asciiGlow: nextSettings.asciiGlow,
-    asciiSpeed: nextSettings.asciiSpeed,
-    asciiGrain: nextSettings.asciiGrain,
     asciiMouseInteraction: nextSettings.asciiMouseInteraction,
     asciiIntro: nextSettings.asciiIntro,
     asciiLightMode: nextSettings.asciiLightMode,
     updatedAt: serverTimestamp(),
-  }, { merge: true });
+  });
   return nextSettings;
 }

@@ -3,10 +3,15 @@ import { Link } from "react-router-dom";
 import {
   ADMIN_EMAIL,
   auth,
+  collection,
   db,
   doc,
   getDoc,
+  getDocs,
+  limit,
   onAuthStateChanged,
+  orderBy,
+  query,
   signOut,
 } from "../contact/firebase";
 import TiltedCard from "../../Components/reactbits/TiltedCard";
@@ -53,21 +58,13 @@ const asciiCharacterOptions = [
   ["symbols", "Symbols"],
 ];
 
-const asciiRangeFields = [
-  ["asciiCellSize", "Cell size", 10, 28, 1, "px"],
-  ["asciiDensity", "Density", 0.2, 1, 0.05, ""],
-  ["asciiOpacity", "Opacity", 0.2, 1, 0.05, ""],
-  ["asciiGlow", "Glow", 0, 1, 0.05, ""],
-  ["asciiSpeed", "Speed", 0.2, 2, 0.1, "x"],
-  ["asciiGrain", "Grain", 0, 0.3, 0.01, ""],
-];
-
 function VaultAdmin() {
   const [user, setUser] = useState(null);
   const [isCheckingAccess, setIsCheckingAccess] = useState(true);
   const [settings, setSettings] = useState(getFeatureSettings);
   const [savedMessage, setSavedMessage] = useState("");
   const [saveError, setSaveError] = useState("");
+  const [loginLogs, setLoginLogs] = useState([]);
   const [diagnostics, setDiagnostics] = useState({
     score: "--",
     loadTime: "--",
@@ -130,6 +127,20 @@ function VaultAdmin() {
       } catch (error) {
         console.error("Firebase diagnostics failed:", error);
         firebaseStatus = "Unavailable";
+      }
+      try {
+        const loginSnapshot = await getDocs(
+          query(
+            collection(db, "adminLoginLogs"),
+            orderBy("timestamp", "desc"),
+            limit(5)
+          )
+        );
+        if (isMounted) {
+          setLoginLogs(loginSnapshot.docs.map((loginDoc) => loginDoc.data()));
+        }
+      } catch (error) {
+        console.error("Admin login log check failed:", error);
       }
 
       if (isMounted) {
@@ -348,6 +359,26 @@ function VaultAdmin() {
           </div>
         </section>
 
+        <section className="vault-admin-settings" aria-labelledby="login-log-title">
+          <div>
+            <p className="vault-admin-eyebrow">Security activity</p>
+            <h2 id="login-log-title">Admin login log</h2>
+            <p>Recent successful administrator sign-ins recorded in Firestore.</p>
+          </div>
+          {loginLogs.length > 0 ? (
+            <ul className="vault-admin-login-log">
+              {loginLogs.map((login, index) => (
+                <li key={`${login.timestamp}-${index}`}>
+                  <strong>{login.email}</strong>
+                  <span>{new Date(login.timestamp).toLocaleString()}</span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="admin-setting-hint">No successful sign-ins recorded yet.</p>
+          )}
+        </section>
+
         <section className="vault-admin-grid" aria-label="Feature controls">
           {Object.entries(featureLabels).map(([feature, [title, description]]) => (
             <article className="feature-control" key={feature}>
@@ -437,19 +468,6 @@ function VaultAdmin() {
               {asciiCharacterOptions.map(([value, label]) => <option key={value} value={value}>{label}</option>)}
             </select>
           </label>
-          {asciiRangeFields.map(([key, label, min, max, step, suffix]) => (
-            <label className="admin-range-label" key={key}>
-              <span>{label}<strong>{settings[key]}{suffix}</strong></span>
-              <input
-                type="range"
-                min={min}
-                max={max}
-                step={step}
-                value={settings[key]}
-                onChange={(event) => updateAsciiSetting(key, Number(event.target.value))}
-              />
-            </label>
-          ))}
           <label className="admin-check-label">
             <input
               type="checkbox"

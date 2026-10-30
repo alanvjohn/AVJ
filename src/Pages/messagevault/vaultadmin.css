@@ -213,6 +213,9 @@
 .admin-card-preview { width: 180px; height: 160px; flex: 0 0 180px; }
 .vault-admin-saved { margin-top: 1rem !important; color: #16794c !important; font-size: 0.9rem; }
 .vault-admin-error { margin-top: 1rem !important; color: #b42318 !important; font-size: 0.9rem; }
+.vault-admin-login-log { display: grid; gap: 0.7rem; margin: 0; padding: 0; list-style: none; }
+.vault-admin-login-log li { display: flex; justify-content: space-between; gap: 1rem; padding: 0.75rem 0; border-bottom: 1px solid rgba(127, 127, 127, 0.22); }
+.vault-admin-login-log span { color: #6b7280; font-size: 0.9rem; }
 .vault-admin-locked { max-width: 34rem; margin: 8rem auto; padding: 2rem; border-radius: 1.25rem; background: #fff; text-align: center; }
 .dark-theme .vault-admin-page { background: #121212; color: #fff; }
 .dark-theme .vault-admin-header,
