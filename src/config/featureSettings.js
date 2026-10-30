@@ -1,4 +1,10 @@
-import { db, doc, getDoc, setDoc } from "../Pages/contact/firebase";
+import {
+  db,
+  doc,
+  getDoc,
+  serverTimestamp,
+  setDoc,
+} from "../Pages/contact/firebase";
 
 export const defaultFeatureSettings = {
   lenis: true,
@@ -40,6 +46,7 @@ export async function saveFeatureSettings(settings) {
   await setDoc(doc(db, "siteSettings", "appearance"), {
     heroBackground: nextSettings.heroBackground,
     loaderStyle: nextSettings.loaderStyle,
+    updatedAt: serverTimestamp(),
   }, { merge: true });
   return nextSettings;
 }

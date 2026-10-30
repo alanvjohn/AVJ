@@ -49,6 +49,13 @@ function VaultAdmin() {
     loadTime: "--",
     connection: "Checking...",
     firebase: "Checking...",
+    firebaseLatency: "--",
+    fcp: "--",
+    lcp: "--",
+    cls: "--",
+    inp: "--",
+    updatedAt: "Not available",
+    settings: "Checking...",
   });
 
   useEffect(() => {
@@ -80,8 +87,22 @@ function VaultAdmin() {
         : "Browser API unavailable";
 
       let firebaseStatus = "Connected";
+      let firebaseLatency = "--";
+      let updatedAt = "Not available";
+      let settingsSummary = "Unavailable";
+      const firebaseStart = performance.now();
       try {
-        await getDoc(doc(db, "siteSettings", "appearance"));
+        const snapshot = await getDoc(doc(db, "siteSettings", "appearance"));
+        firebaseLatency = `${Math.round(performance.now() - firebaseStart)} ms`;
+        if (snapshot.exists()) {
+          const data = snapshot.data();
+          settingsSummary = `${data.heroBackground || "default"} · ${data.loaderStyle || "default"}`;
+          updatedAt = data.updatedAt?.toDate
+            ? data.updatedAt.toDate().toLocaleString()
+            : "Not recorded";
+        } else {
+          settingsSummary = "Defaults";
+        }
       } catch (error) {
         console.error("Firebase diagnostics failed:", error);
         firebaseStatus = "Unavailable";
@@ -93,13 +114,59 @@ function VaultAdmin() {
           loadTime: `${Math.round(loadTime)} ms`,
           connection: connectionLabel,
           firebase: firebaseStatus,
+          firebaseLatency,
+          updatedAt,
+          settings: settingsSummary,
         });
       }
     };
 
     measureDiagnostics();
+    const observers = [];
+    const observe = (type, callback) => {
+      if (!("PerformanceObserver" in window) || !PerformanceObserver.supportedEntryTypes?.includes(type)) {
+        return;
+      }
+      const observer = new PerformanceObserver(callback);
+      observer.observe({ type, buffered: true });
+      observers.push(observer);
+    };
+
+    observe("paint", (list) => {
+      const firstPaint = list.getEntriesByName("first-contentful-paint")[0];
+      if (firstPaint && isMounted) {
+        setDiagnostics((current) => ({ ...current, fcp: `${Math.round(firstPaint.startTime)} ms` }));
+      }
+    });
+    observe("largest-contentful-paint", (list) => {
+      const entries = list.getEntries();
+      const largest = entries[entries.length - 1];
+      if (largest && isMounted) {
+        setDiagnostics((current) => ({ ...current, lcp: `${Math.round(largest.startTime)} ms` }));
+      }
+    });
+    observe("layout-shift", (list) => {
+      const cls = list.getEntries().reduce(
+        (total, entry) => (entry.hadRecentInput ? total : total + entry.value),
+        0
+      );
+      if (isMounted) {
+        setDiagnostics((current) => ({ ...current, cls: cls.toFixed(3) }));
+      }
+    });
+    observe("event", (list) => {
+      const maxDuration = Math.max(
+        0,
+        ...list.getEntries().map((entry) => entry.duration)
+      );
+      if (isMounted && maxDuration > 0) {
+        setDiagnostics((current) => ({ ...current, inp: `${Math.round(maxDuration)} ms` }));
+      }
+    });
+
     return () => {
       isMounted = false;
+      observers.forEach((observer) => observer.disconnect());
     };
   }, []);
 
@@ -197,6 +264,46 @@ function VaultAdmin() {
               {diagnostics.firebase}
             </strong>
             <em>Firestore read check</em>
+          </div>
+          <div className="diagnostic-metric">
+            <span>Firestore latency</span>
+            <strong>{diagnostics.firebaseLatency}</strong>
+            <em>Settings read time</em>
+          </div>
+          <div className="diagnostic-metric">
+            <span>First content</span>
+            <strong>{diagnostics.fcp}</strong>
+            <em>FCP</em>
+          </div>
+          <div className="diagnostic-metric">
+            <span>Largest content</span>
+            <strong>{diagnostics.lcp}</strong>
+            <em>LCP</em>
+          </div>
+          <div className="diagnostic-metric">
+            <span>Layout shift</span>
+            <strong>{diagnostics.cls}</strong>
+            <em>CLS</em>
+          </div>
+          <div className="diagnostic-metric">
+            <span>Interaction delay</span>
+            <strong>{diagnostics.inp}</strong>
+            <em>INP estimate</em>
+          </div>
+        </section>
+
+        <section className="admin-diagnostics-details" aria-label="Current site status">
+          <div>
+            <span>Active appearance settings</span>
+            <strong>{diagnostics.settings}</strong>
+          </div>
+          <div>
+            <span>Last settings update</span>
+            <strong>{diagnostics.updatedAt}</strong>
+          </div>
+          <div>
+            <span>Environment</span>
+            <strong>{import.meta.env.MODE}</strong>
           </div>
         </section>
 

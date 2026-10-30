@@ -31,7 +31,8 @@ service cloud.firestore {
         && request.auth.token.email == 'alanjohn9626@gmail.com'
         && request.resource.data.keys().hasOnly([
           'heroBackground',
-          'loaderStyle'
+          'loaderStyle',
+          'updatedAt'
         ])
         && request.resource.data.heroBackground in ['ascii', 'grid', 'plain']
         && request.resource.data.loaderStyle in [
@@ -41,7 +42,8 @@ service cloud.firestore {
           'shape-grid',
           'dot-grid',
           'classic'
-        ];
+        ]
+        && request.resource.data.updatedAt is timestamp;
     }
   }
 }
