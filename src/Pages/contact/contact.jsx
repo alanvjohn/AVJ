@@ -70,22 +70,22 @@ function Contact() {
   return (
     <div className="contactpage">
       <div className="maincontact ">
-        <div className="contact container d-flex flex-column flex-wrap justify-content-center" data-scroll-section>
-          <h1 className="contactheading" data-scroll data-scroll-delay=".1" data-scroll-class="in-view">
+        <div className="contact container d-flex flex-column flex-wrap justify-content-center">
+          <h1 className="contactheading">
             Contact Me
           </h1>
-          <p data-scroll data-scroll-class="in-view">
+          <p>
             Have a project in mind? Send me a message and I will get back to you.
           </p>
-          <div className="contact-logo container d-flex flex-row" data-scroll>
-            <div className="email" data-scroll data-scroll-class="in-view">
+          <div className="contact-logo container d-flex flex-row">
+            <div className="email">
               <p>
                 <a href="mailto:alanjohn9626@gmail.com" aria-label="Email Alan V John">
                   <MdAttachEmail className="email-logo" />
                 </a>
               </p>
             </div>
-            <div className="git ms-4" data-scroll data-scroll-class="in-view">
+            <div className="git ms-4">
               <p>
                 <a href="https://github.com/alanvjohn" target="_blank" rel="noopener noreferrer" aria-label="Alan V John on GitHub">
                   <FaGithub className="github-logo" />
@@ -93,7 +93,7 @@ function Contact() {
               </p>
             </div>
           </div>
-          <form onSubmit={handleSubmit} className="form-group" data-scroll data-scroll-class="in-view">
+          <form onSubmit={handleSubmit} className="form-group">
             <label htmlFor="contact-name">Name</label>
             <input
               id="contact-name"
@@ -101,8 +101,6 @@ function Contact() {
               name="name"
               placeholder="Enter your name"
               className="form-control m-2"
-              data-scroll
-              data-scroll-speed="1"
               value={formData.name}
               onChange={handleChange}
               required
@@ -115,8 +113,6 @@ function Contact() {
               name="email"
               placeholder="Enter your email"
               className="form-control m-2"
-              data-scroll
-              data-scroll-speed="1"
               value={formData.email}
               onChange={handleChange}
               required
@@ -128,8 +124,6 @@ function Contact() {
               placeholder="Enter your message"
               name="message"
               className="form-control m-2"
-              data-scroll
-              data-scroll-speed="1"
                 rows="5"
                 cols="30"
               value={formData.message}
@@ -137,7 +131,7 @@ function Contact() {
               required
               maxLength="5000"
             ></textarea>
-            <div className="buttons container-fluid" data-scroll data-scroll-class="in-view">
+            <div className="buttons container-fluid">
               <button type="submit" className="btn btn-primary mt-3" disabled={isSubmitting}>
                 {isSubmitting ? "Sending..." : "Send Message"}
               </button>

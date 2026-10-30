@@ -1,7 +1,6 @@
-import { lazy, Suspense, useRef, useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { Routes, Route, Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import { LocomotiveScrollProvider } from "react-locomotive-scroll";
 
 // Pages
 import Pageloader from "./Pages/pageloader";
@@ -28,24 +27,7 @@ const pageTransition = {
 };
 
 function App() {
-  const ref = useRef(null);
   const location = useLocation();
-
-  const options = {
-    smooth: true,
-    reloadOnContextChange:true,
-    lerp: 0.05,
-    repeat:true,
-    tablet: {
-      smooth: true,
-      reloadOnContextChange:true,
-    },
-    smartphone: {
-      lerp: 0.05,
-      smooth: false,
-      reloadOnContextChange: true,
-    },
-  };
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -53,15 +35,10 @@ function App() {
 
   return (
     <ThemeProvider>
-      <LocomotiveScrollProvider
-        options={options}
-        containerRef={ref}
-        watch={location.pathname}
-      >
-        <Navbar />
-        <div data-scroll-container ref={ref}>
-          <Suspense fallback={<Loader />}>
-            <Routes>
+      <Navbar />
+      <div>
+        <Suspense fallback={<Loader />}>
+          <Routes>
             <Route
               path="/"
               element={
@@ -142,10 +119,9 @@ function App() {
                 </main>
               }
             />
-            </Routes>
-          </Suspense>
-        </div>
-      </LocomotiveScrollProvider>
+          </Routes>
+        </Suspense>
+      </div>
     </ThemeProvider>
   );
 }
