@@ -19,6 +19,8 @@ export const defaultFeatureSettings = {
   asciiMouseInteraction: true,
   asciiIntro: false,
   asciiLightMode: false,
+  themeToastX: 16,
+  themeToastY: 72,
 };
 
 const storageKey = "avj-feature-settings-v2";
@@ -57,6 +59,8 @@ export async function saveFeatureSettings(settings) {
     asciiMouseInteraction: nextSettings.asciiMouseInteraction,
     asciiIntro: nextSettings.asciiIntro,
     asciiLightMode: nextSettings.asciiLightMode,
+    themeToastX: nextSettings.themeToastX,
+    themeToastY: nextSettings.themeToastY,
     updatedAt: serverTimestamp(),
   });
   return nextSettings;

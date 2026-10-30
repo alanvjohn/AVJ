@@ -5,12 +5,18 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import './navbar.css';
 import ThemeContext from '../custom/Theme';
+import { useFeatureSettings } from '../../config/FeatureSettingsContext';
 import toast, { Toaster } from 'react-hot-toast';
 
 function NavScrollExample() {
   const location = useLocation();
   const currentPath = location.pathname;
   const { theme, toggleTheme } = useContext(ThemeContext);
+  const featureSettings = useFeatureSettings() || {};
+  const toastStyle = {
+    '--theme-toast-x': `${Number(featureSettings.themeToastX ?? 16)}px`,
+    '--theme-toast-y': `${Number(featureSettings.themeToastY ?? 72)}px`,
+  };
   const onPageLoad = (currentTheme) => {
     toast.dismiss();
     if (currentTheme === 'light') {
@@ -27,13 +33,14 @@ function NavScrollExample() {
         </div>
       ), {
         duration: 3000,
-        position: 'top-right',
+        position: 'top-left',
         style: {
           backgroundColor: '#1f1f1f',
           color: '#fff',
           padding: '0.85rem 1rem',
           width: 'min(32rem, calc(100vw - 2rem))',
           minWidth: 0,
+          ...toastStyle,
         },
         className: 'teaser',
       });
@@ -51,13 +58,14 @@ function NavScrollExample() {
         </div>
       ), {
         duration: 3000,
-        position: 'top-right',
+        position: 'top-left',
         style: {
           backgroundColor: '#fff',
           color: '#000',
           padding: '0.85rem 1rem',
           width: 'min(32rem, calc(100vw - 2rem))',
           minWidth: 0,
+          ...toastStyle,
         },
         className: 'teaser',
       });

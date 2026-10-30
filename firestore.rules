@@ -37,6 +37,8 @@ service cloud.firestore {
           'asciiMouseInteraction',
           'asciiIntro',
           'asciiLightMode',
+          'themeToastX',
+          'themeToastY',
           'refreshAt',
           'updatedAt'
         ])
@@ -67,6 +69,10 @@ service cloud.firestore {
           || request.resource.data.asciiIntro is bool)
         && (!('asciiLightMode' in request.resource.data)
           || request.resource.data.asciiLightMode is bool)
+        && (!('themeToastX' in request.resource.data)
+          || request.resource.data.themeToastX is number)
+        && (!('themeToastY' in request.resource.data)
+          || request.resource.data.themeToastY is number)
         && (!('refreshAt' in request.resource.data)
           || request.resource.data.refreshAt is timestamp)
         && (!('updatedAt' in request.resource.data)

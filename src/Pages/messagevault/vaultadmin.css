@@ -209,6 +209,8 @@
 }
 .admin-check-label input { accent-color: #174ea6; }
 .ascii-save-button { justify-self: start; }
+.vault-admin-toast-controls { grid-column: 1 / -1; display: grid; gap: 0.6rem; }
+.vault-admin-toast-controls .vault-admin-eyebrow { margin: 0; }
 .vault-admin-preview { align-items: center; }
 .admin-card-preview { width: 180px; height: 160px; flex: 0 0 180px; }
 .vault-admin-saved { margin-top: 1rem !important; color: #16794c !important; font-size: 0.9rem; }

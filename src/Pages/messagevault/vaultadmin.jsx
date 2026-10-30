@@ -506,6 +506,31 @@ function VaultAdmin() {
             />
             Light ink
           </label>
+          <div className="vault-admin-toast-controls">
+            <p className="vault-admin-eyebrow">Theme notification position</p>
+            <label className="admin-range-label">
+              <span>Horizontal offset<strong>{settings.themeToastX}px</strong></span>
+              <input
+                type="range"
+                min="0"
+                max="320"
+                step="4"
+                value={settings.themeToastX}
+                onChange={(event) => updateAsciiSetting("themeToastX", Number(event.target.value))}
+              />
+            </label>
+            <label className="admin-range-label">
+              <span>Vertical offset<strong>{settings.themeToastY}px</strong></span>
+              <input
+                type="range"
+                min="48"
+                max="240"
+                step="4"
+                value={settings.themeToastY}
+                onChange={(event) => updateAsciiSetting("themeToastY", Number(event.target.value))}
+              />
+            </label>
+          </div>
           <button type="button" className="reset-features ascii-save-button" onClick={saveAsciiSettings}>
             Save Gradient ASCII settings
           </button>
