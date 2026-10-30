@@ -40,9 +40,9 @@
 
 .letter-glitch-loader {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(2.5rem, 1fr));
-  align-content: center;
-  gap: clamp(0.35rem, 1.2vw, 1rem);
+  grid-template-columns: repeat(auto-fill, minmax(clamp(1.5rem, 3vw, 2.5rem), 1fr));
+  align-content: stretch;
+  gap: clamp(0.3rem, 0.9vw, 0.75rem);
   padding: clamp(1.5rem, 6vw, 5rem);
   background:
     radial-gradient(circle at center, rgba(118, 109, 244, 0.16), transparent 55%),
@@ -50,6 +50,7 @@
   color: #766df4;
   font: 600 clamp(0.75rem, 2vw, 1.25rem) monospace;
   text-align: center;
+  overflow: hidden;
 }
 
 .letter-glitch-loader span {

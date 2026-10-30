@@ -6,7 +6,7 @@ const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
 function LetterGlitchLoader() {
   const cells = useMemo(
-    () => Array.from({ length: 64 }, (_, index) => ({
+    () => Array.from({ length: 900 }, (_, index) => ({
       id: index,
       letter: letters[Math.floor(Math.random() * letters.length)],
       delay: `${Math.random() * 1.8}s`,
