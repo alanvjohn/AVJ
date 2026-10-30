@@ -23,6 +23,16 @@
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+.links.active {
+  color: #174ea6 !important;
+  font-weight: 600;
+  opacity: 1;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.35rem;
 }
 .teaser {
   margin-left: 80px;
@@ -37,6 +47,9 @@
 }
 .dark-theme .links {
   color: #ffffff;
+}
+.dark-theme .links.active {
+  color: #8bb9ff !important;
 }
 .dark-theme .links:hover {
   color: #848181;
