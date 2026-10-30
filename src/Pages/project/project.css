@@ -28,6 +28,7 @@
 
 .project-folder {
   position: relative;
+  display: block;
   min-height: 340px;
   overflow: hidden;
   padding: 1.25rem;
@@ -35,12 +36,20 @@
   border-radius: 0.75rem;
   background: #dfe7fb;
   box-shadow: 0 8px 18px rgba(47, 69, 112, 0.12);
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .project-folder:hover {
   transform: translateY(-5px);
   box-shadow: 0 14px 26px rgba(47, 69, 112, 0.2);
+}
+
+.project-folder:focus-visible {
+  outline: 3px solid #174ea6;
+  outline-offset: 4px;
 }
 
 .folder-tab {
@@ -101,7 +110,7 @@
   color: #174ea6;
   font-family: "Satoshi Variable";
   font-weight: 600;
-  text-decoration: none;
+  text-decoration: underline;
 }
 
 .project-link:hover {
