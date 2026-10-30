@@ -506,33 +506,41 @@ function VaultAdmin() {
             />
             Light ink
           </label>
-          <div className="vault-admin-toast-controls">
-            <p className="vault-admin-eyebrow">Theme notification position</p>
-            <label className="admin-range-label">
-              <span>Horizontal offset<strong>{settings.themeToastX}px</strong></span>
-              <input
-                type="range"
-                min="0"
-                max="320"
-                step="4"
-                value={settings.themeToastX}
-                onChange={(event) => updateAsciiSetting("themeToastX", Number(event.target.value))}
-              />
-            </label>
-            <label className="admin-range-label">
-              <span>Vertical offset<strong>{settings.themeToastY}px</strong></span>
-              <input
-                type="range"
-                min="48"
-                max="240"
-                step="4"
-                value={settings.themeToastY}
-                onChange={(event) => updateAsciiSetting("themeToastY", Number(event.target.value))}
-              />
-            </label>
-          </div>
           <button type="button" className="reset-features ascii-save-button" onClick={saveAsciiSettings}>
             Save Gradient ASCII settings
+          </button>
+        </section>
+
+        <section className="vault-admin-toast-settings" aria-labelledby="toast-settings-title">
+          <div className="vault-admin-ascii-heading">
+            <p className="vault-admin-eyebrow">Theme notification</p>
+            <h2 id="toast-settings-title">Notification position</h2>
+            <p>Adjust the theme message placement independently from the Gradient ASCII background.</p>
+          </div>
+          <label className="admin-range-label">
+            <span>Horizontal offset<strong>{settings.themeToastX}px</strong></span>
+            <input
+              type="range"
+              min="0"
+              max="320"
+              step="4"
+              value={settings.themeToastX}
+              onChange={(event) => updateAsciiSetting("themeToastX", Number(event.target.value))}
+            />
+          </label>
+          <label className="admin-range-label">
+            <span>Vertical offset<strong>{settings.themeToastY}px</strong></span>
+            <input
+              type="range"
+              min="48"
+              max="240"
+              step="4"
+              value={settings.themeToastY}
+              onChange={(event) => updateAsciiSetting("themeToastY", Number(event.target.value))}
+            />
+          </label>
+          <button type="button" className="reset-features ascii-save-button" onClick={saveAsciiSettings}>
+            Save notification position
           </button>
         </section>
 

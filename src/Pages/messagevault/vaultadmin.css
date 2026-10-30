@@ -209,8 +209,18 @@
 }
 .admin-check-label input { accent-color: #174ea6; }
 .ascii-save-button { justify-self: start; }
-.vault-admin-toast-controls { grid-column: 1 / -1; display: grid; gap: 0.6rem; }
-.vault-admin-toast-controls .vault-admin-eyebrow { margin: 0; }
+.vault-admin-toast-settings {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+  padding: 1.5rem;
+  border: 1px solid #dfe5f2;
+  border-radius: 1rem;
+  background: #fff;
+}
+.vault-admin-toast-settings .vault-admin-ascii-heading { grid-column: 1 / -1; }
+.vault-admin-toast-settings .ascii-save-button { grid-column: 1 / -1; }
 .vault-admin-preview { align-items: center; }
 .admin-card-preview { width: 180px; height: 160px; flex: 0 0 180px; }
 .vault-admin-saved { margin-top: 1rem !important; color: #16794c !important; font-size: 0.9rem; }
@@ -248,6 +258,7 @@
 .dark-theme .vault-admin-settings p { color: #b6bdcc; }
 .dark-theme .admin-select-label select { border-color: #53617e; background: #242424; color: #fff; }
 .dark-theme .vault-admin-ascii-settings { border-color: #363b48; background: #1d1d1d; }
+.dark-theme .vault-admin-toast-settings { border-color: #363b48; background: #1d1d1d; }
 .dark-theme .vault-admin-ascii-heading h2,
 .dark-theme .admin-range-label,
 .dark-theme .admin-check-label { color: #fff; }
@@ -262,6 +273,7 @@
   .vault-admin-grid { grid-template-columns: 1fr; }
   .vault-admin-settings { grid-template-columns: 1fr; }
   .vault-admin-ascii-settings { grid-template-columns: 1fr; }
+  .vault-admin-toast-settings { grid-template-columns: 1fr; }
   .vault-admin-ascii-heading { grid-column: auto; }
   .admin-card-preview { align-self: center; }
 }
