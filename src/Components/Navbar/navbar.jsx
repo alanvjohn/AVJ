@@ -27,7 +27,7 @@ function NavScrollExample() {
         </div>
       ), {
         duration: 3000,
-        position: 'top-left',
+        position: 'top-right',
         style: {
           backgroundColor: '#1f1f1f',
           color: '#fff',
@@ -51,7 +51,7 @@ function NavScrollExample() {
         </div>
       ), {
         duration: 3000,
-        position: 'top-left',
+        position: 'top-right',
         style: {
           backgroundColor: '#fff',
           color: '#000',
