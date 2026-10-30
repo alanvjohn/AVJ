@@ -1,0 +1,3 @@
+This is a harmless dummy file for testing git pull.
+
+You can edit or delete this file locally after confirming the pull works.
