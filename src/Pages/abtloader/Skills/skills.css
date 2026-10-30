@@ -14,9 +14,6 @@
   text-align: center;
   background-color: white;
 }
-[data-scroll-containe] {
-  resize: auto;
-}
 .dark-theme .header-skills {
   background-color: #121212;
 }

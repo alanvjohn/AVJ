@@ -5,16 +5,12 @@ const Skills = () => {
   return (
     <>
     <div ref={skillRef}>
-      <div className="skill-holder" data-scroll-section id="stick">
+      <div className="skill-holder" id="stick">
       <div className="bg-skill">
               <h1 className="header-skills"             
-              data-scroll
-              data-scroll-speed="5"
-              data-scroll-sticky // Attibute that enables the sticky scroll
-              data-scroll-target="#stick">Skills</h1>
+              >Skills</h1>
         </div>
-        <div data-scroll 
-              data-scroll-class="in-view" className="skillslist">
+        <div className="skillslist">
                 <h6>Flutter</h6>
                 <h6>JavaScript</h6>
                 <h6>HTML</h6>

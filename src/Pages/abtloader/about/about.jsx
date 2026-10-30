@@ -4,10 +4,10 @@ function About() {
   return (
     <>
       <div id="about" className="w-100">
-        <div className="aboutmain" data-scroll-section>
+        <div className="aboutmain">
           <div className="subabout" >
-            <h1 className="heading-about" data-scroll  >About Me</h1>
-            <p className="container lh-base abouttext" data-scroll >
+            <h1 className="heading-about">About Me</h1>
+            <p className="container lh-base abouttext">
               Hi, I&apos;m Alan V John, a dedicated and hardworking B.Tech graduate
               in Computer Science & Engineering, class of 2023.Born on December
               6, 2000, I am passionate about technology and committed to

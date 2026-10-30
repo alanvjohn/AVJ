@@ -7,8 +7,8 @@ function Home() {
   return (
     <>
             <div id="home" className=''>
-              <div className='row homerow container-fluid' data-scroll-section>
-                <div className='col-sm-8 col-md-6 left' data-scroll data-scroll-speed="2" >
+              <div className='row homerow container-fluid'>
+                <div className='col-sm-8 col-md-6 left'>
                   <h1 className='container titlehome'>
                     Hello, I am <br />
                     Alan V.John

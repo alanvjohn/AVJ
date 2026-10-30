@@ -75,7 +75,7 @@ const Marquee = () => {
     }, []);
   return (
     <>
-          <section className="marquee" data-scroll-section data-scroll-direction="horizontal">
+          <section className="marquee">
         <div className="marquee__inner" ref={marqueeInnerRef}>
           <div className="marquee__part">
             <TiHtml5 className="skill-icon" />
