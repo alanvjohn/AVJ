@@ -32,6 +32,17 @@ service cloud.firestore {
         && request.resource.data.keys().hasOnly([
           'heroBackground',
           'loaderStyle',
+          'asciiPreset',
+          'asciiCharacters',
+          'asciiCellSize',
+          'asciiDensity',
+          'asciiOpacity',
+          'asciiGlow',
+          'asciiSpeed',
+          'asciiGrain',
+          'asciiMouseInteraction',
+          'asciiIntro',
+          'asciiLightMode',
           'updatedAt'
         ])
         && request.resource.data.heroBackground in ['ascii', 'grid', 'plain']
@@ -43,6 +54,17 @@ service cloud.firestore {
           'dot-grid',
           'classic'
         ]
+        && request.resource.data.asciiPreset in ['atmosphere', 'lagoon', 'violet']
+        && request.resource.data.asciiCharacters in ['classic', 'letters', 'symbols']
+        && request.resource.data.asciiCellSize is number
+        && request.resource.data.asciiDensity is number
+        && request.resource.data.asciiOpacity is number
+        && request.resource.data.asciiGlow is number
+        && request.resource.data.asciiSpeed is number
+        && request.resource.data.asciiGrain is number
+        && request.resource.data.asciiMouseInteraction is bool
+        && request.resource.data.asciiIntro is bool
+        && request.resource.data.asciiLightMode is bool
         && request.resource.data.updatedAt is timestamp;
     }
   }

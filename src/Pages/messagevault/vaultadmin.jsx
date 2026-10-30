@@ -39,6 +39,27 @@ const loaderOptions = [
   ["classic", "Classic", "The original compact AVJ loading indicator."],
 ];
 
+const asciiPresetOptions = [
+  ["atmosphere", "Atmosphere"],
+  ["lagoon", "Lagoon"],
+  ["violet", "Violet"],
+];
+
+const asciiCharacterOptions = [
+  ["classic", "Classic"],
+  ["letters", "Letters"],
+  ["symbols", "Symbols"],
+];
+
+const asciiRangeFields = [
+  ["asciiCellSize", "Cell size", 10, 28, 1, "px"],
+  ["asciiDensity", "Density", 0.2, 1, 0.05, ""],
+  ["asciiOpacity", "Opacity", 0.2, 1, 0.05, ""],
+  ["asciiGlow", "Glow", 0, 1, 0.05, ""],
+  ["asciiSpeed", "Speed", 0.2, 2, 0.1, "x"],
+  ["asciiGrain", "Grain", 0, 0.3, 0.01, ""],
+];
+
 function VaultAdmin() {
   const [user, setUser] = useState(null);
   const [isCheckingAccess, setIsCheckingAccess] = useState(true);
@@ -202,6 +223,17 @@ function VaultAdmin() {
     });
     setSettings(nextSettings);
     setSavedMessage("Loader style saved. Refreshing...");
+    window.setTimeout(() => window.location.reload(), 500);
+  };
+
+  const updateAsciiSetting = (key, value) => {
+    setSettings((current) => ({ ...current, [key]: value }));
+  };
+
+  const saveAsciiSettings = async () => {
+    const nextSettings = await saveFeatureSettings(settings);
+    setSettings(nextSettings);
+    setSavedMessage("Gradient ASCII settings saved. Refreshing...");
     window.setTimeout(() => window.location.reload(), 500);
   };
 
@@ -370,6 +402,72 @@ function VaultAdmin() {
           <p className="admin-setting-hint">
             {loaderOptions.find(([value]) => value === settings.loaderStyle)?.[2]}
           </p>
+        </section>
+
+        <section className="vault-admin-ascii-settings" aria-labelledby="ascii-settings-title">
+          <div className="vault-admin-ascii-heading">
+            <p className="vault-admin-eyebrow">Gradient ASCII</p>
+            <h2 id="ascii-settings-title">Background customisation</h2>
+            <p>These controls are shared with every visitor when ASCII gradient is selected.</p>
+          </div>
+          <label className="admin-select-label">
+            Preset
+            <select
+              value={settings.asciiPreset}
+              onChange={(event) => updateAsciiSetting("asciiPreset", event.target.value)}
+            >
+              {asciiPresetOptions.map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+            </select>
+          </label>
+          <label className="admin-select-label">
+            Characters
+            <select
+              value={settings.asciiCharacters}
+              onChange={(event) => updateAsciiSetting("asciiCharacters", event.target.value)}
+            >
+              {asciiCharacterOptions.map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+            </select>
+          </label>
+          {asciiRangeFields.map(([key, label, min, max, step, suffix]) => (
+            <label className="admin-range-label" key={key}>
+              <span>{label}<strong>{settings[key]}{suffix}</strong></span>
+              <input
+                type="range"
+                min={min}
+                max={max}
+                step={step}
+                value={settings[key]}
+                onChange={(event) => updateAsciiSetting(key, Number(event.target.value))}
+              />
+            </label>
+          ))}
+          <label className="admin-check-label">
+            <input
+              type="checkbox"
+              checked={settings.asciiMouseInteraction}
+              onChange={(event) => updateAsciiSetting("asciiMouseInteraction", event.target.checked)}
+            />
+            Mouse interaction
+          </label>
+          <label className="admin-check-label">
+            <input
+              type="checkbox"
+              checked={settings.asciiIntro}
+              onChange={(event) => updateAsciiSetting("asciiIntro", event.target.checked)}
+            />
+            Intro glow
+          </label>
+          <label className="admin-check-label">
+            <input
+              type="checkbox"
+              checked={settings.asciiLightMode}
+              onChange={(event) => updateAsciiSetting("asciiLightMode", event.target.checked)}
+            />
+            Light ink
+          </label>
+          <button type="button" className="reset-features ascii-save-button" onClick={saveAsciiSettings}>
+            Save Gradient ASCII settings
+          </button>
         </section>
 
         <section className="vault-admin-preview">

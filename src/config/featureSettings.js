@@ -13,6 +13,17 @@ export const defaultFeatureSettings = {
   reactBitsCards: true,
   heroBackground: "ascii",
   loaderStyle: "letter-glitch",
+  asciiPreset: "atmosphere",
+  asciiCharacters: "classic",
+  asciiCellSize: 15,
+  asciiDensity: 0.8,
+  asciiOpacity: 0.75,
+  asciiGlow: 0.2,
+  asciiSpeed: 1,
+  asciiGrain: 0.08,
+  asciiMouseInteraction: true,
+  asciiIntro: true,
+  asciiLightMode: false,
 };
 
 const storageKey = "avj-feature-settings";
@@ -46,6 +57,17 @@ export async function saveFeatureSettings(settings) {
   await setDoc(doc(db, "siteSettings", "appearance"), {
     heroBackground: nextSettings.heroBackground,
     loaderStyle: nextSettings.loaderStyle,
+    asciiPreset: nextSettings.asciiPreset,
+    asciiCharacters: nextSettings.asciiCharacters,
+    asciiCellSize: nextSettings.asciiCellSize,
+    asciiDensity: nextSettings.asciiDensity,
+    asciiOpacity: nextSettings.asciiOpacity,
+    asciiGlow: nextSettings.asciiGlow,
+    asciiSpeed: nextSettings.asciiSpeed,
+    asciiGrain: nextSettings.asciiGrain,
+    asciiMouseInteraction: nextSettings.asciiMouseInteraction,
+    asciiIntro: nextSettings.asciiIntro,
+    asciiLightMode: nextSettings.asciiLightMode,
     updatedAt: serverTimestamp(),
   }, { merge: true });
   return nextSettings;
