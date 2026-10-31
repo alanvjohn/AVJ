@@ -37,14 +37,32 @@
 }
 .vault-admin-actions { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
 .vault-admin-actions button,
-.reset-features {
+.reset-features,
+.vault-admin-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: 1px solid #c9d3e8;
   border-radius: 999px;
   padding: 0.65rem 1rem;
   background: transparent;
   color: #174ea6;
   font-family: "Satoshi Variable";
+  font-size: 0.95rem;
   cursor: pointer;
+  text-decoration: none;
+}
+.vault-admin-actions button:hover,
+.reset-features:hover,
+.vault-admin-button:hover {
+  border-color: #174ea6;
+  background: #eef4ff;
+}
+.vault-admin-actions button:focus-visible,
+.reset-features:focus-visible,
+.vault-admin-button:focus-visible {
+  outline: 3px solid #8bb9ff;
+  outline-offset: 2px;
 }
 .vault-admin-link { color: #174ea6; font-family: "Satoshi Variable"; font-weight: 600; text-decoration: none; }
 .vault-admin-link:hover { text-decoration: underline; }
@@ -229,12 +247,26 @@
 .vault-admin-login-log { display: grid; gap: 0.7rem; margin: 0; padding: 0; list-style: none; }
 .vault-admin-login-log li { display: flex; justify-content: space-between; gap: 1rem; padding: 0.75rem 0; border-bottom: 1px solid rgba(127, 127, 127, 0.22); }
 .vault-admin-login-log span { color: #6b7280; font-size: 0.9rem; }
+.admin-login-log-page { display: grid; gap: 1rem; }
 .vault-admin-locked { max-width: 34rem; margin: 8rem auto; padding: 2rem; border-radius: 1.25rem; background: #fff; text-align: center; }
 .dark-theme .vault-admin-page { background: #121212; color: #fff; }
 .dark-theme .vault-admin-header,
 .dark-theme .vault-admin-preview,
 .dark-theme .feature-control,
 .dark-theme .vault-admin-locked { border-color: #363b48; background: #1d1d1d; }
+.dark-theme .vault-admin-actions button,
+.dark-theme .reset-features,
+.dark-theme .vault-admin-button {
+  border-color: #53617e;
+  background: #242424;
+  color: #b9d1ff;
+}
+.dark-theme .vault-admin-actions button:hover,
+.dark-theme .reset-features:hover,
+.dark-theme .vault-admin-button:hover {
+  border-color: #8bb9ff;
+  background: #303b52;
+}
 .dark-theme .vault-admin-header p,
 .dark-theme .vault-admin-preview p,
 .dark-theme .vault-admin-locked p,

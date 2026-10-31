@@ -3,15 +3,10 @@ import { Link } from "react-router-dom";
 import {
   ADMIN_EMAIL,
   auth,
-  collection,
   db,
   doc,
   getDoc,
-  getDocs,
-  limit,
   onAuthStateChanged,
-  orderBy,
-  query,
   signOut,
 } from "../contact/firebase";
 import TiltedCard from "../../Components/reactbits/TiltedCard";
@@ -66,7 +61,6 @@ function VaultAdmin() {
   const [savedMessage, setSavedMessage] = useState("");
   const [saveError, setSaveError] = useState("");
   const [isSaving, setIsSaving] = useState(false);
-  const [loginLogs, setLoginLogs] = useState([]);
   const [diagnostics, setDiagnostics] = useState({
     score: "--",
     loadTime: "--",
@@ -130,21 +124,6 @@ function VaultAdmin() {
         console.error("Firebase diagnostics failed:", error);
         firebaseStatus = "Unavailable";
       }
-      try {
-        const loginSnapshot = await getDocs(
-          query(
-            collection(db, "adminLoginLogs"),
-            orderBy("timestamp", "desc"),
-            limit(5)
-          )
-        );
-        if (isMounted) {
-          setLoginLogs(loginSnapshot.docs.map((loginDoc) => loginDoc.data()));
-        }
-      } catch (error) {
-        console.error("Admin login log check failed:", error);
-      }
-
       if (isMounted) {
         setDiagnostics({
           score,
@@ -300,7 +279,8 @@ function VaultAdmin() {
             <p>Manage presentation features for this browser without touching visitor data.</p>
           </div>
           <div className="vault-admin-actions">
-            <Link to="/vault" className="vault-admin-link">Back to Vault</Link>
+            <Link to="/vault/admin/login-log" className="vault-admin-button">Login history</Link>
+            <Link to="/vault" className="vault-admin-button">Back to Vault</Link>
             <button type="button" onClick={refreshVisitors}>Refresh all visitors</button>
             <button type="button" onClick={() => signOut(auth)}>Sign out</button>
           </div>
@@ -374,26 +354,6 @@ function VaultAdmin() {
             <span>Environment</span>
             <strong>{import.meta.env.MODE}</strong>
           </div>
-        </section>
-
-        <section className="vault-admin-settings" aria-labelledby="login-log-title">
-          <div>
-            <p className="vault-admin-eyebrow">Security activity</p>
-            <h2 id="login-log-title">Admin login log</h2>
-            <p>Recent successful administrator sign-ins recorded in Firestore.</p>
-          </div>
-          {loginLogs.length > 0 ? (
-            <ul className="vault-admin-login-log">
-              {loginLogs.map((login, index) => (
-                <li key={`${login.timestamp}-${index}`}>
-                  <strong>{login.email}</strong>
-                  <span>{new Date(login.timestamp).toLocaleString()}</span>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="admin-setting-hint">No successful sign-ins recorded yet.</p>
-          )}
         </section>
 
         <section className="vault-admin-grid" aria-label="Feature controls">
