@@ -3,12 +3,10 @@
 @font-face {
     font-family: "Satoshi Variable";
     src: url(../../assets/fonts/Satoshi-Variable.ttf);
-    font-display: swap;
 }
 @font-face {
     font-family: soria;
     src: url(../../assets/fonts/soria-font.ttf);
-    font-display: swap;
 }
 
 
