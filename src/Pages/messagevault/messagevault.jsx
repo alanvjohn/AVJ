@@ -6,6 +6,7 @@ import {
   addDoc,
   collection,
   db,
+  getDocs,
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
