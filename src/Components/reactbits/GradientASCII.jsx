@@ -55,6 +55,10 @@ function GradientASCII() {
     if (!context) return undefined;
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const mobileViewport = window.matchMedia("(max-width: 767px)");
+    const isMobile = mobileViewport.matches;
+    const cellWidth = isMobile ? 24 : 15;
+    const cellHeight = isMobile ? 28 : 18;
     let animationFrame;
     let width = 0;
     let height = 0;
@@ -64,11 +68,11 @@ function GradientASCII() {
 
     const resize = () => {
       const bounds = canvas.getBoundingClientRect();
-      const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+      const pixelRatio = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 2);
       width = bounds.width;
       height = bounds.height;
-      columns = Math.ceil(width / 15);
-      rows = Math.ceil(height / 18);
+      columns = Math.ceil(width / cellWidth);
+      rows = Math.ceil(height / cellHeight);
       canvas.width = width * pixelRatio;
       canvas.height = height * pixelRatio;
       context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
@@ -91,7 +95,7 @@ function GradientASCII() {
             (y / height - pointer.y) * 0.8
           );
           const glow = Math.max(0, 1 - distance * preset.multiplier) * glowStrength;
-          const wave = reducedMotion.matches
+          const wave = reducedMotion.matches || isMobile
             ? 0
             : Math.sin(time / 1600 + column * 0.22) * grain;
           const intensity = Math.max(
@@ -114,7 +118,7 @@ function GradientASCII() {
         }
       }
 
-      if (!reducedMotion.matches) {
+      if (!reducedMotion.matches && !isMobile) {
         animationFrame = requestAnimationFrame(draw);
       }
     };
@@ -133,7 +137,9 @@ function GradientASCII() {
     resize();
     draw();
     window.addEventListener("resize", resize);
-    window.addEventListener("pointermove", handlePointerMove);
+    if (!isMobile) {
+      window.addEventListener("pointermove", handlePointerMove);
+    }
 
     return () => {
       cancelAnimationFrame(animationFrame);

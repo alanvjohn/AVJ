@@ -8,6 +8,7 @@ import { useFeatureSettings } from "../../config/FeatureSettingsContext";
 function Home() {
   const settings = useFeatureSettings();
   const heroBackground = settings?.heroBackground ?? "ascii";
+  const showProfileImage = typeof window === "undefined" || window.innerWidth > 767;
 
   return (
     <>
@@ -33,7 +34,17 @@ function Home() {
                   </div>
                 </div>
                 <div className='col-12 col-md-6 right' >
-                  <img src={Me} alt='Profile picture of Alan V John' className='me img-fluid w-75' fetchPriority='high' width="1200" height="1200"/>
+                  {showProfileImage && (
+                    <img
+                      src={Me}
+                      alt='Profile picture of Alan V John'
+                      className='me img-fluid w-75'
+                      fetchPriority='high'
+                      width="1200"
+                      height="1200"
+                      loading="eager"
+                    />
+                  )}
                   <div className="circle"></div>
                 </div>
               </div>
