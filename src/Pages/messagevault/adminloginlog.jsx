@@ -46,7 +46,14 @@ function AdminLoginLog() {
             limit(50)
           )
         );
-        setLoginLogs(snapshot.docs.map((loginDoc) => loginDoc.data()));
+        const logs = snapshot.docs
+          .map((loginDoc) => loginDoc.data())
+          .sort(
+            (first, second) =>
+              new Date(second.timestamp).getTime() -
+              new Date(first.timestamp).getTime()
+          );
+        setLoginLogs(logs);
         setError("");
       } catch (loadError) {
         console.error("Admin login log check failed:", loadError);
