@@ -38,6 +38,14 @@ function GradientASCII() {
     preset: settings?.asciiPreset ?? "atmosphere",
     characters: settings?.asciiCharacters ?? "classic",
     mouseInteraction: settings?.asciiMouseInteraction ?? true,
+    desktopCellSize: settings?.asciiDesktopCellSize ?? 10,
+    mobileCellSize: settings?.asciiMobileCellSize ?? 16,
+    desktopMouseInteraction: settings?.asciiDesktopMouseInteraction
+      ?? settings?.asciiMouseInteraction
+      ?? true,
+    mobileMouseInteraction: settings?.asciiMobileMouseInteraction
+      ?? settings?.asciiMouseInteraction
+      ?? true,
     intro: settings?.asciiIntro ?? false,
     lightMode: settings?.asciiLightMode ?? false,
   };
@@ -57,8 +65,12 @@ function GradientASCII() {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const mobileViewport = window.matchMedia("(max-width: 767px)");
     const isMobile = mobileViewport.matches;
-    const cellWidth = isMobile ? 16 : 10;
-    const cellHeight = isMobile ? 20 : 14;
+    const cellSize = isMobile ? ascii.mobileCellSize : ascii.desktopCellSize;
+    const cellWidth = cellSize;
+    const cellHeight = Math.round(cellSize * 1.4);
+    const pointerInteraction = isMobile
+      ? ascii.mobileMouseInteraction
+      : ascii.desktopMouseInteraction;
     let animationFrame;
     let width = 0;
     let height = 0;
@@ -132,7 +144,7 @@ function GradientASCII() {
 
     const updatePointer = (event) => {
       const bounds = canvas.getBoundingClientRect();
-      if (ascii.mouseInteraction && bounds.width && bounds.height) {
+      if (pointerInteraction && bounds.width && bounds.height) {
         pointer = {
           x: (event.clientX - bounds.left) / bounds.width,
           y: (event.clientY - bounds.top) / bounds.height,
@@ -152,7 +164,7 @@ function GradientASCII() {
       draw();
     }
     window.addEventListener("resize", resize);
-    if (ascii.mouseInteraction) {
+    if (pointerInteraction) {
       window.addEventListener("pointermove", updatePointer, { passive: true });
       window.addEventListener("pointerdown", updatePointer, { passive: true });
       window.addEventListener("pointerup", resetPointer);
@@ -173,6 +185,10 @@ function GradientASCII() {
     ascii.intro,
     ascii.lightMode,
     ascii.mouseInteraction,
+    ascii.desktopCellSize,
+    ascii.mobileCellSize,
+    ascii.desktopMouseInteraction,
+    ascii.mobileMouseInteraction,
     ascii.preset,
     ascii.characters,
   ]);

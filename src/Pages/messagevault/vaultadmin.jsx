@@ -484,10 +484,58 @@ function VaultAdmin() {
           <label className="admin-check-label">
             <input
               type="checkbox"
-              checked={settings.asciiMouseInteraction}
-              onChange={(event) => updateAsciiSetting("asciiMouseInteraction", event.target.checked)}
+              checked={settings.asciiDesktopMouseInteraction}
+              onChange={(event) => updateAsciiSetting("asciiDesktopMouseInteraction", event.target.checked)}
             />
-            Mouse interaction
+            Desktop mouse interaction
+          </label>
+          <label className="admin-check-label">
+            <input
+              type="checkbox"
+              checked={settings.asciiMobileMouseInteraction}
+              onChange={(event) => updateAsciiSetting("asciiMobileMouseInteraction", event.target.checked)}
+            />
+            Mobile touch interaction
+          </label>
+          <label className="admin-range-label">
+            <span>
+              <span>Desktop cell density</span>
+              <strong>{settings.asciiDesktopCellSize}px spacing</strong>
+            </span>
+            <input
+              type="range"
+              min="8"
+              max="24"
+              step="1"
+              value={settings.asciiDesktopCellSize}
+              onChange={(event) => updateAsciiSetting("asciiDesktopCellSize", Number(event.target.value))}
+            />
+          </label>
+          <label className="admin-range-label">
+            <span>
+              <span>Mobile cell density</span>
+              <strong>{settings.asciiMobileCellSize}px spacing</strong>
+            </span>
+            <input
+              type="range"
+              min="10"
+              max="32"
+              step="1"
+              value={settings.asciiMobileCellSize}
+              onChange={(event) => updateAsciiSetting("asciiMobileCellSize", Number(event.target.value))}
+            />
+          </label>
+          <label className="admin-check-label">
+            <input
+              type="checkbox"
+              checked={settings.asciiMouseInteraction}
+              onChange={(event) => {
+                updateAsciiSetting("asciiMouseInteraction", event.target.checked);
+                updateAsciiSetting("asciiDesktopMouseInteraction", event.target.checked);
+                updateAsciiSetting("asciiMobileMouseInteraction", event.target.checked);
+              }}
+            />
+            Enable both interactions
           </label>
           <label className="admin-check-label">
             <input

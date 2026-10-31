@@ -35,6 +35,10 @@ service cloud.firestore {
           'asciiPreset',
           'asciiCharacters',
           'asciiMouseInteraction',
+          'asciiDesktopCellSize',
+          'asciiMobileCellSize',
+          'asciiDesktopMouseInteraction',
+          'asciiMobileMouseInteraction',
           'asciiIntro',
           'asciiLightMode',
           'themeToastX',
@@ -65,6 +69,18 @@ service cloud.firestore {
           || request.resource.data.asciiCharacters in ['classic', 'letters', 'symbols'])
         && (!('asciiMouseInteraction' in request.resource.data)
           || request.resource.data.asciiMouseInteraction is bool)
+        && (!('asciiDesktopCellSize' in request.resource.data)
+          || (request.resource.data.asciiDesktopCellSize is number
+            && request.resource.data.asciiDesktopCellSize >= 8
+            && request.resource.data.asciiDesktopCellSize <= 24))
+        && (!('asciiMobileCellSize' in request.resource.data)
+          || (request.resource.data.asciiMobileCellSize is number
+            && request.resource.data.asciiMobileCellSize >= 10
+            && request.resource.data.asciiMobileCellSize <= 32))
+        && (!('asciiDesktopMouseInteraction' in request.resource.data)
+          || request.resource.data.asciiDesktopMouseInteraction is bool)
+        && (!('asciiMobileMouseInteraction' in request.resource.data)
+          || request.resource.data.asciiMobileMouseInteraction is bool)
         && (!('asciiIntro' in request.resource.data)
           || request.resource.data.asciiIntro is bool)
         && (!('asciiLightMode' in request.resource.data)
