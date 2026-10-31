@@ -125,7 +125,7 @@ function GradientASCII() {
     };
 
     const animateMobile = (time) => {
-      if (time - lastMobileDraw >= 50) {
+      if (time - lastMobileDraw >= 33) {
         lastMobileDraw = time;
         draw(time);
       }
