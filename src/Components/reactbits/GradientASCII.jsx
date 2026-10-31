@@ -98,9 +98,7 @@ function GradientASCII() {
           const glow = Math.max(0, 1 - distance * preset.multiplier) * glowStrength;
           const wave = reducedMotion.matches
             ? 0
-            : Math.sin(
-              time / (isMobile ? 2800 : 1600) + column * (isMobile ? 0.12 : 0.22)
-            ) * grain * (isMobile ? 0.65 : 1);
+            : Math.sin(time / 1800 + column * 0.16) * grain * (isMobile ? 0.45 : 1);
           const intensity = Math.max(
             0,
             Math.min(1, (glow + wave) * density + (ascii.intro ? 0.1 : 0))
@@ -136,15 +134,19 @@ function GradientASCII() {
       }
     };
 
-    const handlePointerMove = (event) => {
+    const updatePointer = (event) => {
       const bounds = canvas.getBoundingClientRect();
-      if (ascii.mouseInteraction) {
+      if (ascii.mouseInteraction && bounds.width && bounds.height) {
         pointer = {
           x: (event.clientX - bounds.left) / bounds.width,
           y: (event.clientY - bounds.top) / bounds.height,
           active: true,
         };
       }
+    };
+
+    const resetPointer = () => {
+      pointer = { x: 0.72, y: 0.45, active: false };
     };
 
     resize();
@@ -154,14 +156,20 @@ function GradientASCII() {
       draw();
     }
     window.addEventListener("resize", resize);
-    if (!isMobile) {
-      window.addEventListener("pointermove", handlePointerMove);
+    if (ascii.mouseInteraction) {
+      canvas.addEventListener("pointermove", updatePointer, { passive: true });
+      canvas.addEventListener("pointerdown", updatePointer, { passive: true });
+      canvas.addEventListener("pointerleave", resetPointer);
+      canvas.addEventListener("pointerup", resetPointer);
     }
 
     return () => {
       cancelAnimationFrame(animationFrame);
       window.removeEventListener("resize", resize);
-      window.removeEventListener("pointermove", handlePointerMove);
+      canvas.removeEventListener("pointermove", updatePointer);
+      canvas.removeEventListener("pointerdown", updatePointer);
+      canvas.removeEventListener("pointerleave", resetPointer);
+      canvas.removeEventListener("pointerup", resetPointer);
     };
   }, [
     ascii.intro,
