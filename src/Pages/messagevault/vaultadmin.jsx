@@ -206,7 +206,7 @@ function VaultAdmin() {
     };
   }, []);
 
-  const saveSettingsAndReload = async (nextSettings, message) => {
+  const saveSettings = async (nextSettings, message) => {
     setSaveError("");
     setSavedMessage("");
 
@@ -214,7 +214,6 @@ function VaultAdmin() {
       const savedSettings = await saveFeatureSettings(nextSettings);
       setSettings(savedSettings);
       setSavedMessage(message);
-      window.setTimeout(() => window.location.reload(), 500);
     } catch (error) {
       console.error("Unable to save site settings:", error);
       setSaveError(
@@ -226,28 +225,28 @@ function VaultAdmin() {
   };
 
   const updateFeature = async (feature) => {
-    await saveSettingsAndReload({
+    await saveSettings({
       ...settings,
       [feature]: !settings[feature],
-    }, "Saved. Refreshing this page to apply the change...");
+    }, "Saved and applied to active visitors.");
   };
 
   const resetFeatures = async () => {
-    await saveSettingsAndReload(defaultFeatureSettings, "Settings reset. Refreshing...");
+    await saveSettings(defaultFeatureSettings, "Settings reset and applied.");
   };
 
   const updateHeroBackground = async (event) => {
-    await saveSettingsAndReload({
+    await saveSettings({
       ...settings,
       heroBackground: event.target.value,
-    }, "Hero background saved. Refreshing...");
+    }, "Hero background saved and applied.");
   };
 
   const updateLoaderStyle = async (event) => {
-    await saveSettingsAndReload({
+    await saveSettings({
       ...settings,
       loaderStyle: event.target.value,
-    }, "Loader style saved. Refreshing...");
+    }, "Loader style saved and applied.");
   };
 
   const updateAsciiSetting = (key, value) => {
@@ -255,7 +254,7 @@ function VaultAdmin() {
   };
 
   const saveAsciiSettings = async () => {
-    await saveSettingsAndReload(settings, "Gradient ASCII settings saved. Refreshing...");
+    await saveSettings(settings, "Gradient ASCII settings saved and applied.");
   };
 
   const refreshVisitors = async () => {

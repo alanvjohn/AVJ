@@ -153,19 +153,21 @@ function GradientASCII() {
     }
     window.addEventListener("resize", resize);
     if (ascii.mouseInteraction) {
-      canvas.addEventListener("pointermove", updatePointer, { passive: true });
-      canvas.addEventListener("pointerdown", updatePointer, { passive: true });
-      canvas.addEventListener("pointerleave", resetPointer);
-      canvas.addEventListener("pointerup", resetPointer);
+      window.addEventListener("pointermove", updatePointer, { passive: true });
+      window.addEventListener("pointerdown", updatePointer, { passive: true });
+      window.addEventListener("pointerup", resetPointer);
+      window.addEventListener("pointercancel", resetPointer);
+      window.addEventListener("blur", resetPointer);
     }
 
     return () => {
       cancelAnimationFrame(animationFrame);
       window.removeEventListener("resize", resize);
-      canvas.removeEventListener("pointermove", updatePointer);
-      canvas.removeEventListener("pointerdown", updatePointer);
-      canvas.removeEventListener("pointerleave", resetPointer);
-      canvas.removeEventListener("pointerup", resetPointer);
+      window.removeEventListener("pointermove", updatePointer);
+      window.removeEventListener("pointerdown", updatePointer);
+      window.removeEventListener("pointerup", resetPointer);
+      window.removeEventListener("pointercancel", resetPointer);
+      window.removeEventListener("blur", resetPointer);
     };
   }, [
     ascii.intro,
