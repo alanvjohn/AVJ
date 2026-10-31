@@ -256,9 +256,12 @@
 .vault-admin-login-log {
   display: grid;
   gap: 0.75rem;
+  max-height: 20rem;
+  overflow-y: auto;
   margin: 0;
-  padding: 0;
+  padding: 0.25rem 0.75rem 0.25rem 0;
   list-style: none;
+  scrollbar-width: thin;
 }
 .vault-admin-login-log li {
   display: grid;
@@ -266,10 +269,13 @@
   align-items: center;
   gap: 1rem;
   padding: 1rem 0;
-  border-bottom: 1px solid rgba(127, 127, 127, 0.22);
+  border: 1px solid #dfe5f2;
+  border-radius: 0.75rem;
+  padding-inline: 1rem;
+  background: #f8faff;
 }
 .vault-admin-login-log li:first-child {
-  padding-top: 0;
+  padding-top: 1rem;
 }
 .vault-admin-login-log strong {
   overflow: hidden;
@@ -280,6 +286,10 @@
   color: #6b7280;
   font-size: 0.9rem;
   text-align: right;
+}
+.dark-theme .vault-admin-login-log li {
+  border-color: #363b48;
+  background: #242424;
 }
 .admin-login-log-page { display: grid; gap: 1rem; }
 .vault-admin-locked { max-width: 34rem; margin: 8rem auto; padding: 2rem; border-radius: 1.25rem; background: #fff; text-align: center; }
