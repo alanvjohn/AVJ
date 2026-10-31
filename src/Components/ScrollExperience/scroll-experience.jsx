@@ -13,6 +13,10 @@ function ScrollExperience() {
     ).matches;
     const featureSettings = getFeatureSettings();
     const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
+    if (coarsePointer || reducedMotion) {
+      return undefined;
+    }
+
     const lenis = new Lenis({
       autoRaf: false,
       lerp: coarsePointer ? 0.1 : 0.08,

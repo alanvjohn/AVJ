@@ -2,7 +2,13 @@ const ProjectCard = ({ title, description, imgSrc, link }) => {
   return (
 <div className='container'>
       <div className="card bg-auto" >
-        <img src={imgSrc} className="card-img-top" alt={title} />
+        <img
+          src={imgSrc}
+          className="card-img-top"
+          alt={title}
+          loading="lazy"
+          decoding="async"
+        />
         <div className="card-body">
           <h5 className="card-title">{title}</h5>
           <p className="card-text">{description}</p>

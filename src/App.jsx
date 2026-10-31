@@ -47,26 +47,47 @@ function App() {
     let isMounted = true;
     let hasReceivedInitialSnapshot = false;
     let lastRefreshValue = null;
+    let idleCallbackId;
+    let subscriptionTimer;
+    let unsubscribe = () => {};
 
-    const unsubscribe = subscribeFeatureSettings((settings) => {
-      setFeatureSettings(settings);
-    }, (refreshAt) => {
-      const refreshValue = refreshAt?.toMillis
-        ? refreshAt.toMillis()
-        : String(refreshAt);
-      if (hasReceivedInitialSnapshot && lastRefreshValue !== refreshValue) {
-        window.location.reload();
-      }
-      lastRefreshValue = refreshValue;
-      hasReceivedInitialSnapshot = true;
-    });
+    const startSettingsSync = () => {
+      if (!isMounted) return;
 
-    loadFeatureSettings().then((settings) => {
-      if (isMounted) setFeatureSettings(settings);
-    });
+      unsubscribe = subscribeFeatureSettings((settings) => {
+        if (isMounted) setFeatureSettings(settings);
+      }, (refreshAt) => {
+        const refreshValue = refreshAt?.toMillis
+          ? refreshAt.toMillis()
+          : String(refreshAt);
+        if (hasReceivedInitialSnapshot && lastRefreshValue !== refreshValue) {
+          window.location.reload();
+        }
+        lastRefreshValue = refreshValue;
+        hasReceivedInitialSnapshot = true;
+      });
+
+      loadFeatureSettings().then((settings) => {
+        if (isMounted) setFeatureSettings(settings);
+      });
+
+      return unsubscribe;
+    };
+
+    if ("requestIdleCallback" in window) {
+      idleCallbackId = window.requestIdleCallback(startSettingsSync, { timeout: 2500 });
+    } else {
+      subscriptionTimer = window.setTimeout(startSettingsSync, 1000);
+    }
 
     return () => {
       isMounted = false;
+      if (idleCallbackId !== undefined) {
+        window.cancelIdleCallback(idleCallbackId);
+      }
+      if (subscriptionTimer) {
+        window.clearTimeout(subscriptionTimer);
+      }
       unsubscribe();
     };
   }, []);
