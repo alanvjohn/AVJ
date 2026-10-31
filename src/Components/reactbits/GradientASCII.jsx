@@ -60,7 +60,6 @@ function GradientASCII() {
     const cellWidth = isMobile ? 24 : 15;
     const cellHeight = isMobile ? 28 : 18;
     let animationFrame;
-    let lastMobileDraw = 0;
     let width = 0;
     let height = 0;
     let columns = 0;
@@ -125,10 +124,7 @@ function GradientASCII() {
     };
 
     const animateMobile = (time) => {
-      if (time - lastMobileDraw >= 33) {
-        lastMobileDraw = time;
-        draw(time);
-      }
+      draw(time);
       if (isMobile && !reducedMotion.matches) {
         animationFrame = requestAnimationFrame(animateMobile);
       }
