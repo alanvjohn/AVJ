@@ -57,8 +57,8 @@ function GradientASCII() {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const mobileViewport = window.matchMedia("(max-width: 767px)");
     const isMobile = mobileViewport.matches;
-    const cellWidth = isMobile ? 24 : 15;
-    const cellHeight = isMobile ? 28 : 18;
+    const cellWidth = isMobile ? 16 : 10;
+    const cellHeight = isMobile ? 20 : 14;
     let animationFrame;
     let width = 0;
     let height = 0;
