@@ -54,7 +54,6 @@ export async function loadFeatureSettings() {
 
 export async function saveFeatureSettings(settings) {
   const nextSettings = { ...defaultFeatureSettings, ...settings };
-  localStorage.setItem(storageKey, JSON.stringify(nextSettings));
   await setDoc(doc(db, "siteSettings", "appearance"), {
     heroBackground: nextSettings.heroBackground,
     loaderStyle: nextSettings.loaderStyle,
@@ -71,6 +70,7 @@ export async function saveFeatureSettings(settings) {
     themeToastY: nextSettings.themeToastY,
     updatedAt: serverTimestamp(),
   });
+  localStorage.setItem(storageKey, JSON.stringify(nextSettings));
   return nextSettings;
 }
 

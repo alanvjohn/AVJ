@@ -209,6 +209,7 @@
 }
 .admin-check-label input { accent-color: #174ea6; }
 .ascii-save-button { justify-self: start; }
+.ascii-save-button:disabled { cursor: wait; opacity: 0.65; }
 .vault-admin-toast-settings {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

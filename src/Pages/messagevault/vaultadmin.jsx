@@ -65,6 +65,7 @@ function VaultAdmin() {
   const [settings, setSettings] = useState(getFeatureSettings);
   const [savedMessage, setSavedMessage] = useState("");
   const [saveError, setSaveError] = useState("");
+  const [isSaving, setIsSaving] = useState(false);
   const [loginLogs, setLoginLogs] = useState([]);
   const [diagnostics, setDiagnostics] = useState({
     score: "--",
@@ -209,6 +210,7 @@ function VaultAdmin() {
   const saveSettings = async (nextSettings, message) => {
     setSaveError("");
     setSavedMessage("");
+    setIsSaving(true);
 
     try {
       const savedSettings = await saveFeatureSettings(nextSettings);
@@ -219,8 +221,10 @@ function VaultAdmin() {
       setSaveError(
         error?.code === "permission-denied"
           ? "Firebase rejected this save. Publish the latest firestore.rules and confirm you are signed in as the admin account."
-          : "Unable to save site settings. Check the browser console and Firebase connection."
+          : `Unable to save site settings${error?.code ? ` (${error.code})` : ""}. Check the browser console and Firebase connection.`
       );
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -530,9 +534,13 @@ function VaultAdmin() {
               type="checkbox"
               checked={settings.asciiMouseInteraction}
               onChange={(event) => {
-                updateAsciiSetting("asciiMouseInteraction", event.target.checked);
-                updateAsciiSetting("asciiDesktopMouseInteraction", event.target.checked);
-                updateAsciiSetting("asciiMobileMouseInteraction", event.target.checked);
+                const enabled = event.target.checked;
+                setSettings((current) => ({
+                  ...current,
+                  asciiMouseInteraction: enabled,
+                  asciiDesktopMouseInteraction: enabled,
+                  asciiMobileMouseInteraction: enabled,
+                }));
               }}
             />
             Enable both interactions
@@ -553,9 +561,11 @@ function VaultAdmin() {
             />
             Light ink
           </label>
-          <button type="button" className="reset-features ascii-save-button" onClick={saveAsciiSettings}>
-            Save Gradient ASCII settings
+          <button type="button" className="reset-features ascii-save-button" onClick={saveAsciiSettings} disabled={isSaving}>
+            {isSaving ? "Saving..." : "Save Gradient ASCII settings"}
           </button>
+          {savedMessage && <p className="vault-admin-saved" role="status">{savedMessage}</p>}
+          {saveError && <p className="vault-admin-error" role="alert">{saveError}</p>}
         </section>
 
         <section className="vault-admin-toast-settings" aria-labelledby="toast-settings-title">
