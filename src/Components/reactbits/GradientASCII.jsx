@@ -60,6 +60,7 @@ function GradientASCII() {
     const cellWidth = isMobile ? 24 : 15;
     const cellHeight = isMobile ? 28 : 18;
     let animationFrame;
+    let lastMobileDraw = 0;
     let width = 0;
     let height = 0;
     let columns = 0;
@@ -95,9 +96,11 @@ function GradientASCII() {
             (y / height - pointer.y) * 0.8
           );
           const glow = Math.max(0, 1 - distance * preset.multiplier) * glowStrength;
-          const wave = reducedMotion.matches || isMobile
+          const wave = reducedMotion.matches
             ? 0
-            : Math.sin(time / 1600 + column * 0.22) * grain;
+            : Math.sin(
+              time / (isMobile ? 2800 : 1600) + column * (isMobile ? 0.12 : 0.22)
+            ) * grain * (isMobile ? 0.65 : 1);
           const intensity = Math.max(
             0,
             Math.min(1, (glow + wave) * density + (ascii.intro ? 0.1 : 0))
@@ -123,6 +126,16 @@ function GradientASCII() {
       }
     };
 
+    const animateMobile = (time) => {
+      if (time - lastMobileDraw >= 50) {
+        lastMobileDraw = time;
+        draw(time);
+      }
+      if (isMobile && !reducedMotion.matches) {
+        animationFrame = requestAnimationFrame(animateMobile);
+      }
+    };
+
     const handlePointerMove = (event) => {
       const bounds = canvas.getBoundingClientRect();
       if (ascii.mouseInteraction) {
@@ -135,7 +148,11 @@ function GradientASCII() {
     };
 
     resize();
-    draw();
+    if (isMobile && !reducedMotion.matches) {
+      animationFrame = requestAnimationFrame(animateMobile);
+    } else {
+      draw();
+    }
     window.addEventListener("resize", resize);
     if (!isMobile) {
       window.addEventListener("pointermove", handlePointerMove);
