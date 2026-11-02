@@ -99,7 +99,7 @@ function GradientASCII() {
 
     const resize = () => {
       const bounds = canvas.getBoundingClientRect();
-      const pixelRatio = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 2);
+      const pixelRatio = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 1.25);
       width = bounds.width;
       height = bounds.height;
       columns = Math.ceil(width / cellWidth);
@@ -164,14 +164,14 @@ function GradientASCII() {
         }
       }
 
-      if (!reducedMotion.matches && !isMobile) {
+      if (!reducedMotion.matches && !isMobile && !document.hidden) {
         animationFrame = requestAnimationFrame(draw);
       }
     };
 
     const animateMobile = (time) => {
       draw(time);
-      if (isMobile && !reducedMotion.matches) {
+      if (isMobile && !reducedMotion.matches && !document.hidden) {
         animationFrame = requestAnimationFrame(animateMobile);
       }
     };
@@ -198,6 +198,13 @@ function GradientASCII() {
       draw();
     }
     window.addEventListener("resize", resize);
+    const handleVisibility = () => {
+      cancelAnimationFrame(animationFrame);
+      if (!document.hidden && !reducedMotion.matches) {
+        animationFrame = requestAnimationFrame(isMobile ? animateMobile : draw);
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibility);
     if (pointerInteraction) {
       window.addEventListener("pointermove", updatePointer, { passive: true });
       window.addEventListener("pointerdown", updatePointer, { passive: true });
@@ -208,6 +215,7 @@ function GradientASCII() {
 
     return () => {
       cancelAnimationFrame(animationFrame);
+      document.removeEventListener("visibilitychange", handleVisibility);
       window.removeEventListener("resize", resize);
       window.removeEventListener("pointermove", updatePointer);
       window.removeEventListener("pointerdown", updatePointer);

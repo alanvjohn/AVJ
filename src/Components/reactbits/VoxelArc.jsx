@@ -56,7 +56,7 @@ function VoxelArc({
 
     const resize = () => {
       const bounds = canvas.getBoundingClientRect();
-      const ratio = Math.min(window.devicePixelRatio || 1, 2);
+      const ratio = Math.min(window.devicePixelRatio || 1, 1.25);
       width = Math.max(1, bounds.width);
       height = Math.max(1, bounds.height);
       canvas.width = Math.floor(width * ratio);
@@ -114,11 +114,11 @@ function VoxelArc({
 
       if (grain > 0) {
         context.fillStyle = `rgba(255,255,255,${grain * 0.025})`;
-        for (let index = 0; index < width * height * 0.00015; index += 1) {
-          context.fillRect(Math.random() * width, Math.random() * height, 1, 1);
+        for (let index = 0; index < width * height * 0.00004; index += 1) {
+          context.fillRect((index * 47) % width, (index * 83) % height, 1, 1);
         }
       }
-      if (!paused && !reducedMotion) frameId = requestAnimationFrame(draw);
+      if (!paused && !reducedMotion && !document.hidden) frameId = requestAnimationFrame(draw);
     };
 
     const handlePointer = (event) => {
@@ -131,12 +131,18 @@ function VoxelArc({
 
     resize();
     window.addEventListener("resize", resize);
+    const handleVisibility = () => {
+      cancelAnimationFrame(frameId);
+      if (!document.hidden && !paused && !reducedMotion) frameId = requestAnimationFrame(draw);
+    };
+    document.addEventListener("visibilitychange", handleVisibility);
     canvas.addEventListener("pointermove", handlePointer);
     canvas.addEventListener("pointerleave", clearPointer);
     draw(performance.now());
     return () => {
       cancelAnimationFrame(frameId);
       window.removeEventListener("resize", resize);
+      document.removeEventListener("visibilitychange", handleVisibility);
       canvas.removeEventListener("pointermove", handlePointer);
       canvas.removeEventListener("pointerleave", clearPointer);
     };

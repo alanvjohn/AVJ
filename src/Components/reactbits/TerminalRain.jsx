@@ -46,7 +46,6 @@ function TerminalRain({
     let height = 0;
     let columns = 0;
     let lastTime = performance.now();
-    const radians = angle * Math.PI / 180;
     const randomChar = () => characterSet[Math.floor(Math.random() * characterSet.length)] || "0";
     const resetStream = (stream, startAbove = false) => {
       stream.x = Math.floor(Math.random() * Math.max(1, columns));
@@ -57,7 +56,7 @@ function TerminalRain({
     };
     const resize = () => {
       const bounds = canvas.getBoundingClientRect();
-      const ratio = Math.min(window.devicePixelRatio || 1, 2) * Math.max(0.25, Math.min(1, resolution));
+      const ratio = Math.min(window.devicePixelRatio || 1, 1.25) * Math.max(0.25, Math.min(1, resolution));
       width = Math.max(1, bounds.width);
       height = Math.max(1, bounds.height);
       columns = Math.ceil(width / Math.max(10, fontSize * spacing));
@@ -91,7 +90,7 @@ function TerminalRain({
           const y = (stream.y - index) * fontSize;
           if (y < -fontSize || y > height + fontSize) continue;
           context.globalAlpha = Math.min(1, progress * intensity * (1 - depth * index / stream.length));
-          context.shadowBlur = index === 0 ? glow * 18 : glow * 5;
+          context.shadowBlur = index === 0 ? glow * 12 : 0;
           context.shadowColor = headColor;
           context.fillStyle = index === 0 ? headColor : trailColor;
           context.fillText(randomChar(), baseX, y);
@@ -101,7 +100,7 @@ function TerminalRain({
         context.shadowBlur = 0;
         if (stream.y * fontSize - stream.length * fontSize > height) resetStream(stream, true);
       });
-      if (!paused && !reducedMotion) frameId = requestAnimationFrame(draw);
+      if (!paused && !reducedMotion && !document.hidden) frameId = requestAnimationFrame(draw);
     };
     const handlePointer = (event) => {
       const bounds = canvas.getBoundingClientRect();
@@ -120,6 +119,11 @@ function TerminalRain({
 
     resize();
     window.addEventListener("resize", resize);
+    const handleVisibility = () => {
+      cancelAnimationFrame(frameId);
+      if (!document.hidden && !paused && !reducedMotion) frameId = requestAnimationFrame(draw);
+    };
+    document.addEventListener("visibilitychange", handleVisibility);
     canvas.addEventListener("pointermove", handlePointer);
     canvas.addEventListener("pointerdown", handlePointer);
     canvas.addEventListener("pointerleave", clearPointer);
@@ -127,6 +131,7 @@ function TerminalRain({
     return () => {
       cancelAnimationFrame(frameId);
       window.removeEventListener("resize", resize);
+      document.removeEventListener("visibilitychange", handleVisibility);
       canvas.removeEventListener("pointermove", handlePointer);
       canvas.removeEventListener("pointerdown", handlePointer);
       canvas.removeEventListener("pointerleave", clearPointer);
