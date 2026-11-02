@@ -37,7 +37,7 @@
 }
 .theme-toast-content {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 0.75rem;
   width: 100%;
   min-width: 0;
@@ -57,12 +57,16 @@
 }
 .theme-toast-content strong,
 .theme-toast-content small {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  display: block;
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  line-height: 1.25;
 }
 .theme-toast-content small { opacity: 0.72; }
 .theme-toast-content button {
+  align-self: flex-start;
   flex: 0 0 auto;
   border: 1px solid currentColor;
   border-radius: 999px;
