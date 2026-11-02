@@ -5,6 +5,7 @@ import Me from "../../assets/home/me.webp";
 import GradientASCII from "../../Components/reactbits/GradientASCII";
 import VoxelArc from "../../Components/reactbits/VoxelArc";
 import AstralShell from "../../Components/reactbits/AstralShell";
+import TerminalRain from "../../Components/reactbits/TerminalRain";
 import { useFeatureSettings } from "../../config/FeatureSettingsContext";
 
 function Home() {
@@ -20,8 +21,30 @@ function Home() {
             <div id="home" className={`home-page hero-background-${heroBackground}`}>
               {heroBackground !== "plain" && <div className="security-grid" aria-hidden="true" />}
               {heroBackground === "ascii" && <GradientASCII />}
-              {heroBackground === "voxel-arc" && <VoxelArc />}
-              {heroBackground === "astral-shell" && <AstralShell />}
+              {heroBackground === "voxel-arc" && (
+                <VoxelArc
+                  interactive={settings?.voxelArcInteractive}
+                  paused={settings?.voxelArcPaused}
+                />
+              )}
+              {heroBackground === "astral-shell" && (
+                <AstralShell
+                  interactive={settings?.astralShellInteractive}
+                  paused={settings?.astralShellPaused}
+                />
+              )}
+              {heroBackground === "terminal-rain" && (
+                <TerminalRain
+                  characters={settings?.terminalRainCharacters}
+                  trailLength={settings?.terminalRainTrailLength}
+                  speed={settings?.terminalRainSpeed}
+                  density={settings?.terminalRainDensity}
+                  glow={settings?.terminalRainGlow}
+                  interactive={settings?.terminalRainInteractive}
+                  cascade={settings?.terminalRainCascade}
+                  resolution={settings?.terminalRainResolution}
+                />
+              )}
               <div className='row homerow container-fluid reveal-on-scroll'>
                 <div className='col-sm-8 col-md-6 left'>
                   <p className="home-eyebrow">{settings?.heroEyebrow || "Technology · Learning · Building"}</p>

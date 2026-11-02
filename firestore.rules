@@ -35,6 +35,18 @@ service cloud.firestore {
           'cursor',
           'reactBitsCards',
           'heroBackground',
+          'voxelArcInteractive',
+          'voxelArcPaused',
+          'astralShellInteractive',
+          'astralShellPaused',
+          'terminalRainCharacters',
+          'terminalRainTrailLength',
+          'terminalRainSpeed',
+          'terminalRainDensity',
+          'terminalRainGlow',
+          'terminalRainInteractive',
+          'terminalRainCascade',
+          'terminalRainResolution',
           'loaderStyle',
           'asciiPreset',
           'asciiCharacters',
@@ -71,7 +83,39 @@ service cloud.firestore {
           'updatedAt'
         ])
         && (!('heroBackground' in request.resource.data)
-          || request.resource.data.heroBackground in ['ascii', 'voxel-arc', 'astral-shell', 'grid', 'plain'])
+          || request.resource.data.heroBackground in ['ascii', 'voxel-arc', 'terminal-rain', 'astral-shell', 'grid', 'plain'])
+        && (!('voxelArcInteractive' in request.resource.data) || request.resource.data.voxelArcInteractive is bool)
+        && (!('voxelArcPaused' in request.resource.data) || request.resource.data.voxelArcPaused is bool)
+        && (!('astralShellInteractive' in request.resource.data) || request.resource.data.astralShellInteractive is bool)
+        && (!('astralShellPaused' in request.resource.data) || request.resource.data.astralShellPaused is bool)
+        && (!('terminalRainCharacters' in request.resource.data)
+          || (request.resource.data.terminalRainCharacters is string
+            && request.resource.data.terminalRainCharacters.size() >= 2
+            && request.resource.data.terminalRainCharacters.size() <= 64))
+        && (!('terminalRainTrailLength' in request.resource.data)
+          || (request.resource.data.terminalRainTrailLength is number
+            && request.resource.data.terminalRainTrailLength >= 4
+            && request.resource.data.terminalRainTrailLength <= 32))
+        && (!('terminalRainSpeed' in request.resource.data)
+          || (request.resource.data.terminalRainSpeed is number
+            && request.resource.data.terminalRainSpeed >= 0.2
+            && request.resource.data.terminalRainSpeed <= 2))
+        && (!('terminalRainDensity' in request.resource.data)
+          || (request.resource.data.terminalRainDensity is number
+            && request.resource.data.terminalRainDensity >= 0.1
+            && request.resource.data.terminalRainDensity <= 1))
+        && (!('terminalRainGlow' in request.resource.data)
+          || (request.resource.data.terminalRainGlow is number
+            && request.resource.data.terminalRainGlow >= 0
+            && request.resource.data.terminalRainGlow <= 1))
+        && (!('terminalRainInteractive' in request.resource.data)
+          || request.resource.data.terminalRainInteractive is bool)
+        && (!('terminalRainCascade' in request.resource.data)
+          || request.resource.data.terminalRainCascade is bool)
+        && (!('terminalRainResolution' in request.resource.data)
+          || (request.resource.data.terminalRainResolution is number
+            && request.resource.data.terminalRainResolution >= 0.25
+            && request.resource.data.terminalRainResolution <= 1))
         && (!('lenis' in request.resource.data) || request.resource.data.lenis is bool)
         && (!('revealAnimations' in request.resource.data) || request.resource.data.revealAnimations is bool)
         && (!('cursor' in request.resource.data) || request.resource.data.cursor is bool)

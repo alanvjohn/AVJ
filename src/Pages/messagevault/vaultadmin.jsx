@@ -13,6 +13,7 @@ import TiltedCard from "../../Components/reactbits/TiltedCard";
 import GradientASCII from "../../Components/reactbits/GradientASCII";
 import VoxelArc from "../../Components/reactbits/VoxelArc";
 import AstralShell from "../../Components/reactbits/AstralShell";
+import TerminalRain from "../../Components/reactbits/TerminalRain";
 import {
   defaultFeatureSettings,
   getFeatureSettings,
@@ -51,6 +52,7 @@ const toolkitStyleOptions = [
 const heroBackgroundOptions = [
   ["ascii", "ASCII gradient", "Animated characters that respond to the pointer."],
   ["voxel-arc", "Voxel Arc", "A rolling pixel-wave horizon with pointer wake interaction."],
+  ["terminal-rain", "Terminal Rain", "Layered glowing glyphs falling in columns with optional click cascades."],
   ["astral-shell", "Astral Shell", "A rotating connected-star globe with pointer highlights."],
   ["grid", "Grid only", "A quiet technical grid without the ASCII animation."],
   ["plain", "Plain", "No decorative hero background."],
@@ -427,7 +429,7 @@ function VaultAdmin() {
           ))}
         </section>
 
-        <section className="vault-admin-settings" aria-labelledby="hero-settings-title">
+        <section className="vault-admin-settings vault-admin-background-settings" aria-labelledby="hero-settings-title">
           <div>
             <p className="vault-admin-eyebrow">Site appearance</p>
             <h2 id="hero-settings-title">Hero background</h2>
@@ -456,14 +458,109 @@ function VaultAdmin() {
             <div className="admin-ascii-live-preview">
               <FeatureSettingsContext.Provider value={settings}>
                 {settings.heroBackground === "voxel-arc"
-                  ? <VoxelArc />
+                  ? <VoxelArc interactive={settings.voxelArcInteractive} paused={settings.voxelArcPaused} />
+                  : settings.heroBackground === "terminal-rain"
+                    ? <TerminalRain
+                      characters={settings.terminalRainCharacters}
+                      trailLength={settings.terminalRainTrailLength}
+                      speed={settings.terminalRainSpeed}
+                      density={settings.terminalRainDensity}
+                      glow={settings.terminalRainGlow}
+                      interactive={settings.terminalRainInteractive}
+                      cascade={settings.terminalRainCascade}
+                      resolution={settings.terminalRainResolution}
+                    />
                   : settings.heroBackground === "astral-shell"
-                    ? <AstralShell />
+                    ? <AstralShell interactive={settings.astralShellInteractive} paused={settings.astralShellPaused} />
                     : settings.heroBackground === "ascii"
                       ? <GradientASCII />
                       : <div className={`admin-static-background admin-static-background-${settings.heroBackground}`} />}
               </FeatureSettingsContext.Provider>
             </div>
+            {settings.heroBackground === "terminal-rain" && (
+              <div className="admin-background-controls">
+                <label className="admin-select-label">
+                  Rain characters
+                  <input
+                    value={settings.terminalRainCharacters}
+                    maxLength={64}
+                    onChange={(event) => updateAsciiSetting("terminalRainCharacters", event.target.value.replace(/[\r\n]/g, ""))}
+                  />
+                </label>
+                <label className="admin-range-label">
+                  <span><span>Trail length</span><strong>{settings.terminalRainTrailLength}</strong></span>
+                  <input type="range" min="4" max="32" step="1" value={settings.terminalRainTrailLength}
+                    onChange={(event) => updateAsciiSetting("terminalRainTrailLength", Number(event.target.value))} />
+                </label>
+                <label className="admin-range-label">
+                  <span><span>Rain speed</span><strong>{settings.terminalRainSpeed.toFixed(1)}×</strong></span>
+                  <input type="range" min="0.2" max="2" step="0.1" value={settings.terminalRainSpeed}
+                    onChange={(event) => updateAsciiSetting("terminalRainSpeed", Number(event.target.value))} />
+                </label>
+                <label className="admin-range-label">
+                  <span><span>Column density</span><strong>{Math.round(settings.terminalRainDensity * 100)}%</strong></span>
+                  <input type="range" min="0.1" max="1" step="0.05" value={settings.terminalRainDensity}
+                    onChange={(event) => updateAsciiSetting("terminalRainDensity", Number(event.target.value))} />
+                </label>
+                <label className="admin-range-label">
+                  <span><span>Glow</span><strong>{settings.terminalRainGlow.toFixed(2)}</strong></span>
+                  <input type="range" min="0" max="1" step="0.05" value={settings.terminalRainGlow}
+                    onChange={(event) => updateAsciiSetting("terminalRainGlow", Number(event.target.value))} />
+                </label>
+                <label className="admin-range-label">
+                  <span><span>Resolution</span><strong>{Math.round(settings.terminalRainResolution * 100)}%</strong></span>
+                  <input type="range" min="0.25" max="1" step="0.05" value={settings.terminalRainResolution}
+                    onChange={(event) => updateAsciiSetting("terminalRainResolution", Number(event.target.value))} />
+                </label>
+                <label className="admin-check-label">
+                  <input type="checkbox" checked={settings.terminalRainInteractive}
+                    onChange={(event) => updateAsciiSetting("terminalRainInteractive", event.target.checked)} />
+                  Pointer slowdown
+                </label>
+                <label className="admin-check-label">
+                  <input type="checkbox" checked={settings.terminalRainCascade}
+                    onChange={(event) => updateAsciiSetting("terminalRainCascade", event.target.checked)} />
+                  Click cascades
+                </label>
+                <button type="button" className="reset-features ascii-save-button" onClick={() => saveSettings(settings, "Background settings saved and applied.")} disabled={isSaving}>
+                  {isSaving ? "Saving..." : "Save background settings"}
+                </button>
+              </div>
+            )}
+            {settings.heroBackground === "voxel-arc" && (
+              <div className="admin-background-controls admin-background-controls-single">
+                <label className="admin-check-label">
+                  <input type="checkbox" checked={settings.voxelArcInteractive}
+                    onChange={(event) => updateAsciiSetting("voxelArcInteractive", event.target.checked)} />
+                  Pointer wake interaction
+                </label>
+                <label className="admin-check-label">
+                  <input type="checkbox" checked={settings.voxelArcPaused}
+                    onChange={(event) => updateAsciiSetting("voxelArcPaused", event.target.checked)} />
+                  Pause animation
+                </label>
+                <button type="button" className="reset-features ascii-save-button" onClick={() => saveSettings(settings, "Voxel Arc settings saved and applied.")} disabled={isSaving}>
+                  {isSaving ? "Saving..." : "Save Voxel Arc settings"}
+                </button>
+              </div>
+            )}
+            {settings.heroBackground === "astral-shell" && (
+              <div className="admin-background-controls admin-background-controls-single">
+                <label className="admin-check-label">
+                  <input type="checkbox" checked={settings.astralShellInteractive}
+                    onChange={(event) => updateAsciiSetting("astralShellInteractive", event.target.checked)} />
+                  Pointer highlight interaction
+                </label>
+                <label className="admin-check-label">
+                  <input type="checkbox" checked={settings.astralShellPaused}
+                    onChange={(event) => updateAsciiSetting("astralShellPaused", event.target.checked)} />
+                  Pause rotation
+                </label>
+                <button type="button" className="reset-features ascii-save-button" onClick={() => saveSettings(settings, "Astral Shell settings saved and applied.")} disabled={isSaving}>
+                  {isSaving ? "Saving..." : "Save Astral Shell settings"}
+                </button>
+              </div>
+            )}
           </div>
         </section>
 

@@ -172,6 +172,12 @@
   border-radius: 1rem;
   background: #fff;
 }
+.vault-admin-background-settings {
+  grid-template-columns: minmax(0, 1fr);
+}
+.vault-admin-background-settings > * {
+  width: min(100%, 56rem);
+}
 .vault-admin-settings h2 { margin: 0 0 0.35rem; color: #17213a; font-size: 1.2rem; }
 .vault-admin-settings p { margin: 0; color: #5b6680; font-family: "Satoshi Variable"; }
 .admin-select-label {
@@ -232,6 +238,21 @@
   background-size: 2rem 2rem;
 }
 .admin-static-background-plain { background: #121212; }
+.admin-background-controls {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  padding-top: 0.5rem;
+}
+.admin-background-controls .admin-select-label,
+.admin-background-controls .admin-range-label,
+.admin-background-controls .admin-check-label,
+.admin-background-controls .ascii-save-button {
+  width: 100%;
+}
+.admin-background-controls-single {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
 .vault-admin-ascii-settings {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -452,6 +473,7 @@
   .admin-diagnostics-details { grid-template-columns: 1fr; }
   .vault-admin-grid { grid-template-columns: 1fr; }
   .vault-admin-settings { grid-template-columns: 1fr; }
+  .admin-background-controls { grid-template-columns: 1fr; }
   .vault-admin-ascii-settings { grid-template-columns: 1fr; }
   .vault-admin-ascii-heading { grid-column: auto; }
   .admin-card-preview { align-self: center; }
