@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import "./home.css";
 import Me from "../../assets/home/me.webp";
 import GradientASCII from "../../Components/reactbits/GradientASCII";
+import VoxelArc from "../../Components/reactbits/VoxelArc";
+import AstralShell from "../../Components/reactbits/AstralShell";
 import { useFeatureSettings } from "../../config/FeatureSettingsContext";
 
 function Home() {
@@ -18,6 +20,8 @@ function Home() {
             <div id="home" className={`home-page hero-background-${heroBackground}`}>
               {heroBackground !== "plain" && <div className="security-grid" aria-hidden="true" />}
               {heroBackground === "ascii" && <GradientASCII />}
+              {heroBackground === "voxel-arc" && <VoxelArc />}
+              {heroBackground === "astral-shell" && <AstralShell />}
               <div className='row homerow container-fluid reveal-on-scroll'>
                 <div className='col-sm-8 col-md-6 left'>
                   <p className="home-eyebrow">{settings?.heroEyebrow || "Technology · Learning · Building"}</p>

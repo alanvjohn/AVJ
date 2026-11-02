@@ -69,7 +69,7 @@ service cloud.firestore {
           'updatedAt'
         ])
         && (!('heroBackground' in request.resource.data)
-          || request.resource.data.heroBackground in ['ascii', 'grid', 'plain'])
+          || request.resource.data.heroBackground in ['ascii', 'voxel-arc', 'astral-shell', 'grid', 'plain'])
         && (!('lenis' in request.resource.data) || request.resource.data.lenis is bool)
         && (!('revealAnimations' in request.resource.data) || request.resource.data.revealAnimations is bool)
         && (!('cursor' in request.resource.data) || request.resource.data.cursor is bool)

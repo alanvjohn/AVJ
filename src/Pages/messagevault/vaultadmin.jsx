@@ -11,6 +11,8 @@ import {
 } from "../contact/firebase";
 import TiltedCard from "../../Components/reactbits/TiltedCard";
 import GradientASCII from "../../Components/reactbits/GradientASCII";
+import VoxelArc from "../../Components/reactbits/VoxelArc";
+import AstralShell from "../../Components/reactbits/AstralShell";
 import {
   defaultFeatureSettings,
   getFeatureSettings,
@@ -41,6 +43,8 @@ const motionPresetOptions = [
 
 const heroBackgroundOptions = [
   ["ascii", "ASCII gradient", "Animated characters that respond to the pointer."],
+  ["voxel-arc", "Voxel Arc", "A rolling pixel-wave horizon with pointer wake interaction."],
+  ["astral-shell", "Astral Shell", "A rotating connected-star globe with pointer highlights."],
   ["grid", "Grid only", "A quiet technical grid without the ASCII animation."],
   ["plain", "Plain", "No decorative hero background."],
 ];
@@ -702,7 +706,7 @@ function VaultAdmin() {
           {saveError && <p className="vault-admin-error" role="alert">{saveError}</p>}
           <div className="admin-ascii-live-preview" aria-label="Live ASCII preview">
             <FeatureSettingsContext.Provider value={settings}>
-              <GradientASCII />
+              {settings.heroBackground === "voxel-arc" ? <VoxelArc /> : settings.heroBackground === "astral-shell" ? <AstralShell /> : <GradientASCII />}
             </FeatureSettingsContext.Provider>
           </div>
         </section>
