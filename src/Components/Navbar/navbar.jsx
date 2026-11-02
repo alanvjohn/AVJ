@@ -1,15 +1,59 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import './navbar.css';
 import ThemeContext from '../custom/Theme';
+import { useFeatureSettings } from '../../config/FeatureSettingsContext';
+import toast, { Toaster } from 'react-hot-toast';
+
+const THEME_TOAST_ID = 'avj-theme-toast';
+const THEME_TOASTER_ID = 'theme-notifications';
 
 function NavScrollExample() {
   const location = useLocation();
   const currentPath = location.pathname;
-  const { toggleTheme } = useContext(ThemeContext);
+  const { theme, toggleTheme } = useContext(ThemeContext);
+  const featureSettings = useFeatureSettings() || {};
+  const toastContainerStyle = {
+    top: `${Number(featureSettings.themeToastY ?? 72)}px`,
+    left: `${Number(featureSettings.themeToastX ?? 16)}px`,
+    right: 'auto',
+  };
+
+  useEffect(() => {
+    if (currentPath !== '/') return undefined;
+
+    toast.dismiss(THEME_TOAST_ID);
+    const isDark = theme === 'dark';
+    toast((t) => (
+      <div className="theme-toast-content">
+        <span className="theme-toast-emoji" aria-hidden="true">{isDark ? '🌙' : '🦇'}</span>
+        <span>
+          <strong>{isDark ? 'Welcome to the dark side!' : 'Light mode unlocked!'}</strong>
+          <small>{isDark ? 'Your pixels are now working undercover.' : 'Tap AVJ if you want to enter the dark side.'}</small>
+        </span>
+        <button type="button" onClick={() => { toast.dismiss(t.id); toggleTheme(); }}>
+          {isDark ? 'Go light' : 'Switch'}
+        </button>
+      </div>
+    ), {
+      id: THEME_TOAST_ID,
+      toasterId: THEME_TOASTER_ID,
+      duration: 3000,
+      position: 'top-left',
+      style: {
+        backgroundColor: isDark ? '#fff' : '#1f1f1f',
+        color: isDark ? '#000' : '#fff',
+        padding: '0.85rem 1rem',
+        width: 'min(32rem, calc(100vw - 2rem))',
+        minWidth: 0,
+      },
+    });
+
+    return () => toast.dismiss(THEME_TOAST_ID);
+  }, [currentPath, theme, toggleTheme]);
 
   return (
     <Navbar expand="md" className="bg-auto m-1 border-bottom border-3 navbar ">
@@ -39,7 +83,8 @@ function NavScrollExample() {
           </Nav>
         </Navbar.Collapse>
       </Container>
-    </Navbar>    
+      <Toaster toasterId={THEME_TOASTER_ID} containerStyle={toastContainerStyle} />
+    </Navbar>
   );
 }
 
