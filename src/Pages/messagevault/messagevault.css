@@ -52,19 +52,52 @@
   gap: 0.75rem;
 }
 
-.vault-header-actions a {
+.vault-header-actions a,
+.vault-header-actions button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.65rem 1rem;
+  border: 1px solid #c9d3e8;
+  border-radius: 999px;
+  background: transparent;
   color: #174ea6;
   font-family: "Satoshi Variable";
   font-weight: 600;
   text-decoration: none;
+  cursor: pointer;
 }
 
-.vault-header-actions a:hover {
-  text-decoration: underline;
+.vault-header-actions a:hover,
+.vault-header-actions button:hover {
+  border-color: #174ea6;
+  background: #eef4ff;
 }
 
-.dark-theme .vault-header-actions a {
+.dark-theme .vault-header-actions a,
+.dark-theme .vault-header-actions button {
+  border-color: #53617e;
+  background: #242424;
   color: #8bb9ff;
+}
+
+.dark-theme .vault-header-actions a:hover,
+.dark-theme .vault-header-actions button:hover {
+  border-color: #8bb9ff;
+  background: #303b52;
+}
+
+@media (max-width: 700px) {
+  .vault-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .vault-header-actions {
+    align-self: flex-end;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
 }
 
 .vault-list ul {

@@ -44,7 +44,13 @@
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
-.vault-admin-actions { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+.vault-admin-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
 .vault-admin-actions button,
 .reset-features,
 .vault-admin-button {
@@ -344,6 +350,10 @@
 .dark-theme .reset-features { border-color: #53617e; color: #8bb9ff; }
 @media (max-width: 700px) {
   .vault-admin-header, .vault-admin-preview { align-items: stretch; flex-direction: column; }
+  .vault-admin-actions {
+    align-self: flex-end;
+    justify-content: flex-end;
+  }
   .admin-diagnostics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .admin-diagnostics-heading { grid-column: 1 / -1; }
   .admin-diagnostics-details { grid-template-columns: 1fr; }
