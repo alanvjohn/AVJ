@@ -24,21 +24,14 @@ function ScrollExperience() {
     };
     const motion = motionPresets[featureSettings.motionPreset] || motionPresets.cyber;
     const lenis = new Lenis({
-      autoRaf: false,
-      lerp: Number(featureSettings.lenisLerp ?? (coarsePointer ? 0.1 : 0.08)),
+      autoRaf: true,
+      lerp: Number(featureSettings.lenisLerp ?? (coarsePointer ? 0.1 : 0.12)),
       smoothWheel: Boolean(featureSettings.lenis && featureSettings.lenisSmoothWheel && !coarsePointer),
       syncTouch: Boolean(featureSettings.lenisSyncTouch && coarsePointer),
       wheelMultiplier: Number(featureSettings.lenisWheelMultiplier ?? 1),
       touchMultiplier: Number(featureSettings.lenisTouchMultiplier ?? 1),
     });
     lenis.on("scroll", ScrollTrigger.update);
-
-    const animateScroll = (time) => {
-      lenis.raf(time * 1000);
-    };
-
-    gsap.ticker.add(animateScroll);
-    gsap.ticker.lagSmoothing(0);
 
     const revealContext = gsap.context(() => {
       if (!reducedMotion && featureSettings.revealAnimations) {
@@ -63,7 +56,6 @@ function ScrollExperience() {
     });
 
     return () => {
-      gsap.ticker.remove(animateScroll);
       revealContext.revert();
       lenis.off("scroll", ScrollTrigger.update);
       lenis.destroy();
