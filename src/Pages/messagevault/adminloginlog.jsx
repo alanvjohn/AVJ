@@ -109,8 +109,14 @@ function AdminLoginLog() {
             <ul className="vault-admin-login-log">
               {loginLogs.map((login, index) => (
                 <li key={`${login.timestamp}-${index}`}>
-                  <strong>{login.email}</strong>
-                  <span>{new Date(login.timestamp).toLocaleString()}</span>
+                  <span className="login-activity-dot" aria-hidden="true" />
+                  <div className="login-activity-details">
+                    <strong>Successful administrator sign-in</strong>
+                    <small>{login.email}</small>
+                  </div>
+                  <time dateTime={login.timestamp}>
+                    {new Date(login.timestamp).toLocaleString()}
+                  </time>
                 </li>
               ))}
             </ul>

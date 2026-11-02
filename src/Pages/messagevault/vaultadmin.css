@@ -6,14 +6,6 @@
 }
 
 .vault-admin-shell { max-width: 1050px; margin: 0 auto; }
-.vault-admin-login-log li {
-  grid-template-columns: 1fr;
-  gap: 0.35rem;
-}
-
-.vault-admin-login-log span {
-  text-align: left;
-}
 
 .vault-admin-header,
 .vault-admin-preview {
@@ -261,7 +253,7 @@
 .vault-admin-error { margin-top: 1rem !important; color: #b42318 !important; font-size: 0.9rem; }
 .vault-admin-login-log {
   display: grid;
-  gap: 0.75rem;
+  gap: 0.5rem;
   max-height: 20rem;
   overflow-y: auto;
   margin: 0;
@@ -271,10 +263,11 @@
 }
 .vault-admin-login-log li {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
-  gap: 1rem;
-  padding: 1rem 0;
+  gap: 0.75rem;
+  min-height: 3.75rem;
+  padding: 0.75rem 1rem;
   border: 1px solid #dfe5f2;
   border-radius: 0.75rem;
   padding-inline: 1rem;
@@ -284,20 +277,48 @@
   padding-top: 1rem;
 }
 .vault-admin-login-log strong {
+  display: block;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.vault-admin-login-log span {
+.login-activity-dot {
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 50%;
+  background: #2da44e;
+  box-shadow: 0 0 0 3px rgba(45, 164, 78, 0.14);
+}
+.login-activity-details {
+  display: grid;
+  gap: 0.15rem;
+  min-width: 0;
+}
+.login-activity-details small,
+.vault-admin-login-log time {
   color: #6b7280;
   font-size: 0.9rem;
+}
+.vault-admin-login-log time {
   text-align: right;
+  white-space: nowrap;
 }
 .dark-theme .vault-admin-login-log li {
   border-color: #363b48;
   background: #242424;
 }
-.admin-login-log-page { display: grid; gap: 1rem; }
+.dark-theme .login-activity-details small,
+.dark-theme .vault-admin-login-log time {
+  color: #9da9bd;
+}
+.admin-login-log-page {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+.admin-login-log-page .vault-admin-login-log {
+  grid-column: 1 / -1;
+}
 .vault-admin-locked { max-width: 34rem; margin: 8rem auto; padding: 2rem; border-radius: 1.25rem; background: #fff; text-align: center; }
 .dark-theme .vault-admin-page { background: #121212; color: #fff; }
 .dark-theme .vault-admin-header,
@@ -363,4 +384,11 @@
   .vault-admin-toast-settings { grid-template-columns: 1fr; }
   .vault-admin-ascii-heading { grid-column: auto; }
   .admin-card-preview { align-self: center; }
+  .vault-admin-login-log li {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+  .vault-admin-login-log time {
+    grid-column: 2;
+    text-align: left;
+  }
 }
