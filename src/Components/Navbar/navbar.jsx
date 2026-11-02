@@ -8,6 +8,8 @@ import ThemeContext from '../custom/Theme';
 import { useFeatureSettings } from '../../config/FeatureSettingsContext';
 import toast, { Toaster } from 'react-hot-toast';
 
+const THEME_TOAST_ID = 'avj-theme-toast';
+
 function NavScrollExample() {
   const location = useLocation();
   const currentPath = location.pathname;
@@ -19,7 +21,7 @@ function NavScrollExample() {
     right: 'auto',
   };
   const onPageLoad = (currentTheme) => {
-    toast.dismiss();
+    toast.dismiss(THEME_TOAST_ID);
     if (currentTheme === 'light') {
       toast((t) => (
         <div className="theme-toast-content">
@@ -33,6 +35,7 @@ function NavScrollExample() {
           </button>
         </div>
       ), {
+        id: THEME_TOAST_ID,
         duration: 3000,
         position: 'top-left',
         style: {
@@ -57,6 +60,7 @@ function NavScrollExample() {
           </button>
         </div>
       ), {
+        id: THEME_TOAST_ID,
         duration: 3000,
         position: 'top-left',
         style: {
