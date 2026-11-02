@@ -92,6 +92,18 @@ const asciiColorOptions = [
   ["cyber", "Cyber neon"],
   ["ember", "Ember"],
 ];
+const astralShellPresets = {
+  violet: { background: "#0a0a0a", networkColor: "#7c6bff", highlightColor: "#ffe6fa" },
+  cyan: { background: "#061014", networkColor: "#40d9ff", highlightColor: "#e5fbff" },
+  mono: { background: "#090909", networkColor: "#a7adb7", highlightColor: "#ffffff" },
+  rose: { background: "#14070d", networkColor: "#ff5f9e", highlightColor: "#ffe6f1" },
+  ink: { background: "#020307", networkColor: "#60708d", highlightColor: "#d8e6ff" },
+  lilac: { background: "#100b18", networkColor: "#a875ff", highlightColor: "#f4eaff" },
+};
+const astralShellPresetOptions = Object.keys(astralShellPresets).map((value) => [
+  value,
+  value[0].toUpperCase() + value.slice(1),
+]);
 const accentOptions = [
   ["blue", "AVJ blue"],
   ["cyan", "Cyber cyan"],
@@ -482,11 +494,31 @@ function VaultAdmin() {
                   : settings.heroBackground === "astral-shell"
                     ? <AstralShell
                       interactive={settings.astralShellInteractive}
+                      draggable={settings.astralShellDraggable}
+                      clickPulse={settings.astralShellClickPulse}
                       paused={settings.astralShellPaused}
+                      backgroundColor={settings.astralShellBackground}
+                      networkColor={settings.astralShellNetworkColor}
+                      highlightColor={settings.astralShellHighlightColor}
                       pointCount={settings.astralShellPointCount}
+                      connections={settings.astralShellConnections}
+                      reach={settings.astralShellReach}
+                      clustering={settings.astralShellClustering}
+                      chords={settings.astralShellChords}
+                      radius={settings.astralShellRadius}
+                      originX={settings.astralShellOriginX}
+                      originY={settings.astralShellOriginY}
                       rotationSpeed={settings.astralShellRotationSpeed}
                       globeScale={settings.astralShellScale}
+                      nodeSize={settings.astralShellNodeSize}
+                      depthFade={settings.astralShellDepthFade}
                       lineOpacity={settings.astralShellLineOpacity}
+                      spin={settings.astralShellSpin}
+                      tilt={settings.astralShellTilt}
+                      hoverRadius={settings.astralShellHoverRadius}
+                      hoverBoost={settings.astralShellHoverBoost}
+                      pulseSpeed={settings.astralShellPulseSpeed}
+                      seed={settings.astralShellSeed}
                     />
                     : settings.heroBackground === "ascii"
                       ? <GradientASCII />
@@ -576,36 +608,80 @@ function VaultAdmin() {
               </div>
             )}
             {settings.heroBackground === "astral-shell" && (
-              <div className="admin-background-controls admin-background-controls-single">
+              <div className="admin-background-controls admin-background-controls-grid">
+                <label className="admin-select-label">
+                  Preset
+                  <select
+                    value={settings.astralShellPreset}
+                    onChange={(event) => {
+                      const preset = event.target.value;
+                      setSettings((current) => ({
+                        ...current,
+                        astralShellPreset: preset,
+                        astralShellBackground: astralShellPresets[preset].background,
+                        astralShellNetworkColor: astralShellPresets[preset].networkColor,
+                        astralShellHighlightColor: astralShellPresets[preset].highlightColor,
+                      }));
+                    }}
+                  >
+                    {astralShellPresetOptions.map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+                  </select>
+                </label>
+                {[
+                  ["astralShellBackground", "Background", "color"],
+                  ["astralShellNetworkColor", "Network", "color"],
+                  ["astralShellHighlightColor", "Highlight", "color"],
+                ].map(([key, label, type]) => (
+                  <label className="admin-select-label" key={key}>
+                    {label}
+                    <input type={type} value={settings[key]}
+                      onChange={(event) => updateAsciiSetting(key, event.target.value)} />
+                  </label>
+                ))}
+                {[
+                  ["astralShellPointCount", "Nodes", 100, 2400, 100, (value) => value],
+                  ["astralShellConnections", "Connections", 1, 8, 1, (value) => value],
+                  ["astralShellReach", "Reach", 0.05, 0.5, 0.01, (value) => value.toFixed(2)],
+                  ["astralShellClustering", "Clustering", 0, 1, 0.05, (value) => value.toFixed(2)],
+                  ["astralShellChords", "Chords", 0, 1, 0.05, (value) => value.toFixed(2)],
+                  ["astralShellRadius", "Radius", 0.2, 0.8, 0.01, (value) => value.toFixed(2)],
+                  ["astralShellOriginX", "Origin X", 0.1, 0.9, 0.01, (value) => value.toFixed(2)],
+                  ["astralShellOriginY", "Origin Y", 0.1, 0.9, 0.01, (value) => value.toFixed(2)],
+                  ["astralShellLineOpacity", "Line opacity", 0, 1, 0.05, (value) => value.toFixed(2)],
+                  ["astralShellNodeSize", "Node size", 0.2, 2, 0.1, (value) => value.toFixed(1)],
+                  ["astralShellDepthFade", "Depth fade", 0, 1, 0.05, (value) => value.toFixed(2)],
+                  ["astralShellSpin", "Spin", 0, 2, 0.05, (value) => value.toFixed(2)],
+                  ["astralShellTilt", "Tilt", 0, 45, 1, (value) => `${value}°`],
+                  ["astralShellHoverRadius", "Hover radius", 0.05, 0.5, 0.01, (value) => value.toFixed(2)],
+                  ["astralShellHoverBoost", "Hover boost", 0, 2, 0.05, (value) => value.toFixed(2)],
+                  ["astralShellPulseSpeed", "Pulse speed", 0, 3, 0.1, (value) => value.toFixed(1)],
+                  ["astralShellSeed", "Seed", 0, 100, 1, (value) => value],
+                ].map(([key, label, min, max, step, format]) => (
+                  <label className="admin-range-label" key={key}>
+                    <span><span>{label}</span><strong>{format(settings[key])}</strong></span>
+                    <input type="range" min={min} max={max} step={step} value={settings[key]}
+                      onChange={(event) => updateAsciiSetting(key, Number(event.target.value))} />
+                  </label>
+                ))}
                 <label className="admin-check-label">
                   <input type="checkbox" checked={settings.astralShellInteractive}
                     onChange={(event) => updateAsciiSetting("astralShellInteractive", event.target.checked)} />
-                  Pointer highlight interaction
+                  Interactive
+                </label>
+                <label className="admin-check-label">
+                  <input type="checkbox" checked={settings.astralShellDraggable}
+                    onChange={(event) => updateAsciiSetting("astralShellDraggable", event.target.checked)} />
+                  Draggable
+                </label>
+                <label className="admin-check-label">
+                  <input type="checkbox" checked={settings.astralShellClickPulse}
+                    onChange={(event) => updateAsciiSetting("astralShellClickPulse", event.target.checked)} />
+                  Click pulse
                 </label>
                 <label className="admin-check-label">
                   <input type="checkbox" checked={settings.astralShellPaused}
                     onChange={(event) => updateAsciiSetting("astralShellPaused", event.target.checked)} />
-                  Pause rotation
-                </label>
-                <label className="admin-range-label">
-                  <span><span>Star count</span><strong>{settings.astralShellPointCount}</strong></span>
-                  <input type="range" min="60" max="260" step="10" value={settings.astralShellPointCount}
-                    onChange={(event) => updateAsciiSetting("astralShellPointCount", Number(event.target.value))} />
-                </label>
-                <label className="admin-range-label">
-                  <span><span>Rotation speed</span><strong>{settings.astralShellRotationSpeed.toFixed(4)}</strong></span>
-                  <input type="range" min="0" max="0.008" step="0.0005" value={settings.astralShellRotationSpeed}
-                    onChange={(event) => updateAsciiSetting("astralShellRotationSpeed", Number(event.target.value))} />
-                </label>
-                <label className="admin-range-label">
-                  <span><span>Globe size</span><strong>{Math.round(settings.astralShellScale * 100)}%</strong></span>
-                  <input type="range" min="0.2" max="0.48" step="0.01" value={settings.astralShellScale}
-                    onChange={(event) => updateAsciiSetting("astralShellScale", Number(event.target.value))} />
-                </label>
-                <label className="admin-range-label">
-                  <span><span>Connection opacity</span><strong>{Math.round(settings.astralShellLineOpacity * 100)}%</strong></span>
-                  <input type="range" min="0.1" max="1" step="0.05" value={settings.astralShellLineOpacity}
-                    onChange={(event) => updateAsciiSetting("astralShellLineOpacity", Number(event.target.value))} />
+                  Paused
                 </label>
                 <button type="button" className="reset-features ascii-save-button" onClick={() => saveSettings(settings, "Astral Shell settings saved and applied.")} disabled={isSaving}>
                   {isSaving ? "Saving..." : "Save Astral Shell settings"}

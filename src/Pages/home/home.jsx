@@ -33,11 +33,31 @@ function Home() {
               {heroBackground === "astral-shell" && (
                 <AstralShell
                   interactive={settings?.astralShellInteractive}
+                  draggable={settings?.astralShellDraggable}
+                  clickPulse={settings?.astralShellClickPulse}
                   paused={settings?.astralShellPaused}
+                  backgroundColor={settings?.astralShellBackground}
+                  networkColor={settings?.astralShellNetworkColor}
+                  highlightColor={settings?.astralShellHighlightColor}
                   pointCount={settings?.astralShellPointCount}
+                  connections={settings?.astralShellConnections}
+                  reach={settings?.astralShellReach}
+                  clustering={settings?.astralShellClustering}
+                  chords={settings?.astralShellChords}
+                  radius={settings?.astralShellRadius}
+                  originX={settings?.astralShellOriginX}
+                  originY={settings?.astralShellOriginY}
                   rotationSpeed={settings?.astralShellRotationSpeed}
                   globeScale={settings?.astralShellScale}
+                  nodeSize={settings?.astralShellNodeSize}
+                  depthFade={settings?.astralShellDepthFade}
                   lineOpacity={settings?.astralShellLineOpacity}
+                  spin={settings?.astralShellSpin}
+                  tilt={settings?.astralShellTilt}
+                  hoverRadius={settings?.astralShellHoverRadius}
+                  hoverBoost={settings?.astralShellHoverBoost}
+                  pulseSpeed={settings?.astralShellPulseSpeed}
+                  seed={settings?.astralShellSeed}
                 />
               )}
               {heroBackground === "terminal-rain" && (

@@ -253,6 +253,15 @@
 .admin-background-controls-single {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
+.admin-background-controls-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.admin-background-controls input[type="color"] {
+  width: 100%;
+  min-height: 2.5rem;
+  padding: 0.25rem;
+  cursor: pointer;
+}
 .vault-admin-ascii-settings {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
