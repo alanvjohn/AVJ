@@ -173,8 +173,16 @@ function VoxelArc({
       pointer.x = (event.clientX - bounds.left) / bounds.width;
       pointer.y = Math.max(0, Math.min(1, (event.clientY - bounds.top) / bounds.height));
       pointer.active = true;
+      if (event.pointerType === "touch" && canvas.setPointerCapture) {
+        canvas.setPointerCapture(event.pointerId);
+      }
     };
-    const clearPointer = () => { pointer.active = false; };
+    const clearPointer = (event) => {
+      pointer.active = false;
+      if (event?.pointerId !== undefined && canvas.hasPointerCapture?.(event.pointerId)) {
+        canvas.releasePointerCapture(event.pointerId);
+      }
+    };
 
     resize();
     window.addEventListener("resize", resize);
@@ -184,6 +192,9 @@ function VoxelArc({
     };
     document.addEventListener("visibilitychange", handleVisibility);
     canvas.addEventListener("pointermove", handlePointer);
+    canvas.addEventListener("pointerdown", handlePointer);
+    canvas.addEventListener("pointerup", clearPointer);
+    canvas.addEventListener("pointercancel", clearPointer);
     canvas.addEventListener("pointerleave", clearPointer);
     draw(performance.now());
     return () => {
@@ -191,6 +202,9 @@ function VoxelArc({
       window.removeEventListener("resize", resize);
       document.removeEventListener("visibilitychange", handleVisibility);
       canvas.removeEventListener("pointermove", handlePointer);
+      canvas.removeEventListener("pointerdown", handlePointer);
+      canvas.removeEventListener("pointerup", clearPointer);
+      canvas.removeEventListener("pointercancel", clearPointer);
       canvas.removeEventListener("pointerleave", clearPointer);
     };
   }, [

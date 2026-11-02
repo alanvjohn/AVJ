@@ -139,7 +139,15 @@ function Home() {
                       loading="eager"
                     />
                   )}
-                  <div className="circle"></div>
+                  {settings?.showHeroCircle !== false && (
+                    <div
+                      className="circle"
+                      style={{
+                        "--hero-circle-size": settings?.heroCircleSize ?? 1,
+                        "--hero-circle-opacity": settings?.heroCircleOpacity ?? 0.82,
+                      }}
+                    />
+                  )}
                 </div>
               </div>
             </div>

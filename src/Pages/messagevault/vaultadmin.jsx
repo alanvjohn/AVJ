@@ -1193,6 +1193,16 @@ function VaultAdmin() {
             onChange={(event) => updateAsciiSetting("showHeroProfile", event.target.checked)} /> Show profile image</label>
           <label className="admin-check-label"><input type="checkbox" checked={settings.showHeroActions}
             onChange={(event) => updateAsciiSetting("showHeroActions", event.target.checked)} /> Show hero buttons</label>
+          <label className="admin-check-label"><input type="checkbox" checked={settings.showHeroCircle}
+            onChange={(event) => updateAsciiSetting("showHeroCircle", event.target.checked)} /> Show hero circle</label>
+          {[
+            ["heroCircleSize", "Circle size", 0.5, 1.5, 0.05, (value) => `${Math.round(value * 100)}%`],
+            ["heroCircleOpacity", "Circle opacity", 0, 1, 0.05, (value) => `${Math.round(value * 100)}%`],
+          ].map(([key, label, min, max, step, format]) => <label className="admin-range-label" key={key}>
+            <span><span>{label}</span><strong>{format(settings[key])}</strong></span>
+            <input type="range" min={min} max={max} step={step} value={settings[key]}
+              onChange={(event) => updateAsciiSetting(key, Number(event.target.value))} />
+          </label>)}
           <button type="button" className="reset-features ascii-save-button" onClick={saveAsciiSettings} disabled={isSaving}>
             {isSaving ? "Saving..." : "Save homepage settings"}
           </button>

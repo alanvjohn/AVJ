@@ -103,16 +103,16 @@
   height: min(58vw, 760px);
   z-index: 0;
   animation: orb-breathe 8s ease-in-out infinite;
+  opacity: var(--hero-circle-opacity, 0.82);
 }
 
 @keyframes orb-breathe {
   0%,
   100% {
-    transform: scale(0.98);
-    opacity: 0.82;
+    transform: scale(calc(var(--hero-circle-size, 1) * 0.98));
   }
   50% {
-    transform: scale(1);
+    transform: scale(var(--hero-circle-size, 1));
     opacity: 1;
   }
 }
