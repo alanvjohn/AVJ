@@ -14,6 +14,11 @@ function NavScrollExample() {
   const location = useLocation();
   const currentPath = location.pathname;
   const { theme, toggleTheme } = useContext(ThemeContext);
+  const toastContainerStyle = {
+    top: '76px',
+    left: '16px',
+    right: 'auto',
+  };
 
   useEffect(() => {
     if (currentPath !== '/') return undefined;
@@ -79,7 +84,7 @@ function NavScrollExample() {
           </Nav>
         </Navbar.Collapse>
       </Container>
-      <Toaster toasterId={THEME_TOASTER_ID} />
+      <Toaster toasterId={THEME_TOASTER_ID} containerStyle={toastContainerStyle} />
     </Navbar>
   );
 }
