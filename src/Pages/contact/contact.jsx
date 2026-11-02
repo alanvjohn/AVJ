@@ -172,7 +172,7 @@ function Contact() {
             className: "teaser1",
             toasterId: CONTACT_TOASTER_ID,
             success: {
-              duration: Number(featureSettings.contactNotificationDuration ?? 5000),
+              duration: 5000,
               icon: "📩",
             },
           }

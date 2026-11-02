@@ -43,8 +43,8 @@
   min-width: 0;
 }
 .theme-toast {
-  width: min(32rem, calc(100vw - 2rem)) !important;
-  min-width: 280px !important;
+  width: min(19rem, calc(100vw - 2rem)) !important;
+  min-width: 0 !important;
   max-width: calc(100vw - 2rem) !important;
   box-sizing: border-box;
 }

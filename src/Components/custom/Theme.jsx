@@ -13,6 +13,7 @@ export const ThemeProvider = ({ children }) => {
     setIsLoading(true); // Show loader
     setTheme(safeTheme);
     document.body.classList.toggle('dark-theme', safeTheme === 'dark');
+    document.documentElement.dataset.theme = safeTheme;
     localStorage.setItem('theme', safeTheme);
 
     // Simulate a delay to show the loader

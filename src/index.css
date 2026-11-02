@@ -15,11 +15,17 @@ p {
   font-family: "Satoshi Variable";
 }
 body {
-  background-color: #ffffff;
+  background:
+    radial-gradient(circle at 85% 12%, rgba(84, 146, 255, 0.16), transparent 28rem),
+    #f8fbff;
   color: #000000;
+  transition: background-color 0.35s ease, color 0.35s ease;
 }
 body.dark-theme {
-  background-color: #121212;
+  background:
+    radial-gradient(circle at 82% 10%, rgba(32, 113, 255, 0.24), transparent 30rem),
+    radial-gradient(circle at 8% 85%, rgba(139, 34, 255, 0.16), transparent 24rem),
+    #0b1020;
   color: #ffffff;
 }
 

@@ -5,7 +5,6 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import './navbar.css';
 import ThemeContext from '../custom/Theme';
-import { useFeatureSettings } from '../../config/FeatureSettingsContext';
 import toast, { Toaster } from 'react-hot-toast';
 
 const THEME_TOAST_ID = 'avj-theme-toast';
@@ -15,12 +14,6 @@ function NavScrollExample() {
   const location = useLocation();
   const currentPath = location.pathname;
   const { theme, toggleTheme } = useContext(ThemeContext);
-  const featureSettings = useFeatureSettings() || {};
-  const toastContainerStyle = {
-    top: `${Number(featureSettings.themeToastY ?? 72)}px`,
-    left: `${Number(featureSettings.themeToastX ?? 16)}px`,
-    right: 'auto',
-  };
 
   useEffect(() => {
     if (currentPath !== '/') return undefined;
@@ -31,8 +24,8 @@ function NavScrollExample() {
       <div className="theme-toast-content">
         <span className="theme-toast-emoji" aria-hidden="true">{isDark ? '🌙' : '🦇'}</span>
         <span>
-          <strong>{isDark ? 'Welcome to the dark side!' : 'Light mode unlocked!'}</strong>
-          <small>{isDark ? 'Your pixels are now working undercover.' : 'Tap AVJ if you want to enter the dark side.'}</small>
+          <strong>{isDark ? 'Dark mode online' : 'Light mode online'}</strong>
+          <small>{isDark ? 'Switch to light' : 'Switch to dark'}</small>
         </span>
         <button type="button" onClick={() => { toast.dismiss(t.id); toggleTheme(); }}>
           {isDark ? 'Go light' : 'Switch'}
@@ -46,9 +39,9 @@ function NavScrollExample() {
       style: {
         backgroundColor: isDark ? '#fff' : '#1f1f1f',
         color: isDark ? '#000' : '#fff',
-        padding: '0.85rem 1rem',
-        width: 'min(32rem, calc(100vw - 2rem))',
-        minWidth: '280px',
+        padding: '0.7rem 0.85rem',
+        width: 'min(19rem, calc(100vw - 2rem))',
+        minWidth: '0',
         maxWidth: 'calc(100vw - 2rem)',
         boxSizing: 'border-box',
       },
@@ -86,7 +79,7 @@ function NavScrollExample() {
           </Nav>
         </Navbar.Collapse>
       </Container>
-      <Toaster toasterId={THEME_TOASTER_ID} containerStyle={toastContainerStyle} />
+      <Toaster toasterId={THEME_TOASTER_ID} />
     </Navbar>
   );
 }

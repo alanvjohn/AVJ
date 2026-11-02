@@ -14,6 +14,7 @@ export const defaultFeatureSettings = {
   lenisTouchMultiplier: 1,
   lenisSyncTouch: false,
   lenisSmoothWheel: true,
+  motionPreset: "cyber",
   revealAnimations: true,
   cursor: true,
   reactBitsCards: true,
@@ -35,8 +36,6 @@ export const defaultFeatureSettings = {
   asciiMobileMouseInteraction: true,
   asciiIntro: false,
   asciiLightMode: false,
-  themeToastX: 16,
-  themeToastY: 72,
   accentPreset: "blue",
   showHeroProfile: true,
   showHeroActions: true,
@@ -44,7 +43,6 @@ export const defaultFeatureSettings = {
   heroTitle: "Learning, building, and exploring technology.",
   heroSubtitle: "I'm Alan V. John, a student at the University of Worcester in the UK, originally from Kerala. I enjoy learning technology, building useful applications, and improving my skills through practical projects.",
   contactNotifications: true,
-  contactNotificationDuration: 5000,
 };
 
 const storageKey = "avj-feature-settings-v2";
@@ -97,13 +95,12 @@ export async function saveFeatureSettings(settings) {
     asciiMobileMouseInteraction: nextSettings.asciiMobileMouseInteraction,
     asciiIntro: nextSettings.asciiIntro,
     asciiLightMode: nextSettings.asciiLightMode,
-    themeToastX: nextSettings.themeToastX,
-    themeToastY: nextSettings.themeToastY,
     lenisLerp: nextSettings.lenisLerp,
     lenisWheelMultiplier: nextSettings.lenisWheelMultiplier,
     lenisTouchMultiplier: nextSettings.lenisTouchMultiplier,
     lenisSyncTouch: nextSettings.lenisSyncTouch,
     lenisSmoothWheel: nextSettings.lenisSmoothWheel,
+    motionPreset: nextSettings.motionPreset,
     accentPreset: nextSettings.accentPreset,
     showHeroProfile: nextSettings.showHeroProfile,
     showHeroActions: nextSettings.showHeroActions,
@@ -111,7 +108,6 @@ export async function saveFeatureSettings(settings) {
     heroTitle: nextSettings.heroTitle,
     heroSubtitle: nextSettings.heroSubtitle,
     contactNotifications: nextSettings.contactNotifications,
-    contactNotificationDuration: nextSettings.contactNotificationDuration,
     updatedAt: serverTimestamp(),
   });
   localStorage.setItem(storageKey, JSON.stringify(nextSettings));

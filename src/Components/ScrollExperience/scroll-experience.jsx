@@ -16,6 +16,13 @@ function ScrollExperience() {
     ).matches;
     const featureSettings = contextSettings || getFeatureSettings();
     const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
+    const motionPresets = {
+      calm: { duration: 1.05, y: 20, ease: "power2.out" },
+      snappy: { duration: 0.45, y: 16, ease: "power3.out" },
+      cinematic: { duration: 1.35, y: 42, ease: "power4.out" },
+      cyber: { duration: 0.72, y: 28, ease: "expo.out" },
+    };
+    const motion = motionPresets[featureSettings.motionPreset] || motionPresets.cyber;
     const lenis = new Lenis({
       autoRaf: false,
       lerp: Number(featureSettings.lenisLerp ?? (coarsePointer ? 0.1 : 0.08)),
@@ -38,12 +45,12 @@ function ScrollExperience() {
         gsap.utils.toArray(".reveal-on-scroll").forEach((element) => {
           gsap.fromTo(
             element,
-            { autoAlpha: 0, y: 28 },
+            { autoAlpha: 0, y: motion.y },
             {
               autoAlpha: 1,
               y: 0,
-              duration: 0.8,
-              ease: "power3.out",
+              duration: motion.duration,
+              ease: motion.ease,
               scrollTrigger: {
                 trigger: element,
                 start: "top 88%",

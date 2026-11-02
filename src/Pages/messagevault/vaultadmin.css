@@ -274,18 +274,6 @@
   position: absolute;
   inset: 0;
 }
-.vault-admin-toast-settings {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
-  margin: 1rem 0;
-  padding: 1.5rem;
-  border: 1px solid #dfe5f2;
-  border-radius: 1rem;
-  background: #fff;
-}
-.vault-admin-toast-settings .vault-admin-ascii-heading { grid-column: 1 / -1; }
-.vault-admin-toast-settings .ascii-save-button { grid-column: 1 / -1; }
 .vault-admin-preview { align-items: center; }
 .admin-card-preview { width: 180px; height: 160px; flex: 0 0 180px; }
 .vault-admin-saved { margin-top: 1rem !important; color: #16794c !important; font-size: 0.9rem; }
@@ -401,7 +389,6 @@
 .dark-theme .vault-admin-settings p { color: #b6bdcc; }
 .dark-theme .admin-select-label select { border-color: #53617e; background: #242424; color: #fff; }
 .dark-theme .vault-admin-ascii-settings { border-color: #363b48; background: #1d1d1d; }
-.dark-theme .vault-admin-toast-settings { border-color: #363b48; background: #1d1d1d; }
 .dark-theme .admin-select-label input,
 .dark-theme .admin-select-label textarea,
 .dark-theme .admin-select-label select {
@@ -415,6 +402,17 @@
 .dark-theme .vault-admin-ascii-heading p:last-child { color: #b6bdcc; }
 .dark-theme .vault-admin-actions button,
 .dark-theme .reset-features { border-color: #53617e; color: #8bb9ff; }
+.admin-interaction-details {
+  display: grid;
+  gap: 0.45rem;
+  margin: 1rem 0 0;
+  padding-left: 1.1rem;
+  color: #52617b;
+  font-family: "Satoshi Variable";
+}
+.admin-interaction-details strong { color: var(--avj-accent); }
+.dark-theme .admin-interaction-details { color: #b6bdcc; }
+.dark-theme .admin-interaction-details strong { color: #8bb9ff; }
 @media (max-width: 700px) {
   .vault-admin-header, .vault-admin-preview { align-items: stretch; flex-direction: column; }
   .vault-admin-actions {
@@ -427,7 +425,6 @@
   .vault-admin-grid { grid-template-columns: 1fr; }
   .vault-admin-settings { grid-template-columns: 1fr; }
   .vault-admin-ascii-settings { grid-template-columns: 1fr; }
-  .vault-admin-toast-settings { grid-template-columns: 1fr; }
   .vault-admin-ascii-heading { grid-column: auto; }
   .admin-card-preview { align-self: center; }
   .vault-admin-login-log li {

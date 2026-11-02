@@ -52,13 +52,12 @@ service cloud.firestore {
           'asciiMobileMouseInteraction',
           'asciiIntro',
           'asciiLightMode',
-          'themeToastX',
-          'themeToastY',
           'lenisLerp',
           'lenisWheelMultiplier',
           'lenisTouchMultiplier',
           'lenisSyncTouch',
           'lenisSmoothWheel',
+          'motionPreset',
           'accentPreset',
           'showHeroProfile',
           'showHeroActions',
@@ -66,7 +65,6 @@ service cloud.firestore {
           'heroTitle',
           'heroSubtitle',
           'contactNotifications',
-          'contactNotificationDuration',
           'refreshAt',
           'updatedAt'
         ])
@@ -131,10 +129,6 @@ service cloud.firestore {
           || request.resource.data.asciiIntro is bool)
         && (!('asciiLightMode' in request.resource.data)
           || request.resource.data.asciiLightMode is bool)
-        && (!('themeToastX' in request.resource.data)
-          || request.resource.data.themeToastX is number)
-        && (!('themeToastY' in request.resource.data)
-          || request.resource.data.themeToastY is number)
         && (!('lenisLerp' in request.resource.data)
           || (request.resource.data.lenisLerp is number
             && request.resource.data.lenisLerp >= 0.02
@@ -151,6 +145,8 @@ service cloud.firestore {
           || request.resource.data.lenisSyncTouch is bool)
         && (!('lenisSmoothWheel' in request.resource.data)
           || request.resource.data.lenisSmoothWheel is bool)
+        && (!('motionPreset' in request.resource.data)
+          || request.resource.data.motionPreset in ['calm', 'snappy', 'cinematic', 'cyber'])
         && (!('accentPreset' in request.resource.data)
           || request.resource.data.accentPreset in ['blue', 'cyan', 'violet', 'rose', 'amber', 'green'])
         && (!('showHeroProfile' in request.resource.data) || request.resource.data.showHeroProfile is bool)
@@ -162,10 +158,6 @@ service cloud.firestore {
         && (!('heroSubtitle' in request.resource.data)
           || (request.resource.data.heroSubtitle is string && request.resource.data.heroSubtitle.size() <= 500))
         && (!('contactNotifications' in request.resource.data) || request.resource.data.contactNotifications is bool)
-        && (!('contactNotificationDuration' in request.resource.data)
-          || (request.resource.data.contactNotificationDuration is number
-            && request.resource.data.contactNotificationDuration >= 1000
-            && request.resource.data.contactNotificationDuration <= 15000))
         && (!('refreshAt' in request.resource.data)
           || request.resource.data.refreshAt is timestamp)
         && (!('updatedAt' in request.resource.data)

@@ -32,6 +32,12 @@ const lenisOptions = [
   ["lenisWheelMultiplier", "Wheel speed", "Adjust how strongly desktop wheel movement affects scrolling.", 0.5, 2, 0.1, "multiplier"],
   ["lenisTouchMultiplier", "Touch speed", "Adjust how strongly touch movement affects scrolling.", 0.5, 2, 0.1, "multiplier"],
 ];
+const motionPresetOptions = [
+  ["calm", "Calm", "Soft reveals with relaxed movement and a quieter scroll feel."],
+  ["snappy", "Snappy", "Short, responsive reveals for a faster interface."],
+  ["cinematic", "Cinematic", "Longer, deeper entrances for a more dramatic portfolio feel."],
+  ["cyber", "Cyber", "Crisp movement, slight lift, and energetic timing for the AVJ style."],
+];
 
 const heroBackgroundOptions = [
   ["ascii", "ASCII gradient", "Animated characters that respond to the pointer."],
@@ -496,6 +502,32 @@ function VaultAdmin() {
           </button>
         </section>
 
+        <section className="vault-admin-settings" aria-labelledby="motion-settings-title">
+          <div>
+            <p className="vault-admin-eyebrow">GSAP motion lab</p>
+            <h2 id="motion-settings-title">Animation preset</h2>
+            <p>Change the personality of scroll reveals without adding another animation library.</p>
+          </div>
+          <label className="admin-select-label" htmlFor="motion-preset">
+            Motion style
+            <select
+              id="motion-preset"
+              value={settings.motionPreset}
+              onChange={(event) => updateAsciiSetting("motionPreset", event.target.value)}
+            >
+              {motionPresetOptions.map(([value, label]) => (
+                <option key={value} value={value}>{label}</option>
+              ))}
+            </select>
+          </label>
+          <p className="admin-setting-hint">
+            {motionPresetOptions.find(([value]) => value === settings.motionPreset)?.[2]}
+          </p>
+          <button type="button" className="reset-features ascii-save-button" onClick={() => saveSettings(settings, "Motion preset saved and applied.")} disabled={isSaving}>
+            {isSaving ? "Saving..." : "Save motion preset"}
+          </button>
+        </section>
+
         <section className="vault-admin-ascii-settings" aria-labelledby="ascii-settings-title">
           <div className="vault-admin-ascii-heading">
             <p className="vault-admin-eyebrow">Gradient ASCII</p>
@@ -732,46 +764,9 @@ function VaultAdmin() {
           </div>
           <label className="admin-check-label"><input type="checkbox" checked={settings.contactNotifications}
             onChange={(event) => updateAsciiSetting("contactNotifications", event.target.checked)} /> Show contact notifications</label>
-          <label className="admin-range-label">
-            <span><span>Success duration</span><strong>{settings.contactNotificationDuration} ms</strong></span>
-            <input type="range" min="1000" max="15000" step="500" value={settings.contactNotificationDuration}
-              onChange={(event) => updateAsciiSetting("contactNotificationDuration", Number(event.target.value))} />
-          </label>
+          <p className="admin-setting-hint">Messages use the standard 5-second confirmation time.</p>
           <button type="button" className="reset-features ascii-save-button" onClick={saveAsciiSettings} disabled={isSaving}>
             {isSaving ? "Saving..." : "Save contact settings"}
-          </button>
-        </section>
-
-        <section className="vault-admin-toast-settings" aria-labelledby="toast-settings-title">
-          <div className="vault-admin-ascii-heading">
-            <p className="vault-admin-eyebrow">Theme notification</p>
-            <h2 id="toast-settings-title">Notification position</h2>
-            <p>Adjust the theme message placement independently from the Gradient ASCII background.</p>
-          </div>
-          <label className="admin-range-label">
-            <span>Horizontal offset<strong>{settings.themeToastX}px</strong></span>
-            <input
-              type="range"
-              min="0"
-              max="320"
-              step="4"
-              value={settings.themeToastX}
-              onChange={(event) => updateAsciiSetting("themeToastX", Number(event.target.value))}
-            />
-          </label>
-          <label className="admin-range-label">
-            <span>Vertical offset<strong>{settings.themeToastY}px</strong></span>
-            <input
-              type="range"
-              min="48"
-              max="240"
-              step="4"
-              value={settings.themeToastY}
-              onChange={(event) => updateAsciiSetting("themeToastY", Number(event.target.value))}
-            />
-          </label>
-          <button type="button" className="reset-features ascii-save-button" onClick={saveAsciiSettings} disabled={isSaving}>
-            {isSaving ? "Saving..." : "Save notification position"}
           </button>
         </section>
 
@@ -779,7 +774,12 @@ function VaultAdmin() {
           <div>
             <p className="vault-admin-eyebrow">React Bits preview</p>
             <h2>Interactive card layer</h2>
-            <p>Preview the card interaction before enabling it for project visitors.</p>
+            <p>Move your pointer across the card to preview the same 3D tilt used on project previews.</p>
+            <ul className="admin-interaction-details">
+              <li><strong>Pointer tilt:</strong> follows cursor position on both axes.</li>
+              <li><strong>Depth:</strong> image scales smoothly on hover.</li>
+              <li><strong>Motion-safe:</strong> disabling the feature keeps a static image.</li>
+            </ul>
             <button type="button" className="reset-features" onClick={resetFeatures}>
               Reset feature settings
             </button>
@@ -797,6 +797,9 @@ function VaultAdmin() {
               rotateAmplitude={8}
               showMobileWarning={false}
               showTooltip={false}
+              captionText="Pointer tilt · hover scale · 3D depth"
+              displayOverlayContent
+              overlayContent={<span className="admin-card-overlay">Move your pointer</span>}
               enabled={settings.reactBitsCards}
             />
           </div>
