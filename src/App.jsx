@@ -20,6 +20,7 @@ import ScrollExperience from "./Components/ScrollExperience/scroll-experience";
 import { ThemeProvider } from "./Components/custom/Theme";
 import FeatureSettingsContext from "./config/FeatureSettingsContext";
 import {
+  featureSettingsUpdatedEvent,
   getFeatureSettings,
   loadFeatureSettings,
   subscribeFeatureSettings,
@@ -61,6 +62,10 @@ function App() {
       lastRefreshValue = refreshValue;
       hasReceivedInitialSnapshot = true;
     });
+    const handleLocalSettingsUpdate = (event) => {
+      if (event.detail && isMounted) setFeatureSettings(event.detail);
+    };
+    window.addEventListener(featureSettingsUpdatedEvent, handleLocalSettingsUpdate);
 
     loadFeatureSettings().then((settings) => {
       if (isMounted) setFeatureSettings(settings);
@@ -69,6 +74,7 @@ function App() {
     return () => {
       isMounted = false;
       unsubscribe();
+      window.removeEventListener(featureSettingsUpdatedEvent, handleLocalSettingsUpdate);
     };
   }, []);
 

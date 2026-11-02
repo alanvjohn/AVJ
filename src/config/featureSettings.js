@@ -60,6 +60,7 @@ export const defaultFeatureSettings = {
 };
 
 const storageKey = "avj-feature-settings-v2";
+export const featureSettingsUpdatedEvent = "avj-feature-settings-updated";
 
 export function getFeatureSettings() {
   try {
@@ -77,6 +78,9 @@ export async function loadFeatureSettings() {
 
     const nextSettings = { ...defaultFeatureSettings, ...snapshot.data() };
     localStorage.setItem(storageKey, JSON.stringify(nextSettings));
+    window.dispatchEvent(new CustomEvent(featureSettingsUpdatedEvent, {
+      detail: nextSettings,
+    }));
     return nextSettings;
   } catch (error) {
     console.error("Unable to load public site settings:", error);

@@ -11,6 +11,13 @@
   background: #f8fbff;
 }
 
+.home-page > .voxel-arc,
+.home-page > .astral-shell,
+.home-page > .terminal-rain,
+.home-page > .gradient-ascii {
+  z-index: 1;
+}
+
 .security-grid {
   position: absolute;
   inset: 0;
