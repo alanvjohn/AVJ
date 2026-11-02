@@ -17,6 +17,24 @@ const commonEmailDomains = [
   "proton.me",
   "protonmail.com",
 ];
+const knownEmailDomainTypos = {
+  "gmal.com": "gmail.com",
+  "gmai.com": "gmail.com",
+  "gmil.com": "gmail.com",
+  "gmial.com": "gmail.com",
+  "gmaill.com": "gmail.com",
+  "gmail.co": "gmail.com",
+  "gmail.con": "gmail.com",
+  "gmail.comm": "gmail.com",
+  "gmail.cmo": "gmail.com",
+  "gmail.om": "gmail.com",
+  "gmaik.com": "gmail.com",
+  "gmaol.com": "gmail.com",
+  "gmoil.com": "gmail.com",
+  "gmol.com": "gmail.com",
+  "gmolil.com": "gmail.com",
+  "gmaul.com": "gmail.com",
+};
 
 const getEmailDomainError = (email) => {
   const normalizedEmail = email.trim().toLowerCase();
@@ -34,10 +52,15 @@ const getEmailDomainError = (email) => {
     return "Enter a valid email domain.";
   }
 
+  const knownTypoCorrection = knownEmailDomainTypos[domain];
+  if (knownTypoCorrection) {
+    return `That domain looks incorrect. Did you mean ${knownTypoCorrection}?`;
+  }
+
   const closestCommonDomain = commonEmailDomains
     .map((knownDomain) => ({
       domain: knownDomain,
-      distance: levenshteinDistance(domain, knownDomain),
+      distance: damerauLevenshteinDistance(domain, knownDomain),
     }))
     .sort((a, b) => a.distance - b.distance)[0];
 
@@ -48,20 +71,30 @@ const getEmailDomainError = (email) => {
   return "";
 };
 
-const levenshteinDistance = (first, second) => {
-  const distances = Array.from({ length: second.length + 1 }, (_, index) => index);
+const damerauLevenshteinDistance = (first, second) => {
+  const distances = Array.from(
+    { length: first.length + 1 },
+    (_, row) => Array.from({ length: second.length + 1 }, (_, column) => (
+      row === 0 ? column : column === 0 ? row : 0
+    ))
+  );
+
   for (let row = 1; row <= first.length; row += 1) {
-    let previousDiagonal = distances[0];
-    distances[0] = row;
     for (let column = 1; column <= second.length; column += 1) {
-      const current = distances[column];
-      distances[column] = first[row - 1] === second[column - 1]
-        ? previousDiagonal
-        : Math.min(previousDiagonal, distances[column - 1], current) + 1;
-      previousDiagonal = current;
+      const substitutionCost = first[row - 1] === second[column - 1] ? 0 : 1;
+      distances[row][column] = Math.min(
+        distances[row - 1][column - 1] + substitutionCost,
+        distances[row][column - 1] + 1,
+        distances[row - 1][column] + 1,
+        row > 1 && column > 1
+          && first[row - 1] === second[column - 2]
+          && first[row - 2] === second[column - 1]
+          ? distances[row - 2][column - 2] + 1
+          : Number.POSITIVE_INFINITY
+      );
     }
   }
-  return distances[second.length];
+  return distances[first.length][second.length];
 };
 
 function Contact() {
