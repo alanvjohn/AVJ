@@ -707,6 +707,14 @@ function VaultAdmin() {
             <input maxLength={180} value={settings.heroTitle}
               onChange={(event) => updateAsciiSetting("heroTitle", event.target.value)} />
           </label>
+          <label className="admin-select-label">Subtitle
+            <textarea
+              maxLength={500}
+              rows="6"
+              value={settings.heroSubtitle}
+              onChange={(event) => updateAsciiSetting("heroSubtitle", event.target.value)}
+            />
+          </label>
           <label className="admin-check-label"><input type="checkbox" checked={settings.showHeroProfile}
             onChange={(event) => updateAsciiSetting("showHeroProfile", event.target.checked)} /> Show profile image</label>
           <label className="admin-check-label"><input type="checkbox" checked={settings.showHeroActions}
