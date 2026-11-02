@@ -58,6 +58,8 @@ service cloud.firestore {
           'lenisSyncTouch',
           'lenisSmoothWheel',
           'motionPreset',
+          'toolkitStyle',
+          'toolkitChipMotion',
           'accentPreset',
           'showHeroProfile',
           'showHeroActions',
@@ -147,6 +149,10 @@ service cloud.firestore {
           || request.resource.data.lenisSmoothWheel is bool)
         && (!('motionPreset' in request.resource.data)
           || request.resource.data.motionPreset in ['calm', 'snappy', 'cinematic', 'cyber'])
+        && (!('toolkitStyle' in request.resource.data)
+          || request.resource.data.toolkitStyle in ['cyber-field', 'signal', 'particles', 'minimal', 'off'])
+        && (!('toolkitChipMotion' in request.resource.data)
+          || request.resource.data.toolkitChipMotion is bool)
         && (!('accentPreset' in request.resource.data)
           || request.resource.data.accentPreset in ['blue', 'cyan', 'violet', 'rose', 'amber', 'green'])
         && (!('showHeroProfile' in request.resource.data) || request.resource.data.showHeroProfile is bool)

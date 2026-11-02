@@ -40,6 +40,13 @@ const motionPresetOptions = [
   ["cinematic", "Cinematic", "Longer, deeper entrances for a more dramatic portfolio feel."],
   ["cyber", "Cyber", "Crisp movement, slight lift, and energetic timing for the AVJ style."],
 ];
+const toolkitStyleOptions = [
+  ["cyber-field", "Cyber field", "Animated grid, signal scan, particles, and accent glow."],
+  ["signal", "Signal scan", "Technical grid with a single moving scan line."],
+  ["particles", "Soft particles", "Quiet grid with drifting React Bits-style particles."],
+  ["minimal", "Minimal grid", "A restrained technical grid with no extra motion layers."],
+  ["off", "Off", "A clean toolkit section with no decorative background animation."],
+];
 
 const heroBackgroundOptions = [
   ["ascii", "ASCII gradient", "Animated characters that respond to the pointer."],
@@ -269,6 +276,10 @@ function VaultAdmin() {
     }, "Loader style saved and applied.");
   };
 
+  const saveToolkitSettings = async () => {
+    await saveSettings(settings, "Toolkit settings saved and applied.");
+  };
+
   const updateAsciiSetting = (key, value) => {
     setSettings((current) => ({ ...current, [key]: value }));
   };
@@ -437,6 +448,23 @@ function VaultAdmin() {
           <p className="admin-setting-hint">
             {heroBackgroundOptions.find(([value]) => value === settings.heroBackground)?.[2]}
           </p>
+          <div className="admin-background-preview" aria-label="Selected hero background preview">
+            <div className="admin-background-preview-label">
+              <span>Live preview</span>
+              <strong>{heroBackgroundOptions.find(([value]) => value === settings.heroBackground)?.[1]}</strong>
+            </div>
+            <div className="admin-ascii-live-preview">
+              <FeatureSettingsContext.Provider value={settings}>
+                {settings.heroBackground === "voxel-arc"
+                  ? <VoxelArc />
+                  : settings.heroBackground === "astral-shell"
+                    ? <AstralShell />
+                    : settings.heroBackground === "ascii"
+                      ? <GradientASCII />
+                      : <div className={`admin-static-background admin-static-background-${settings.heroBackground}`} />}
+              </FeatureSettingsContext.Provider>
+            </div>
+          </div>
         </section>
 
         <section className="vault-admin-settings" aria-labelledby="loader-settings-title">
@@ -529,6 +557,37 @@ function VaultAdmin() {
           </p>
           <button type="button" className="reset-features ascii-save-button" onClick={() => saveSettings(settings, "Motion preset saved and applied.")} disabled={isSaving}>
             {isSaving ? "Saving..." : "Save motion preset"}
+          </button>
+        </section>
+
+        <section className="vault-admin-ascii-settings vault-admin-toolkit-settings" aria-labelledby="toolkit-settings-title">
+          <div className="vault-admin-ascii-heading">
+            <p className="vault-admin-eyebrow">Toolkit section</p>
+            <h2 id="toolkit-settings-title">Tools animation</h2>
+            <p>Choose the amount of React Bits-style motion behind the technology chips.</p>
+          </div>
+          <label className="admin-select-label">
+            Toolkit style
+            <select
+              value={settings.toolkitStyle}
+              onChange={(event) => updateAsciiSetting("toolkitStyle", event.target.value)}
+            >
+              {toolkitStyleOptions.map(([value, label]) => (
+                <option key={value} value={value}>{label}</option>
+              ))}
+            </select>
+            <small>{toolkitStyleOptions.find(([value]) => value === settings.toolkitStyle)?.[2]}</small>
+          </label>
+          <label className="admin-check-label">
+            <input
+              type="checkbox"
+              checked={settings.toolkitChipMotion}
+              onChange={(event) => updateAsciiSetting("toolkitChipMotion", event.target.checked)}
+            />
+            Animate tool chips on entry and hover
+          </label>
+          <button type="button" className="reset-features ascii-save-button" onClick={saveToolkitSettings} disabled={isSaving}>
+            {isSaving ? "Saving..." : "Save toolkit settings"}
           </button>
         </section>
 
@@ -704,11 +763,6 @@ function VaultAdmin() {
           </button>
           {savedMessage && <p className="vault-admin-saved" role="status">{savedMessage}</p>}
           {saveError && <p className="vault-admin-error" role="alert">{saveError}</p>}
-          <div className="admin-ascii-live-preview" aria-label="Live ASCII preview">
-            <FeatureSettingsContext.Provider value={settings}>
-              {settings.heroBackground === "voxel-arc" ? <VoxelArc /> : settings.heroBackground === "astral-shell" ? <AstralShell /> : <GradientASCII />}
-            </FeatureSettingsContext.Provider>
-          </div>
         </section>
 
         <section className="vault-admin-ascii-settings" aria-labelledby="theme-settings-title">

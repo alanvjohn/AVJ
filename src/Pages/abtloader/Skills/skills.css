@@ -132,6 +132,27 @@
   animation: toolkit-chip-shine 650ms ease;
 }
 
+.toolkit-style-signal .skillslist::after,
+.toolkit-style-particles .skillslist::before,
+.toolkit-style-minimal::after,
+.toolkit-style-minimal .skillslist::before,
+.toolkit-style-minimal .skillslist::after,
+.toolkit-style-off::before,
+.toolkit-style-off::after,
+.toolkit-style-off .skillslist::before,
+.toolkit-style-off .skillslist::after {
+  display: none;
+}
+
+.toolkit-no-chip-motion .skillslist span {
+  animation: none;
+  transform: none;
+}
+
+.toolkit-no-chip-motion .skillslist span:hover {
+  transform: none;
+}
+
 .header-skills {
   margin: 0;
   color: #111;
