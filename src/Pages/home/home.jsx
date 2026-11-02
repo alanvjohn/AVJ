@@ -25,12 +25,19 @@ function Home() {
                 <VoxelArc
                   interactive={settings?.voxelArcInteractive}
                   paused={settings?.voxelArcPaused}
+                  waveStrength={settings?.voxelArcWaveStrength}
+                  cellSize={settings?.voxelArcCellSize}
+                  hue={settings?.voxelArcHue}
                 />
               )}
               {heroBackground === "astral-shell" && (
                 <AstralShell
                   interactive={settings?.astralShellInteractive}
                   paused={settings?.astralShellPaused}
+                  pointCount={settings?.astralShellPointCount}
+                  rotationSpeed={settings?.astralShellRotationSpeed}
+                  globeScale={settings?.astralShellScale}
+                  lineOpacity={settings?.astralShellLineOpacity}
                 />
               )}
               {heroBackground === "terminal-rain" && (

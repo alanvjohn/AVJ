@@ -458,7 +458,13 @@ function VaultAdmin() {
             <div className="admin-ascii-live-preview">
               <FeatureSettingsContext.Provider value={settings}>
                 {settings.heroBackground === "voxel-arc"
-                  ? <VoxelArc interactive={settings.voxelArcInteractive} paused={settings.voxelArcPaused} />
+                  ? <VoxelArc
+                    interactive={settings.voxelArcInteractive}
+                    paused={settings.voxelArcPaused}
+                    waveStrength={settings.voxelArcWaveStrength}
+                    cellSize={settings.voxelArcCellSize}
+                    hue={settings.voxelArcHue}
+                  />
                   : settings.heroBackground === "terminal-rain"
                     ? <TerminalRain
                       characters={settings.terminalRainCharacters}
@@ -471,7 +477,14 @@ function VaultAdmin() {
                       resolution={settings.terminalRainResolution}
                     />
                   : settings.heroBackground === "astral-shell"
-                    ? <AstralShell interactive={settings.astralShellInteractive} paused={settings.astralShellPaused} />
+                    ? <AstralShell
+                      interactive={settings.astralShellInteractive}
+                      paused={settings.astralShellPaused}
+                      pointCount={settings.astralShellPointCount}
+                      rotationSpeed={settings.astralShellRotationSpeed}
+                      globeScale={settings.astralShellScale}
+                      lineOpacity={settings.astralShellLineOpacity}
+                    />
                     : settings.heroBackground === "ascii"
                       ? <GradientASCII />
                       : <div className={`admin-static-background admin-static-background-${settings.heroBackground}`} />}
@@ -539,6 +552,21 @@ function VaultAdmin() {
                     onChange={(event) => updateAsciiSetting("voxelArcPaused", event.target.checked)} />
                   Pause animation
                 </label>
+                <label className="admin-range-label">
+                  <span><span>Wave height</span><strong>{settings.voxelArcWaveStrength}px</strong></span>
+                  <input type="range" min="0" max="14" step="1" value={settings.voxelArcWaveStrength}
+                    onChange={(event) => updateAsciiSetting("voxelArcWaveStrength", Number(event.target.value))} />
+                </label>
+                <label className="admin-range-label">
+                  <span><span>Voxel spacing</span><strong>{settings.voxelArcCellSize}px</strong></span>
+                  <input type="range" min="10" max="32" step="1" value={settings.voxelArcCellSize}
+                    onChange={(event) => updateAsciiSetting("voxelArcCellSize", Number(event.target.value))} />
+                </label>
+                <label className="admin-range-label">
+                  <span><span>Hue</span><strong>{settings.voxelArcHue}°</strong></span>
+                  <input type="range" min="160" max="280" step="1" value={settings.voxelArcHue}
+                    onChange={(event) => updateAsciiSetting("voxelArcHue", Number(event.target.value))} />
+                </label>
                 <button type="button" className="reset-features ascii-save-button" onClick={() => saveSettings(settings, "Voxel Arc settings saved and applied.")} disabled={isSaving}>
                   {isSaving ? "Saving..." : "Save Voxel Arc settings"}
                 </button>
@@ -555,6 +583,26 @@ function VaultAdmin() {
                   <input type="checkbox" checked={settings.astralShellPaused}
                     onChange={(event) => updateAsciiSetting("astralShellPaused", event.target.checked)} />
                   Pause rotation
+                </label>
+                <label className="admin-range-label">
+                  <span><span>Star count</span><strong>{settings.astralShellPointCount}</strong></span>
+                  <input type="range" min="60" max="260" step="10" value={settings.astralShellPointCount}
+                    onChange={(event) => updateAsciiSetting("astralShellPointCount", Number(event.target.value))} />
+                </label>
+                <label className="admin-range-label">
+                  <span><span>Rotation speed</span><strong>{settings.astralShellRotationSpeed.toFixed(4)}</strong></span>
+                  <input type="range" min="0" max="0.008" step="0.0005" value={settings.astralShellRotationSpeed}
+                    onChange={(event) => updateAsciiSetting("astralShellRotationSpeed", Number(event.target.value))} />
+                </label>
+                <label className="admin-range-label">
+                  <span><span>Globe size</span><strong>{Math.round(settings.astralShellScale * 100)}%</strong></span>
+                  <input type="range" min="0.2" max="0.48" step="0.01" value={settings.astralShellScale}
+                    onChange={(event) => updateAsciiSetting("astralShellScale", Number(event.target.value))} />
+                </label>
+                <label className="admin-range-label">
+                  <span><span>Connection opacity</span><strong>{Math.round(settings.astralShellLineOpacity * 100)}%</strong></span>
+                  <input type="range" min="0.1" max="1" step="0.05" value={settings.astralShellLineOpacity}
+                    onChange={(event) => updateAsciiSetting("astralShellLineOpacity", Number(event.target.value))} />
                 </label>
                 <button type="button" className="reset-features ascii-save-button" onClick={() => saveSettings(settings, "Astral Shell settings saved and applied.")} disabled={isSaving}>
                   {isSaving ? "Saving..." : "Save Astral Shell settings"}

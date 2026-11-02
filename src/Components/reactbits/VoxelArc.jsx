@@ -1,7 +1,14 @@
 import { useEffect, useRef } from "react";
 import "./VoxelArc.css";
 
-function VoxelArc({ interactive = true, paused = false, className = "" }) {
+function VoxelArc({
+  interactive = true,
+  paused = false,
+  waveStrength = 5,
+  cellSize = 18,
+  hue = 205,
+  className = "",
+}) {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -28,7 +35,7 @@ function VoxelArc({ interactive = true, paused = false, className = "" }) {
     const draw = (time) => {
       const elapsed = (time - startTime) / 1000;
       context.clearRect(0, 0, width, height);
-      const columns = Math.max(22, Math.floor(width / 18));
+      const columns = Math.max(22, Math.floor(width / cellSize));
       const rows = Math.max(12, Math.floor(height / 16));
       const horizon = height * 0.48;
       const spacing = width / columns;
@@ -39,13 +46,13 @@ function VoxelArc({ interactive = true, paused = false, className = "" }) {
         const scale = 0.35 + depth * 1.2;
         for (let column = 0; column < columns; column += 1) {
           const x = column * spacing + spacing / 2;
-          const wave = Math.sin(column * 0.7 + elapsed * (paused || reducedMotion ? 0 : 1.6)) * 5;
+          const wave = Math.sin(column * 0.7 + elapsed * (paused || reducedMotion ? 0 : 1.6)) * waveStrength;
           const ripple = pointer.active && interactive
             ? Math.max(0, 1 - Math.hypot(x / width - pointer.x, depth - pointer.y) * 3)
             : 0;
           const size = Math.max(1.5, (1.4 + depth * 3) * scale);
           const brightness = 35 + depth * 55 + ripple * 45;
-          context.fillStyle = `hsla(${205 + ripple * 35}, 90%, ${brightness}%, ${0.22 + depth * 0.58})`;
+          context.fillStyle = `hsla(${hue + ripple * 35}, 90%, ${brightness}%, ${0.22 + depth * 0.58})`;
           context.fillRect(x - size / 2, y + wave - size / 2, size, size);
         }
       }
@@ -80,7 +87,7 @@ function VoxelArc({ interactive = true, paused = false, className = "" }) {
       canvas.removeEventListener("pointermove", handlePointer);
       canvas.removeEventListener("pointerleave", clearPointer);
     };
-  }, [interactive, paused]);
+  }, [cellSize, hue, interactive, paused, waveStrength]);
 
   return <canvas ref={canvasRef} className={`voxel-arc ${className}`} aria-label="Animated voxel arc background" />;
 }

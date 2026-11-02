@@ -1,7 +1,15 @@
 import { useEffect, useRef } from "react";
 import "./AstralShell.css";
 
-function AstralShell({ interactive = true, paused = false, className = "" }) {
+function AstralShell({
+  interactive = true,
+  paused = false,
+  pointCount = 150,
+  rotationSpeed = 0.0025,
+  globeScale = 0.32,
+  lineOpacity = 1,
+  className = "",
+}) {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -14,8 +22,8 @@ function AstralShell({ interactive = true, paused = false, className = "" }) {
     let width = 0;
     let height = 0;
     let rotation = 0;
-    const points = Array.from({ length: 150 }, (_, index) => {
-      const phi = Math.acos(1 - (2 * (index + 0.5)) / 150);
+    const points = Array.from({ length: pointCount }, (_, index) => {
+      const phi = Math.acos(1 - (2 * (index + 0.5)) / pointCount);
       const theta = Math.PI * (1 + Math.sqrt(5)) * index;
       return { x: Math.sin(phi) * Math.cos(theta), y: Math.cos(phi), z: Math.sin(phi) * Math.sin(theta) };
     });
@@ -32,7 +40,7 @@ function AstralShell({ interactive = true, paused = false, className = "" }) {
 
     const draw = () => {
       context.clearRect(0, 0, width, height);
-      const radius = Math.min(width, height) * 0.32;
+      const radius = Math.min(width, height) * globeScale;
       const centerX = width * 0.72;
       const centerY = height * 0.52;
       const projected = points.map((point) => {
@@ -62,7 +70,7 @@ function AstralShell({ interactive = true, paused = false, className = "" }) {
         }
         if (nearest && distance < radius * radius * 0.14) {
           const alpha = Math.max(0.08, (current.z + 1) / 3);
-          context.strokeStyle = `rgba(124, 107, 255, ${alpha})`;
+          context.strokeStyle = `rgba(124, 107, 255, ${alpha * lineOpacity})`;
           context.beginPath();
           context.moveTo(current.x, current.y);
           context.lineTo(nearest.x, nearest.y);
@@ -81,7 +89,7 @@ function AstralShell({ interactive = true, paused = false, className = "" }) {
       });
 
       if (!paused && !reducedMotion) {
-        rotation += 0.0025;
+        rotation += rotationSpeed;
         frameId = requestAnimationFrame(draw);
       }
     };
@@ -106,7 +114,7 @@ function AstralShell({ interactive = true, paused = false, className = "" }) {
       canvas.removeEventListener("pointermove", handlePointer);
       canvas.removeEventListener("pointerleave", clearPointer);
     };
-  }, [interactive, paused]);
+  }, [globeScale, interactive, lineOpacity, paused, pointCount, rotationSpeed]);
 
   return <canvas ref={canvasRef} className={`astral-shell ${className}`} aria-label="Animated astral shell background" />;
 }

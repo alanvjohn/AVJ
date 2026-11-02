@@ -37,8 +37,15 @@ service cloud.firestore {
           'heroBackground',
           'voxelArcInteractive',
           'voxelArcPaused',
+          'voxelArcWaveStrength',
+          'voxelArcCellSize',
+          'voxelArcHue',
           'astralShellInteractive',
           'astralShellPaused',
+          'astralShellPointCount',
+          'astralShellRotationSpeed',
+          'astralShellScale',
+          'astralShellLineOpacity',
           'terminalRainCharacters',
           'terminalRainTrailLength',
           'terminalRainSpeed',
@@ -86,8 +93,36 @@ service cloud.firestore {
           || request.resource.data.heroBackground in ['ascii', 'voxel-arc', 'terminal-rain', 'astral-shell', 'grid', 'plain'])
         && (!('voxelArcInteractive' in request.resource.data) || request.resource.data.voxelArcInteractive is bool)
         && (!('voxelArcPaused' in request.resource.data) || request.resource.data.voxelArcPaused is bool)
+        && (!('voxelArcWaveStrength' in request.resource.data)
+          || (request.resource.data.voxelArcWaveStrength is number
+            && request.resource.data.voxelArcWaveStrength >= 0
+            && request.resource.data.voxelArcWaveStrength <= 14))
+        && (!('voxelArcCellSize' in request.resource.data)
+          || (request.resource.data.voxelArcCellSize is number
+            && request.resource.data.voxelArcCellSize >= 10
+            && request.resource.data.voxelArcCellSize <= 32))
+        && (!('voxelArcHue' in request.resource.data)
+          || (request.resource.data.voxelArcHue is number
+            && request.resource.data.voxelArcHue >= 160
+            && request.resource.data.voxelArcHue <= 280))
         && (!('astralShellInteractive' in request.resource.data) || request.resource.data.astralShellInteractive is bool)
         && (!('astralShellPaused' in request.resource.data) || request.resource.data.astralShellPaused is bool)
+        && (!('astralShellPointCount' in request.resource.data)
+          || (request.resource.data.astralShellPointCount is number
+            && request.resource.data.astralShellPointCount >= 60
+            && request.resource.data.astralShellPointCount <= 260))
+        && (!('astralShellRotationSpeed' in request.resource.data)
+          || (request.resource.data.astralShellRotationSpeed is number
+            && request.resource.data.astralShellRotationSpeed >= 0
+            && request.resource.data.astralShellRotationSpeed <= 0.008))
+        && (!('astralShellScale' in request.resource.data)
+          || (request.resource.data.astralShellScale is number
+            && request.resource.data.astralShellScale >= 0.2
+            && request.resource.data.astralShellScale <= 0.48))
+        && (!('astralShellLineOpacity' in request.resource.data)
+          || (request.resource.data.astralShellLineOpacity is number
+            && request.resource.data.astralShellLineOpacity >= 0.1
+            && request.resource.data.astralShellLineOpacity <= 1))
         && (!('terminalRainCharacters' in request.resource.data)
           || (request.resource.data.terminalRainCharacters is string
             && request.resource.data.terminalRainCharacters.size() >= 2
