@@ -16,6 +16,7 @@ import AstralShell from "../../Components/reactbits/AstralShell";
 import TerminalRain from "../../Components/reactbits/TerminalRain";
 import {
   defaultFeatureSettings,
+  applyFeatureSettingsLocally,
   getFeatureSettings,
   requestVisitorRefresh,
   saveFeatureSettings,
@@ -236,6 +237,8 @@ function VaultAdmin() {
     setSaveError("");
     setSavedMessage("");
     setIsSaving(true);
+    const optimisticSettings = applyFeatureSettingsLocally(nextSettings);
+    setSettings(optimisticSettings);
 
     try {
       const savedSettings = await saveFeatureSettings(nextSettings);

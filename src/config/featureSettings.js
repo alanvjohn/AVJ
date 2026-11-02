@@ -69,6 +69,15 @@ export const defaultFeatureSettings = {
 const storageKey = "avj-feature-settings-v2";
 export const featureSettingsUpdatedEvent = "avj-feature-settings-updated";
 
+export function applyFeatureSettingsLocally(settings) {
+  const nextSettings = { ...defaultFeatureSettings, ...settings };
+  localStorage.setItem(storageKey, JSON.stringify(nextSettings));
+  window.dispatchEvent(new CustomEvent(featureSettingsUpdatedEvent, {
+    detail: nextSettings,
+  }));
+  return nextSettings;
+}
+
 export function getFeatureSettings() {
   try {
     const stored = JSON.parse(localStorage.getItem(storageKey));
@@ -84,10 +93,7 @@ export async function loadFeatureSettings() {
     if (!snapshot.exists()) return getFeatureSettings();
 
     const nextSettings = { ...defaultFeatureSettings, ...snapshot.data() };
-    localStorage.setItem(storageKey, JSON.stringify(nextSettings));
-    window.dispatchEvent(new CustomEvent(featureSettingsUpdatedEvent, {
-      detail: nextSettings,
-    }));
+    applyFeatureSettingsLocally(nextSettings);
     return nextSettings;
   } catch (error) {
     console.error("Unable to load public site settings:", error);
@@ -156,7 +162,7 @@ export async function saveFeatureSettings(settings) {
     contactNotifications: nextSettings.contactNotifications,
     updatedAt: serverTimestamp(),
   });
-  localStorage.setItem(storageKey, JSON.stringify(nextSettings));
+  applyFeatureSettingsLocally(nextSettings);
   return nextSettings;
 }
 
