@@ -30,10 +30,21 @@ service cloud.firestore {
       allow write: if request.auth != null
         && request.auth.token.email == 'alanjohn9626@gmail.com'
         && request.resource.data.keys().hasOnly([
+          'lenis',
+          'revealAnimations',
+          'cursor',
+          'reactBitsCards',
           'heroBackground',
           'loaderStyle',
           'asciiPreset',
           'asciiCharacters',
+          'asciiCustomCharacters',
+          'asciiRandomCharacters',
+          'asciiTextMode',
+          'asciiText',
+          'asciiAnimationSpeed',
+          'asciiWaveStrength',
+          'asciiColorPreset',
           'asciiMouseInteraction',
           'asciiDesktopCellSize',
           'asciiMobileCellSize',
@@ -48,11 +59,23 @@ service cloud.firestore {
           'lenisTouchMultiplier',
           'lenisSyncTouch',
           'lenisSmoothWheel',
+          'accentPreset',
+          'showHeroProfile',
+          'showHeroActions',
+          'heroEyebrow',
+          'heroTitle',
+          'heroSubtitle',
+          'contactNotifications',
+          'contactNotificationDuration',
           'refreshAt',
           'updatedAt'
         ])
         && (!('heroBackground' in request.resource.data)
           || request.resource.data.heroBackground in ['ascii', 'grid', 'plain'])
+        && (!('lenis' in request.resource.data) || request.resource.data.lenis is bool)
+        && (!('revealAnimations' in request.resource.data) || request.resource.data.revealAnimations is bool)
+        && (!('cursor' in request.resource.data) || request.resource.data.cursor is bool)
+        && (!('reactBitsCards' in request.resource.data) || request.resource.data.reactBitsCards is bool)
         && (!('loaderStyle' in request.resource.data)
           || request.resource.data.loaderStyle in [
           'letter-glitch',
@@ -76,6 +99,20 @@ service cloud.firestore {
           || (request.resource.data.asciiCustomCharacters is string
             && request.resource.data.asciiCustomCharacters.size() >= 2
             && request.resource.data.asciiCustomCharacters.size() <= 64))
+        && (!('asciiRandomCharacters' in request.resource.data) || request.resource.data.asciiRandomCharacters is bool)
+        && (!('asciiTextMode' in request.resource.data) || request.resource.data.asciiTextMode is bool)
+        && (!('asciiText' in request.resource.data)
+          || (request.resource.data.asciiText is string && request.resource.data.asciiText.size() <= 40))
+        && (!('asciiAnimationSpeed' in request.resource.data)
+          || (request.resource.data.asciiAnimationSpeed is number
+            && request.resource.data.asciiAnimationSpeed >= 0
+            && request.resource.data.asciiAnimationSpeed <= 3))
+        && (!('asciiWaveStrength' in request.resource.data)
+          || (request.resource.data.asciiWaveStrength is number
+            && request.resource.data.asciiWaveStrength >= 0
+            && request.resource.data.asciiWaveStrength <= 0.3))
+        && (!('asciiColorPreset' in request.resource.data)
+          || request.resource.data.asciiColorPreset in ['atmosphere', 'lagoon', 'violet', 'rose', 'corona', 'mono', 'cyber', 'ember'])
         && (!('asciiMouseInteraction' in request.resource.data)
           || request.resource.data.asciiMouseInteraction is bool)
         && (!('asciiDesktopCellSize' in request.resource.data)
@@ -114,6 +151,21 @@ service cloud.firestore {
           || request.resource.data.lenisSyncTouch is bool)
         && (!('lenisSmoothWheel' in request.resource.data)
           || request.resource.data.lenisSmoothWheel is bool)
+        && (!('accentPreset' in request.resource.data)
+          || request.resource.data.accentPreset in ['blue', 'cyan', 'violet', 'rose', 'amber', 'green'])
+        && (!('showHeroProfile' in request.resource.data) || request.resource.data.showHeroProfile is bool)
+        && (!('showHeroActions' in request.resource.data) || request.resource.data.showHeroActions is bool)
+        && (!('heroEyebrow' in request.resource.data)
+          || (request.resource.data.heroEyebrow is string && request.resource.data.heroEyebrow.size() <= 120))
+        && (!('heroTitle' in request.resource.data)
+          || (request.resource.data.heroTitle is string && request.resource.data.heroTitle.size() <= 180))
+        && (!('heroSubtitle' in request.resource.data)
+          || (request.resource.data.heroSubtitle is string && request.resource.data.heroSubtitle.size() <= 500))
+        && (!('contactNotifications' in request.resource.data) || request.resource.data.contactNotifications is bool)
+        && (!('contactNotificationDuration' in request.resource.data)
+          || (request.resource.data.contactNotificationDuration is number
+            && request.resource.data.contactNotificationDuration >= 1000
+            && request.resource.data.contactNotificationDuration <= 15000))
         && (!('refreshAt' in request.resource.data)
           || request.resource.data.refreshAt is timestamp)
         && (!('updatedAt' in request.resource.data)

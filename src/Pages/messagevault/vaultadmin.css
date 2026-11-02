@@ -190,6 +190,21 @@
   color: #17213a;
   font: inherit;
 }
+.admin-select-label input,
+.admin-select-label textarea {
+  width: 100%;
+  border: 1px solid #b7c0d2;
+  border-radius: 0.65rem;
+  padding: 0.7rem 0.8rem;
+  background: #fff;
+  color: #17213a;
+  font: inherit;
+}
+.admin-select-label small {
+  color: #5b6680;
+  font-size: 0.78rem;
+  font-weight: 400;
+}
 .admin-setting-hint { grid-column: 1 / -1; font-size: 0.9rem; }
 .vault-admin-ascii-settings {
   display: grid;
@@ -235,6 +250,19 @@
 .admin-check-label input { accent-color: #174ea6; }
 .ascii-save-button { justify-self: start; }
 .ascii-save-button:disabled { cursor: wait; opacity: 0.65; }
+.admin-ascii-live-preview {
+  position: relative;
+  grid-column: 1 / -1;
+  min-height: 180px;
+  overflow: hidden;
+  border: 1px solid #dfe5f2;
+  border-radius: 0.85rem;
+  background: #121212;
+}
+.admin-ascii-live-preview .gradient-ascii {
+  position: absolute;
+  inset: 0;
+}
 .vault-admin-toast-settings {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -363,6 +391,13 @@
 .dark-theme .admin-select-label select { border-color: #53617e; background: #242424; color: #fff; }
 .dark-theme .vault-admin-ascii-settings { border-color: #363b48; background: #1d1d1d; }
 .dark-theme .vault-admin-toast-settings { border-color: #363b48; background: #1d1d1d; }
+.dark-theme .admin-select-label input,
+.dark-theme .admin-select-label textarea,
+.dark-theme .admin-select-label select {
+  border-color: #53617e;
+  background: #242424;
+  color: #f5f5f5;
+}
 .dark-theme .vault-admin-ascii-heading h2,
 .dark-theme .admin-range-label,
 .dark-theme .admin-check-label { color: #fff; }

@@ -35,7 +35,7 @@
 }
 .home-eyebrow {
   margin: 0 0 1.25rem;
-  color: #174ea6;
+  color: var(--avj-accent);
   font-family: "Satoshi Variable";
   font-size: 0.8rem;
   letter-spacing: 0.14em;
@@ -161,7 +161,7 @@
     radial-gradient(circle at 78% 42%, rgba(64, 91, 145, 0.48), transparent 34%);
 }
 .dark-theme .home-eyebrow {
-  color: #8bb9ff;
+  color: var(--avj-accent-light);
 }
 .dark-theme .row {
   background-color: transparent;

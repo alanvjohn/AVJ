@@ -10,12 +10,14 @@ import {
   signOut,
 } from "../contact/firebase";
 import TiltedCard from "../../Components/reactbits/TiltedCard";
+import GradientASCII from "../../Components/reactbits/GradientASCII";
 import {
   defaultFeatureSettings,
   getFeatureSettings,
   requestVisitorRefresh,
   saveFeatureSettings,
 } from "../../config/featureSettings";
+import FeatureSettingsContext from "../../config/FeatureSettingsContext";
 import "./vaultadmin.css";
 
 const featureLabels = {
@@ -59,6 +61,24 @@ const asciiCharacterOptions = [
   ["letters", "Letters"],
   ["symbols", "Symbols"],
   ["custom", "Custom"],
+];
+const asciiColorOptions = [
+  ["atmosphere", "Atmosphere"],
+  ["lagoon", "Lagoon"],
+  ["violet", "Violet"],
+  ["rose", "Rose"],
+  ["corona", "Corona"],
+  ["mono", "Monochrome"],
+  ["cyber", "Cyber neon"],
+  ["ember", "Ember"],
+];
+const accentOptions = [
+  ["blue", "AVJ blue"],
+  ["cyan", "Cyber cyan"],
+  ["violet", "Violet"],
+  ["rose", "Rose"],
+  ["amber", "Amber"],
+  ["green", "Terminal green"],
 ];
 
 function VaultAdmin() {
@@ -500,6 +520,15 @@ function VaultAdmin() {
               {asciiCharacterOptions.map(([value, label]) => <option key={value} value={value}>{label}</option>)}
             </select>
           </label>
+          <label className="admin-select-label">
+            Color preset
+            <select
+              value={settings.asciiColorPreset}
+              onChange={(event) => updateAsciiSetting("asciiColorPreset", event.target.value)}
+            >
+              {asciiColorOptions.map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+            </select>
+          </label>
           {settings.asciiCharacters === "custom" && (
             <label className="admin-select-label ascii-custom-characters-label">
               Custom characters
@@ -527,6 +556,44 @@ function VaultAdmin() {
               onChange={(event) => updateAsciiSetting("asciiDesktopMouseInteraction", event.target.checked)}
             />
             Desktop mouse interaction
+          </label>
+          <label className="admin-check-label">
+            <input
+              type="checkbox"
+              checked={settings.asciiRandomCharacters}
+              onChange={(event) => updateAsciiSetting("asciiRandomCharacters", event.target.checked)}
+            />
+            Random character mode
+          </label>
+          <label className="admin-check-label">
+            <input
+              type="checkbox"
+              checked={settings.asciiTextMode}
+              onChange={(event) => updateAsciiSetting("asciiTextMode", event.target.checked)}
+            />
+            ASCII text/logo mode
+          </label>
+          {settings.asciiTextMode && (
+            <label className="admin-select-label">
+              ASCII text or logo
+              <input
+                type="text"
+                maxLength={40}
+                value={settings.asciiText}
+                onChange={(event) => updateAsciiSetting("asciiText", event.target.value)}
+                placeholder="AVJ"
+              />
+            </label>
+          )}
+          <label className="admin-range-label">
+            <span><span>Animation speed</span><strong>{settings.asciiAnimationSpeed}×</strong></span>
+            <input type="range" min="0" max="3" step="0.1" value={settings.asciiAnimationSpeed}
+              onChange={(event) => updateAsciiSetting("asciiAnimationSpeed", Number(event.target.value))} />
+          </label>
+          <label className="admin-range-label">
+            <span><span>Wave strength</span><strong>{settings.asciiWaveStrength}</strong></span>
+            <input type="range" min="0" max="0.3" step="0.01" value={settings.asciiWaveStrength}
+              onChange={(event) => updateAsciiSetting("asciiWaveStrength", Number(event.target.value))} />
           </label>
           <label className="admin-check-label">
             <input
@@ -601,6 +668,74 @@ function VaultAdmin() {
           </button>
           {savedMessage && <p className="vault-admin-saved" role="status">{savedMessage}</p>}
           {saveError && <p className="vault-admin-error" role="alert">{saveError}</p>}
+          <div className="admin-ascii-live-preview" aria-label="Live ASCII preview">
+            <FeatureSettingsContext.Provider value={settings}>
+              <GradientASCII />
+            </FeatureSettingsContext.Provider>
+          </div>
+        </section>
+
+        <section className="vault-admin-ascii-settings" aria-labelledby="theme-settings-title">
+          <div className="vault-admin-ascii-heading">
+            <p className="vault-admin-eyebrow">Brand system</p>
+            <h2 id="theme-settings-title">Color presets</h2>
+            <p>Use a controlled accent palette instead of arbitrary CSS values.</p>
+          </div>
+          <label className="admin-select-label">
+            Website accent
+            <select value={settings.accentPreset}
+              onChange={(event) => updateAsciiSetting("accentPreset", event.target.value)}>
+              {accentOptions.map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+            </select>
+          </label>
+          <button type="button" className="reset-features ascii-save-button" onClick={saveAsciiSettings} disabled={isSaving}>
+            {isSaving ? "Saving..." : "Save color preset"}
+          </button>
+        </section>
+
+        <section className="vault-admin-ascii-settings" aria-labelledby="hero-content-title">
+          <div className="vault-admin-ascii-heading">
+            <p className="vault-admin-eyebrow">Homepage content</p>
+            <h2 id="hero-content-title">Hero text and visibility</h2>
+            <p>Edit the homepage without changing the component source.</p>
+          </div>
+          <label className="admin-select-label">Eyebrow
+            <input maxLength={120} value={settings.heroEyebrow}
+              onChange={(event) => updateAsciiSetting("heroEyebrow", event.target.value)} />
+          </label>
+          <label className="admin-select-label">Title
+            <input maxLength={180} value={settings.heroTitle}
+              onChange={(event) => updateAsciiSetting("heroTitle", event.target.value)} />
+          </label>
+          <label className="admin-select-label">Subtitle
+            <textarea maxLength={500} rows="4" value={settings.heroSubtitle}
+              onChange={(event) => updateAsciiSetting("heroSubtitle", event.target.value)} />
+          </label>
+          <label className="admin-check-label"><input type="checkbox" checked={settings.showHeroProfile}
+            onChange={(event) => updateAsciiSetting("showHeroProfile", event.target.checked)} /> Show profile image</label>
+          <label className="admin-check-label"><input type="checkbox" checked={settings.showHeroActions}
+            onChange={(event) => updateAsciiSetting("showHeroActions", event.target.checked)} /> Show hero buttons</label>
+          <button type="button" className="reset-features ascii-save-button" onClick={saveAsciiSettings} disabled={isSaving}>
+            {isSaving ? "Saving..." : "Save homepage settings"}
+          </button>
+        </section>
+
+        <section className="vault-admin-ascii-settings" aria-labelledby="contact-settings-title">
+          <div className="vault-admin-ascii-heading">
+            <p className="vault-admin-eyebrow">Contact experience</p>
+            <h2 id="contact-settings-title">Submission notifications</h2>
+            <p>Control whether visitors see send-status notifications and how long success messages remain visible.</p>
+          </div>
+          <label className="admin-check-label"><input type="checkbox" checked={settings.contactNotifications}
+            onChange={(event) => updateAsciiSetting("contactNotifications", event.target.checked)} /> Show contact notifications</label>
+          <label className="admin-range-label">
+            <span><span>Success duration</span><strong>{settings.contactNotificationDuration} ms</strong></span>
+            <input type="range" min="1000" max="15000" step="500" value={settings.contactNotificationDuration}
+              onChange={(event) => updateAsciiSetting("contactNotificationDuration", Number(event.target.value))} />
+          </label>
+          <button type="button" className="reset-features ascii-save-button" onClick={saveAsciiSettings} disabled={isSaving}>
+            {isSaving ? "Saving..." : "Save contact settings"}
+          </button>
         </section>
 
         <section className="vault-admin-toast-settings" aria-labelledby="toast-settings-title">

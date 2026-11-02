@@ -8,7 +8,10 @@ import { useFeatureSettings } from "../../config/FeatureSettingsContext";
 function Home() {
   const settings = useFeatureSettings();
   const heroBackground = settings?.heroBackground ?? "ascii";
-  const showProfileImage = typeof window === "undefined" || window.innerWidth > 767;
+  const showProfileImage = (typeof window === "undefined" || window.innerWidth > 767)
+    && settings?.showHeroProfile !== false;
+  const heroTitle = settings?.heroTitle || "Learning, building, and exploring technology.";
+  const heroSubtitle = settings?.heroSubtitle || "I'm Alan V. John, a student at the University of Worcester in the UK, originally from Kerala. I enjoy learning technology, building useful applications, and improving my skills through practical projects.";
 
   return (
     <>
@@ -17,21 +20,17 @@ function Home() {
               {heroBackground === "ascii" && <GradientASCII />}
               <div className='row homerow container-fluid reveal-on-scroll'>
                 <div className='col-sm-8 col-md-6 left'>
-                  <p className="home-eyebrow">Technology · Learning · Building</p>
+                  <p className="home-eyebrow">{settings?.heroEyebrow || "Technology · Learning · Building"}</p>
                   <h1 className='container titlehome'>
-                    Learning, building, <br />
-                    and exploring technology.
+                    {heroTitle}
                   </h1>
                   <p className='container parahome'> 
-                    I&apos;m Alan V. John, a student at the University of Worcester
-                    in the UK, originally from Kerala. I enjoy learning
-                    technology, building useful applications, and improving my
-                    skills through practical projects.
+                    {heroSubtitle}
                   </p>
-                  <div className="home-actions container">
+                  {settings?.showHeroActions !== false && <div className="home-actions container">
                     <Link to="/projects" className="home-action">View Projects</Link>
                     <Link to="/contact" className="home-action home-action-secondary">Contact Me</Link>
-                  </div>
+                  </div>}
                 </div>
                 <div className='col-12 col-md-6 right' >
                   {showProfileImage && (

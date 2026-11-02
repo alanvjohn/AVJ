@@ -29,6 +29,18 @@ const presets = {
     colors: ["251, 191, 36", "251, 146, 60"],
     multiplier: 2.4,
   },
+  mono: {
+    colors: ["148, 163, 184", "248, 250, 252"],
+    multiplier: 2.2,
+  },
+  cyber: {
+    colors: ["34, 211, 238", "129, 140, 248"],
+    multiplier: 2.4,
+  },
+  ember: {
+    colors: ["251, 113, 133", "251, 191, 36"],
+    multiplier: 2.3,
+  },
 };
 
 function GradientASCII() {
@@ -38,6 +50,12 @@ function GradientASCII() {
     preset: settings?.asciiPreset ?? "atmosphere",
     characters: settings?.asciiCharacters ?? "classic",
     customCharacters: settings?.asciiCustomCharacters ?? " .·:+*#@",
+    randomCharacters: settings?.asciiRandomCharacters ?? false,
+    textMode: settings?.asciiTextMode ?? false,
+    text: settings?.asciiText ?? "AVJ",
+    animationSpeed: settings?.asciiAnimationSpeed ?? 1,
+    waveStrength: settings?.asciiWaveStrength ?? 0.08,
+    colorPreset: settings?.asciiColorPreset ?? settings?.asciiPreset ?? "atmosphere",
     mouseInteraction: settings?.asciiMouseInteraction ?? true,
     desktopCellSize: settings?.asciiDesktopCellSize ?? 10,
     mobileCellSize: settings?.asciiMobileCellSize ?? 16,
@@ -93,13 +111,23 @@ function GradientASCII() {
 
     const draw = (time = 0) => {
       context.clearRect(0, 0, width, height);
-      const preset = presets[ascii.preset] || presets.atmosphere;
+      const preset = presets[ascii.colorPreset] || presets[ascii.preset] || presets.atmosphere;
       const characters = ascii.characters === "custom" && ascii.customCharacters.length >= 2
         ? ascii.customCharacters
         : characterSets[ascii.characters] || characterSets.classic;
       context.font = "12px monospace";
       context.textAlign = "center";
       context.textBaseline = "middle";
+
+      if (ascii.textMode && ascii.text.trim()) {
+        context.save();
+        context.font = `700 ${Math.max(32, Math.min(width / 5, 120))}px monospace`;
+        context.fillStyle = ascii.lightMode
+          ? "rgba(25, 35, 60, 0.72)"
+          : `rgba(${preset.colors[1]}, 0.72)`;
+        context.fillText(ascii.text.trim(), width / 2, height / 2);
+        context.restore();
+      }
 
       for (let row = 0; row < rows; row += 1) {
         for (let column = 0; column < columns; column += 1) {
@@ -112,12 +140,15 @@ function GradientASCII() {
           const glow = Math.max(0, 1 - distance * preset.multiplier) * glowStrength;
           const wave = reducedMotion.matches
             ? 0
-            : Math.sin(time / 1800 + column * 0.16) * grain * (isMobile ? 0.45 : 1);
+            : Math.sin((time * ascii.animationSpeed) / 1800 + column * 0.16)
+              * ascii.waveStrength * (isMobile ? 0.45 : 1);
           const intensity = Math.max(
             0,
             Math.min(1, (glow + wave) * density + (ascii.intro ? 0.1 : 0))
           );
-          const characterIndex = Math.min(
+          const characterIndex = ascii.randomCharacters
+            ? Math.floor(Math.random() * characters.length)
+            : Math.min(
             characters.length - 1,
             Math.floor(intensity * characters.length)
           );
@@ -195,6 +226,12 @@ function GradientASCII() {
     ascii.preset,
     ascii.characters,
     ascii.customCharacters,
+    ascii.randomCharacters,
+    ascii.textMode,
+    ascii.text,
+    ascii.animationSpeed,
+    ascii.waveStrength,
+    ascii.colorPreset,
   ]);
 
   return <canvas ref={canvasRef} className="gradient-ascii" aria-hidden="true" />;

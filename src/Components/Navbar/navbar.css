@@ -28,7 +28,7 @@
 }
 
 .links.active {
-  color: #174ea6 !important;
+  color: var(--avj-accent) !important;
   font-weight: 600;
   opacity: 1;
   text-decoration: underline;
@@ -132,7 +132,7 @@
   color: #ffffff;
 }
 .dark-theme .links.active {
-  color: #8bb9ff !important;
+  color: var(--avj-accent-light) !important;
 }
 .dark-theme .links:hover {
   color: #848181;

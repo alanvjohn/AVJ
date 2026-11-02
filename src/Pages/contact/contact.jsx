@@ -5,6 +5,7 @@ import { db, addDoc, collection } from "./firebase"; // Import Firebase config
 import "./contact.css";
 import toast, { Toaster } from 'react-hot-toast';
 import ThemeContext from '../../Components/custom/Theme';
+import { useFeatureSettings } from "../../config/FeatureSettingsContext";
 
 const contactDraftKey = "avj-contact-draft";
 const emptyFormData = { name: "", email: "", message: "" };
@@ -99,6 +100,7 @@ const damerauLevenshteinDistance = (first, second) => {
 
 function Contact() {
   const { theme } = useContext(ThemeContext);
+  const featureSettings = useFeatureSettings() || {};
 
   const [formData, setFormData] = useState(() => ({
     ...emptyFormData,
@@ -148,25 +150,34 @@ function Contact() {
         ? { backgroundColor: "#fff", color: "#000" }
         : { backgroundColor: "#1f1f1f", color: "#fff" };
 
-      await toast.promise(
-        addDoc(collection(db, "messages"), {
-          name: formData.name.trim(),
-          email: formData.email.trim(),
-          message: formData.message.trim(),
-          timestamp: new Date().toISOString(),
-        }),
-        {
-          loading: "Sending your message...",
-          success: "Thank you. I will get back to you shortly.",
-          error: "Failed to send message. Please try again.",
-        },
-        {
-          position: "top-center",
-          style: notificationStyle,
-          className: "teaser1",
-          success: { duration: 5000, icon: "📩" },
-        }
-      );
+      const submission = addDoc(collection(db, "messages"), {
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        message: formData.message.trim(),
+        timestamp: new Date().toISOString(),
+      });
+
+      if (featureSettings.contactNotifications !== false) {
+        await toast.promise(
+          submission,
+          {
+            loading: "Sending your message...",
+            success: "Thank you. I will get back to you shortly.",
+            error: "Failed to send message. Please try again.",
+          },
+          {
+            position: "top-center",
+            style: notificationStyle,
+            className: "teaser1",
+            success: {
+              duration: Number(featureSettings.contactNotificationDuration ?? 5000),
+              icon: "📩",
+            },
+          }
+        );
+      } else {
+        await submission;
+      }
 
     setFormData({ name: "", email: "", message: "" });
     localStorage.removeItem(contactDraftKey);

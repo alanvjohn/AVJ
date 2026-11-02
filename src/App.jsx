@@ -72,6 +72,20 @@ function App() {
     };
   }, []);
 
+  useEffect(() => {
+    const accents = {
+      blue: ["#174ea6", "#8bb9ff"],
+      cyan: ["#0891b2", "#67e8f9"],
+      violet: ["#7c3aed", "#c4b5fd"],
+      rose: ["#e11d48", "#fda4af"],
+      amber: ["#b45309", "#fcd34d"],
+      green: ["#15803d", "#86efac"],
+    };
+    const [accent, accentLight] = accents[featureSettings.accentPreset] || accents.blue;
+    document.documentElement.style.setProperty("--avj-accent", accent);
+    document.documentElement.style.setProperty("--avj-accent-light", accentLight);
+  }, [featureSettings.accentPreset]);
+
   return (
     <ThemeProvider>
       <FeatureSettingsContext.Provider value={featureSettings}>
