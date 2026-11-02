@@ -48,8 +48,11 @@ function NavScrollExample() {
         color: isDark ? '#000' : '#fff',
         padding: '0.85rem 1rem',
         width: 'min(32rem, calc(100vw - 2rem))',
-        minWidth: 0,
+        minWidth: '280px',
+        maxWidth: 'calc(100vw - 2rem)',
+        boxSizing: 'border-box',
       },
+      className: 'theme-toast',
     });
 
     return () => toast.dismiss(THEME_TOAST_ID);

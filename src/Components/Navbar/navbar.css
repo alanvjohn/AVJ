@@ -42,6 +42,12 @@
   width: 100%;
   min-width: 0;
 }
+.theme-toast {
+  width: min(32rem, calc(100vw - 2rem)) !important;
+  min-width: 280px !important;
+  max-width: calc(100vw - 2rem) !important;
+  box-sizing: border-box;
+}
 .theme-toast-emoji { font-size: 1.35rem; }
 .theme-toast-content span:nth-child(2) {
   display: grid;
@@ -72,6 +78,11 @@
   color: #fff;
 }
 .dark-theme .theme-toast-content button:hover { color: #121212; }
+@media (max-width: 420px) {
+  .theme-toast {
+    min-width: 0 !important;
+  }
+}
 /* darktheme */
 .dark-theme .title {
   color: #ffffff;
