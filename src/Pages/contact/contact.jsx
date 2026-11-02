@@ -8,6 +8,7 @@ import ThemeContext from '../../Components/custom/Theme';
 import { useFeatureSettings } from "../../config/FeatureSettingsContext";
 
 const contactDraftKey = "avj-contact-draft";
+const CONTACT_TOASTER_ID = "contact-notifications";
 const emptyFormData = { name: "", email: "", message: "" };
 const commonEmailDomains = [
   "gmail.com",
@@ -169,6 +170,7 @@ function Contact() {
             position: "top-center",
             style: notificationStyle,
             className: "teaser1",
+            toasterId: CONTACT_TOASTER_ID,
             success: {
               duration: Number(featureSettings.contactNotificationDuration ?? 5000),
               icon: "📩",
@@ -268,7 +270,7 @@ function Contact() {
           </form>
         </div>
       </div>
-      <Toaster />
+      <Toaster toasterId={CONTACT_TOASTER_ID} />
         </div>
   );
 }

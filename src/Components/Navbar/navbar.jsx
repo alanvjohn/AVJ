@@ -9,6 +9,7 @@ import { useFeatureSettings } from '../../config/FeatureSettingsContext';
 import toast, { Toaster } from 'react-hot-toast';
 
 const THEME_TOAST_ID = 'avj-theme-toast';
+const THEME_TOASTER_ID = 'theme-notifications';
 
 function NavScrollExample() {
   const location = useLocation();
@@ -36,6 +37,7 @@ function NavScrollExample() {
         </div>
       ), {
         id: THEME_TOAST_ID,
+        toasterId: THEME_TOASTER_ID,
         duration: 3000,
         position: 'top-left',
         style: {
@@ -61,6 +63,7 @@ function NavScrollExample() {
         </div>
       ), {
         id: THEME_TOAST_ID,
+        toasterId: THEME_TOASTER_ID,
         duration: 3000,
         position: 'top-left',
         style: {
@@ -108,7 +111,7 @@ useEffect(() => {
           </Nav>
         </Navbar.Collapse>
       </Container>
-      <Toaster containerStyle={toastContainerStyle} />
+      <Toaster toasterId={THEME_TOASTER_ID} containerStyle={toastContainerStyle} />
     </Navbar>    
   );
 }
