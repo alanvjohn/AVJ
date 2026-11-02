@@ -739,12 +739,13 @@ function VaultAdmin() {
           </button>
         </section>
 
-        <section className="vault-admin-ascii-settings" aria-labelledby="ascii-settings-title">
-          <div className="vault-admin-ascii-heading">
-            <p className="vault-admin-eyebrow">Gradient ASCII</p>
-            <h2 id="ascii-settings-title">Background customisation</h2>
-            <p>These controls are shared with every visitor when ASCII gradient is selected.</p>
-          </div>
+        {settings.heroBackground === "ascii" && (
+          <section className="vault-admin-ascii-settings" aria-labelledby="ascii-settings-title">
+            <div className="vault-admin-ascii-heading">
+              <p className="vault-admin-eyebrow">Selected background · Gradient ASCII</p>
+              <h2 id="ascii-settings-title">Background customisation</h2>
+              <p>These controls are active because Gradient ASCII is the selected hero background.</p>
+            </div>
           <label className="admin-select-label">
             Preset
             <select
@@ -911,7 +912,8 @@ function VaultAdmin() {
           </button>
           {savedMessage && <p className="vault-admin-saved" role="status">{savedMessage}</p>}
           {saveError && <p className="vault-admin-error" role="alert">{saveError}</p>}
-        </section>
+          </section>
+        )}
 
         <section className="vault-admin-ascii-settings" aria-labelledby="theme-settings-title">
           <div className="vault-admin-ascii-heading">

@@ -67,6 +67,7 @@ export const defaultFeatureSettings = {
 };
 
 const storageKey = "avj-feature-settings-v2";
+const pendingStorageKey = "avj-feature-settings-pending";
 export const featureSettingsUpdatedEvent = "avj-feature-settings-updated";
 
 export function applyFeatureSettingsLocally(settings) {
@@ -76,6 +77,10 @@ export function applyFeatureSettingsLocally(settings) {
     detail: nextSettings,
   }));
   return nextSettings;
+}
+
+function hasPendingFeatureSettings() {
+  return localStorage.getItem(pendingStorageKey) === "true";
 }
 
 export function getFeatureSettings() {
@@ -90,6 +95,7 @@ export function getFeatureSettings() {
 export async function loadFeatureSettings() {
   try {
     const snapshot = await getDoc(doc(db, "siteSettings", "appearance"));
+    if (hasPendingFeatureSettings()) return getFeatureSettings();
     if (!snapshot.exists()) return getFeatureSettings();
 
     const nextSettings = { ...defaultFeatureSettings, ...snapshot.data() };
@@ -103,6 +109,7 @@ export async function loadFeatureSettings() {
 
 export async function saveFeatureSettings(settings) {
   const nextSettings = { ...defaultFeatureSettings, ...settings };
+  localStorage.setItem(pendingStorageKey, "true");
   await setDoc(doc(db, "siteSettings", "appearance"), {
     lenis: nextSettings.lenis,
     revealAnimations: nextSettings.revealAnimations,
@@ -162,6 +169,7 @@ export async function saveFeatureSettings(settings) {
     contactNotifications: nextSettings.contactNotifications,
     updatedAt: serverTimestamp(),
   });
+  localStorage.removeItem(pendingStorageKey);
   applyFeatureSettingsLocally(nextSettings);
   return nextSettings;
 }
@@ -169,6 +177,7 @@ export async function saveFeatureSettings(settings) {
 export function subscribeFeatureSettings(onSettings, onRefresh) {
   return onSnapshot(doc(db, "siteSettings", "appearance"), (snapshot) => {
     if (!snapshot.exists()) return;
+    if (hasPendingFeatureSettings()) return;
 
     const data = snapshot.data();
     onSettings({ ...defaultFeatureSettings, ...data });
