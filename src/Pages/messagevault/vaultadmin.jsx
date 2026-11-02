@@ -245,7 +245,7 @@ function VaultAdmin() {
       console.error("Unable to save site settings:", error);
       setSaveError(
         error?.code === "permission-denied"
-          ? "Firebase rejected this save. Publish the latest firestore.rules and confirm you are signed in as the admin account."
+          ? "Firebase rejected this save. Publish the latest firestore.rules from the repository, then sign in as alanjohn9626@gmail.com and try again."
           : `Unable to save site settings${error?.code ? ` (${error.code})` : ""}. Check the browser console and Firebase connection.`
       );
     } finally {
