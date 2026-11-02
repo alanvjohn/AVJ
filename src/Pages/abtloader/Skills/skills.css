@@ -9,7 +9,7 @@
 .skill-holder::before {
   position: absolute;
   inset: 0;
-  z-index: -1;
+  z-index: 0;
   background:
     linear-gradient(rgba(23, 78, 166, 0.045) 1px, transparent 1px),
     linear-gradient(90deg, rgba(23, 78, 166, 0.045) 1px, transparent 1px);
@@ -23,7 +23,7 @@
   position: absolute;
   top: 8%;
   left: -12rem;
-  z-index: -1;
+  z-index: 0;
   width: 20rem;
   height: 20rem;
   border-radius: 50%;
@@ -34,6 +34,8 @@
 }
 
 .skills-heading {
+  position: relative;
+  z-index: 1;
   max-width: 760px;
   margin: 0 auto 2rem;
   animation: toolkit-heading-in 700ms both;
@@ -49,6 +51,8 @@
 }
 
 .skillslist {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -57,9 +61,40 @@
   margin: 0 auto;
 }
 
+.skillslist::before,
+.skillslist::after {
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  content: "";
+}
+
+.skillslist::before {
+  top: 50%;
+  left: -12%;
+  width: 124%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(139, 185, 255, 0.55), transparent);
+  transform: translateX(-100%);
+  animation: toolkit-signal-scan 7s ease-in-out infinite;
+}
+
+.skillslist::after {
+  inset: -4rem -2rem;
+  background:
+    radial-gradient(circle at 12% 30%, rgba(139, 185, 255, 0.75) 0 1px, transparent 2px),
+    radial-gradient(circle at 78% 18%, rgba(124, 107, 255, 0.7) 0 1px, transparent 2px),
+    radial-gradient(circle at 44% 88%, rgba(139, 185, 255, 0.6) 0 1px, transparent 2px),
+    radial-gradient(circle at 92% 76%, rgba(124, 107, 255, 0.65) 0 1px, transparent 2px);
+  background-size: 13rem 9rem, 17rem 13rem, 19rem 11rem, 15rem 10rem;
+  opacity: 0.5;
+  animation: toolkit-particle-drift 12s linear infinite;
+}
+
 .skillslist span {
   --skill-index: 0;
   position: relative;
+  overflow: hidden;
   padding: 0.85rem 1.1rem;
   border: 1px solid #d9dee7;
   border-radius: 0.8rem;
@@ -169,9 +204,21 @@
   to { transform: translate3d(58rem, 5rem, 0) scale(1.35); }
 }
 
+@keyframes toolkit-signal-scan {
+  0%, 20% { opacity: 0; transform: translateX(-100%); }
+  35%, 65% { opacity: 1; }
+  80%, 100% { opacity: 0; transform: translateX(100%); }
+}
+
+@keyframes toolkit-particle-drift {
+  to { background-position: 4rem 2rem, -3rem 4rem, 5rem -2rem, -4rem 3rem; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .skill-holder::before,
   .skill-holder::after,
+  .skillslist::before,
+  .skillslist::after,
   .skills-heading,
   .skillslist span {
     animation: none;
