@@ -1,87 +1,15 @@
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import './navbar.css';
 import ThemeContext from '../custom/Theme';
-import { useFeatureSettings } from '../../config/FeatureSettingsContext';
-import toast, { Toaster } from 'react-hot-toast';
-
-const THEME_TOAST_ID = 'avj-theme-toast';
-const THEME_TOASTER_ID = 'theme-notifications';
 
 function NavScrollExample() {
   const location = useLocation();
   const currentPath = location.pathname;
-  const { theme, toggleTheme } = useContext(ThemeContext);
-  const featureSettings = useFeatureSettings() || {};
-  const toastContainerStyle = {
-    top: `${Number(featureSettings.themeToastY ?? 72)}px`,
-    left: `${Number(featureSettings.themeToastX ?? 16)}px`,
-    right: 'auto',
-  };
-  const onPageLoad = (currentTheme) => {
-    toast.dismiss(THEME_TOAST_ID);
-    if (currentTheme === 'light') {
-      toast((t) => (
-        <div className="theme-toast-content">
-          <span className="theme-toast-emoji" aria-hidden="true">🦇</span>
-          <span>
-            <strong>Light mode unlocked!</strong>
-            <small>Tap AVJ if you want to enter the dark side.</small>
-          </span>
-          <button type="button" onClick={() => { toast.dismiss(t.id); toggleTheme(); }}>
-            Switch
-          </button>
-        </div>
-      ), {
-        id: THEME_TOAST_ID,
-        toasterId: THEME_TOASTER_ID,
-        duration: 3000,
-        position: 'top-left',
-        style: {
-          backgroundColor: '#1f1f1f',
-          color: '#fff',
-          padding: '0.85rem 1rem',
-          width: 'min(32rem, calc(100vw - 2rem))',
-          minWidth: 0,
-        },
-        className: 'teaser',
-      });
-    } else if (currentTheme === 'dark') {
-      toast((t) => (
-        <div className="theme-toast-content">
-          <span className="theme-toast-emoji" aria-hidden="true">🌙</span>
-          <span>
-            <strong>Welcome to the dark side!</strong>
-            <small>Your pixels are now working undercover.</small>
-          </span>
-          <button type="button" onClick={() => { toast.dismiss(t.id); toggleTheme(); }}>
-            Go light
-          </button>
-        </div>
-      ), {
-        id: THEME_TOAST_ID,
-        toasterId: THEME_TOASTER_ID,
-        duration: 3000,
-        position: 'top-left',
-        style: {
-          backgroundColor: '#fff',
-          color: '#000',
-          padding: '0.85rem 1rem',
-          width: 'min(32rem, calc(100vw - 2rem))',
-          minWidth: 0,
-        },
-        className: 'teaser',
-      });
-    }
-  };
-useEffect(() => {
-  if (currentPath === '/') {  
-    onPageLoad(theme);
-  }
-}, [theme, currentPath]);
+  const { toggleTheme } = useContext(ThemeContext);
 
   return (
     <Navbar expand="md" className="bg-auto m-1 border-bottom border-3 navbar ">
@@ -111,7 +39,6 @@ useEffect(() => {
           </Nav>
         </Navbar.Collapse>
       </Container>
-      <Toaster toasterId={THEME_TOASTER_ID} containerStyle={toastContainerStyle} />
     </Navbar>    
   );
 }
