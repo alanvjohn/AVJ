@@ -8,6 +8,61 @@ import ThemeContext from '../../Components/custom/Theme';
 
 const contactDraftKey = "avj-contact-draft";
 const emptyFormData = { name: "", email: "", message: "" };
+const commonEmailDomains = [
+  "gmail.com",
+  "outlook.com",
+  "hotmail.com",
+  "yahoo.com",
+  "icloud.com",
+  "proton.me",
+  "protonmail.com",
+];
+
+const getEmailDomainError = (email) => {
+  const normalizedEmail = email.trim().toLowerCase();
+  const emailParts = normalizedEmail.split("@");
+  if (emailParts.length !== 2 || !emailParts[0] || !emailParts[1]) {
+    return "Enter a complete email address.";
+  }
+
+  const [localPart, domain] = emailParts;
+  if (
+    localPart.length > 64 ||
+    !/^[a-z0-9.!#$%&'*+/=?^_`{|}~-]+$/i.test(localPart) ||
+    !/^(?=.{4,253}$)(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z]{2,}$/i.test(domain)
+  ) {
+    return "Enter a valid email domain.";
+  }
+
+  const closestCommonDomain = commonEmailDomains
+    .map((knownDomain) => ({
+      domain: knownDomain,
+      distance: levenshteinDistance(domain, knownDomain),
+    }))
+    .sort((a, b) => a.distance - b.distance)[0];
+
+  if (closestCommonDomain && closestCommonDomain.distance <= 2 && domain !== closestCommonDomain.domain) {
+    return `That domain looks incorrect. Did you mean ${closestCommonDomain.domain}?`;
+  }
+
+  return "";
+};
+
+const levenshteinDistance = (first, second) => {
+  const distances = Array.from({ length: second.length + 1 }, (_, index) => index);
+  for (let row = 1; row <= first.length; row += 1) {
+    let previousDiagonal = distances[0];
+    distances[0] = row;
+    for (let column = 1; column <= second.length; column += 1) {
+      const current = distances[column];
+      distances[column] = first[row - 1] === second[column - 1]
+        ? previousDiagonal
+        : Math.min(previousDiagonal, distances[column - 1], current) + 1;
+      previousDiagonal = current;
+    }
+  }
+  return distances[second.length];
+};
 
 function Contact() {
   const { theme } = useContext(ThemeContext);
@@ -23,6 +78,8 @@ function Contact() {
     })(),
   }));
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [emailError, setEmailError] = useState("");
+  const [shakeEmail, setShakeEmail] = useState(false);
 
   // Handle input change
   const handleChange = (e) => {
@@ -31,6 +88,10 @@ function Contact() {
       [e.target.name]: e.target.value,
     };
     setFormData(nextFormData);
+    if (e.target.name === "email") {
+      setEmailError("");
+      setShakeEmail(false);
+    }
     localStorage.setItem(contactDraftKey, JSON.stringify(nextFormData));
   };
 
@@ -39,6 +100,14 @@ function Contact() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (isSubmitting) return;
+
+    const nextEmailError = getEmailDomainError(formData.email);
+    if (nextEmailError) {
+      setEmailError(nextEmailError);
+      setShakeEmail(false);
+      window.setTimeout(() => setShakeEmail(true), 0);
+      return;
+    }
 
     setIsSubmitting(true);
     try {
@@ -122,12 +191,19 @@ function Contact() {
               type="email"
               name="email"
               placeholder="Enter your email"
-              className="form-control contact-form-control"
+              className={`form-control contact-form-control${emailError ? " has-error" : ""}${shakeEmail ? " shake-error" : ""}`}
               value={formData.email}
               onChange={handleChange}
               required
               maxLength="254"
+              aria-invalid={Boolean(emailError)}
+              aria-describedby={emailError ? "contact-email-error" : undefined}
             />
+            {emailError && (
+              <p id="contact-email-error" className="contact-email-error" role="alert">
+                {emailError}
+              </p>
+            )}
             <label htmlFor="contact-message">Message</label>
             <textarea
               id="contact-message"

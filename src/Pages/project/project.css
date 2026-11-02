@@ -85,6 +85,30 @@
   margin: 0 auto;
 }
 
+.project-more-button {
+  display: block;
+  margin: 2rem auto 0;
+  border: 1px solid #174ea6;
+  border-radius: 999px;
+  padding: 0.7rem 1.15rem;
+  background: #174ea6;
+  color: #fff;
+  font-family: "Satoshi Variable";
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.project-more-button:hover {
+  background: #123d82;
+  transform: translateY(-2px);
+}
+
+.project-more-button:focus-visible {
+  outline: 3px solid #8bb9ff;
+  outline-offset: 3px;
+}
+
 .project-folder {
   position: relative;
   display: block;
@@ -279,6 +303,16 @@
   border-color: #8bb9ff;
   background: #8bb9ff;
   color: #101828;
+}
+
+.dark-theme .project-more-button {
+  border-color: #8bb9ff;
+  background: #8bb9ff;
+  color: #101828;
+}
+
+.dark-theme .project-more-button:hover {
+  background: #b6d2ff;
 }
 
 .dark-theme .project-tags span {

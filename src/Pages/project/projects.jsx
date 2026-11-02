@@ -7,6 +7,7 @@ import { getFeatureSettings } from '../../config/featureSettings';
 const Projects = () => {
   const [featureSettings] = useState(getFeatureSettings);
   const [activeFilter, setActiveFilter] = useState('All');
+  const [showAllProjects, setShowAllProjects] = useState(false);
   const filters = ['All', ...new Set(projectData.flatMap((project) => project.tags))];
   const visibleProjects = useMemo(
     () => activeFilter === 'All'
@@ -14,6 +15,14 @@ const Projects = () => {
       : projectData.filter((project) => project.tags.includes(activeFilter)),
     [activeFilter]
   );
+  const projectsToRender = showAllProjects
+    ? visibleProjects
+    : visibleProjects.slice(0, 6);
+
+  const handleFilterChange = (filter) => {
+    setActiveFilter(filter);
+    setShowAllProjects(false);
+  };
 
   return (
     <div className="project-page">
@@ -33,7 +42,7 @@ const Projects = () => {
                 key={filter}
                 type="button"
                 className={`project-filter${activeFilter === filter ? ' is-active' : ''}`}
-                onClick={() => setActiveFilter(filter)}
+                onClick={() => handleFilterChange(filter)}
                 aria-pressed={activeFilter === filter}
               >
                 {filter}
@@ -41,7 +50,7 @@ const Projects = () => {
             ))}
           </div>
           <div className="project-list">
-            {visibleProjects.map((project) => (
+            {projectsToRender.map((project) => (
               <a
                 key={project.id}
                 href={project.link}
@@ -80,6 +89,16 @@ const Projects = () => {
               </a>
             ))}
           </div>
+          {visibleProjects.length > 6 && (
+            <button
+              type="button"
+              className="project-more-button"
+              onClick={() => setShowAllProjects((isExpanded) => !isExpanded)}
+              aria-expanded={showAllProjects}
+            >
+              {showAllProjects ? 'Show fewer projects' : `Show all ${visibleProjects.length} projects`}
+            </button>
+          )}
         </section>
       </div>
     </div>

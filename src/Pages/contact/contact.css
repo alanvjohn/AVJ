@@ -45,6 +45,28 @@ textarea {
   margin: 0 0 0.75rem;
 }
 
+.contact-form-control.has-error {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 0.2rem rgba(220, 38, 38, 0.18);
+}
+
+.shake-error {
+  animation: contact-input-shake 0.35s ease-in-out;
+}
+
+.contact-email-error {
+  margin: -0.5rem 0 0.75rem;
+  color: #dc2626;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+@keyframes contact-input-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+
 .buttons {
   padding: 0;
 }
