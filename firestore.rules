@@ -43,6 +43,11 @@ service cloud.firestore {
           'asciiLightMode',
           'themeToastX',
           'themeToastY',
+          'lenisLerp',
+          'lenisWheelMultiplier',
+          'lenisTouchMultiplier',
+          'lenisSyncTouch',
+          'lenisSmoothWheel',
           'refreshAt',
           'updatedAt'
         ])
@@ -89,6 +94,22 @@ service cloud.firestore {
           || request.resource.data.themeToastX is number)
         && (!('themeToastY' in request.resource.data)
           || request.resource.data.themeToastY is number)
+        && (!('lenisLerp' in request.resource.data)
+          || (request.resource.data.lenisLerp is number
+            && request.resource.data.lenisLerp >= 0.02
+            && request.resource.data.lenisLerp <= 0.2))
+        && (!('lenisWheelMultiplier' in request.resource.data)
+          || (request.resource.data.lenisWheelMultiplier is number
+            && request.resource.data.lenisWheelMultiplier >= 0.5
+            && request.resource.data.lenisWheelMultiplier <= 2))
+        && (!('lenisTouchMultiplier' in request.resource.data)
+          || (request.resource.data.lenisTouchMultiplier is number
+            && request.resource.data.lenisTouchMultiplier >= 0.5
+            && request.resource.data.lenisTouchMultiplier <= 2))
+        && (!('lenisSyncTouch' in request.resource.data)
+          || request.resource.data.lenisSyncTouch is bool)
+        && (!('lenisSmoothWheel' in request.resource.data)
+          || request.resource.data.lenisSmoothWheel is bool)
         && (!('refreshAt' in request.resource.data)
           || request.resource.data.refreshAt is timestamp)
         && (!('updatedAt' in request.resource.data)

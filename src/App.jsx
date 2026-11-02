@@ -75,6 +75,7 @@ function App() {
   return (
     <ThemeProvider>
       <FeatureSettingsContext.Provider value={featureSettings}>
+      <ScrollExperience />
         <div className="portrait-only-notice" role="status">
           <div className="portrait-only-card">
             <span aria-hidden="true">📱</span>
@@ -82,7 +83,6 @@ function App() {
             <p>This portfolio is designed for portrait view.</p>
           </div>
         </div>
-        <ScrollExperience />
         <Cursor />
         <Navbar />
         <div>

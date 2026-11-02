@@ -3,21 +3,26 @@ import Lenis from "lenis";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { getFeatureSettings } from "../../config/featureSettings";
+import { useFeatureSettings } from "../../config/FeatureSettingsContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
 function ScrollExperience() {
+  const contextSettings = useFeatureSettings();
+
   useEffect(() => {
     const reducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
-    const featureSettings = getFeatureSettings();
+    const featureSettings = contextSettings || getFeatureSettings();
     const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
     const lenis = new Lenis({
       autoRaf: false,
-      lerp: coarsePointer ? 0.1 : 0.08,
-      smoothWheel: featureSettings.lenis && !coarsePointer,
-      syncTouch: false,
+      lerp: Number(featureSettings.lenisLerp ?? (coarsePointer ? 0.1 : 0.08)),
+      smoothWheel: Boolean(featureSettings.lenis && featureSettings.lenisSmoothWheel && !coarsePointer),
+      syncTouch: Boolean(featureSettings.lenisSyncTouch && coarsePointer),
+      wheelMultiplier: Number(featureSettings.lenisWheelMultiplier ?? 1),
+      touchMultiplier: Number(featureSettings.lenisTouchMultiplier ?? 1),
     });
     lenis.on("scroll", ScrollTrigger.update);
 
@@ -56,7 +61,7 @@ function ScrollExperience() {
       lenis.off("scroll", ScrollTrigger.update);
       lenis.destroy();
     };
-  }, []);
+  }, [contextSettings]);
 
   return null;
 }

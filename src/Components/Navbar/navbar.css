@@ -36,7 +36,7 @@
   text-underline-offset: 0.35rem;
 }
 .teaser {
-  margin: var(--theme-toast-y) 0 0 var(--theme-toast-x);
+  margin: 0;
   border-radius: 0.75rem !important;
 }
 
@@ -95,7 +95,7 @@
 
 @media (max-width: 600px) {
   .teaser {
-    margin: 4.25rem 0.5rem 0;
+    margin: 0;
   }
 
   .theme-toast-content {

@@ -25,6 +25,12 @@ const featureLabels = {
   reactBitsCards: ["React Bits card tilt", "Subtle 3D interaction on project previews."],
 };
 
+const lenisOptions = [
+  ["lenisLerp", "Smoothness", "Lower values feel softer and slower; higher values feel more responsive.", 0.02, 0.2, 0.01, "lerp"],
+  ["lenisWheelMultiplier", "Wheel speed", "Adjust how strongly desktop wheel movement affects scrolling.", 0.5, 2, 0.1, "multiplier"],
+  ["lenisTouchMultiplier", "Touch speed", "Adjust how strongly touch movement affects scrolling.", 0.5, 2, 0.1, "multiplier"],
+];
+
 const heroBackgroundOptions = [
   ["ascii", "ASCII gradient", "Animated characters that respond to the pointer."],
   ["grid", "Grid only", "A quiet technical grid without the ASCII animation."],
@@ -240,6 +246,10 @@ function VaultAdmin() {
     await saveSettings(settings, "Gradient ASCII settings saved and applied.");
   };
 
+  const saveLenisSettings = async () => {
+    await saveSettings(settings, "Lenis scrolling settings saved and applied.");
+  };
+
   const refreshVisitors = async () => {
     setSaveError("");
     setSavedMessage("");
@@ -421,6 +431,50 @@ function VaultAdmin() {
           </p>
         </section>
 
+        <section className="vault-admin-ascii-settings" aria-labelledby="lenis-settings-title">
+          <div className="vault-admin-ascii-heading">
+            <p className="vault-admin-eyebrow">Scroll experience</p>
+            <h2 id="lenis-settings-title">Lenis controls</h2>
+            <p>Fine-tune smooth scrolling without editing code. Changes apply after the settings sync.</p>
+          </div>
+          {lenisOptions.map(([key, label, description, min, max, step, unit]) => (
+            <label className="admin-range-label" key={key}>
+              <span>
+                <span>{label}</span>
+                <strong>{settings[key]}{unit === "lerp" ? "" : "×"}</strong>
+              </span>
+              <small>{description}</small>
+              <input
+                type="range"
+                min={min}
+                max={max}
+                step={step}
+                value={settings[key]}
+                onChange={(event) => updateAsciiSetting(key, Number(event.target.value))}
+              />
+            </label>
+          ))}
+          <label className="admin-check-label">
+            <input
+              type="checkbox"
+              checked={settings.lenisSmoothWheel}
+              onChange={(event) => updateAsciiSetting("lenisSmoothWheel", event.target.checked)}
+            />
+            Smooth desktop wheel
+          </label>
+          <label className="admin-check-label">
+            <input
+              type="checkbox"
+              checked={settings.lenisSyncTouch}
+              onChange={(event) => updateAsciiSetting("lenisSyncTouch", event.target.checked)}
+            />
+            Sync touch scrolling
+          </label>
+          <button type="button" className="reset-features ascii-save-button" onClick={saveLenisSettings} disabled={isSaving}>
+            {isSaving ? "Saving..." : "Save Lenis settings"}
+          </button>
+        </section>
+
         <section className="vault-admin-ascii-settings" aria-labelledby="ascii-settings-title">
           <div className="vault-admin-ascii-heading">
             <p className="vault-admin-eyebrow">Gradient ASCII</p>
@@ -556,8 +610,8 @@ function VaultAdmin() {
               onChange={(event) => updateAsciiSetting("themeToastY", Number(event.target.value))}
             />
           </label>
-          <button type="button" className="reset-features ascii-save-button" onClick={saveAsciiSettings}>
-            Save notification position
+          <button type="button" className="reset-features ascii-save-button" onClick={saveAsciiSettings} disabled={isSaving}>
+            {isSaving ? "Saving..." : "Save notification position"}
           </button>
         </section>
 

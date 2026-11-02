@@ -9,6 +9,11 @@ import {
 
 export const defaultFeatureSettings = {
   lenis: true,
+  lenisLerp: 0.08,
+  lenisWheelMultiplier: 1,
+  lenisTouchMultiplier: 1,
+  lenisSyncTouch: false,
+  lenisSmoothWheel: true,
   revealAnimations: true,
   cursor: true,
   reactBitsCards: true,
@@ -68,6 +73,11 @@ export async function saveFeatureSettings(settings) {
     asciiLightMode: nextSettings.asciiLightMode,
     themeToastX: nextSettings.themeToastX,
     themeToastY: nextSettings.themeToastY,
+    lenisLerp: nextSettings.lenisLerp,
+    lenisWheelMultiplier: nextSettings.lenisWheelMultiplier,
+    lenisTouchMultiplier: nextSettings.lenisTouchMultiplier,
+    lenisSyncTouch: nextSettings.lenisSyncTouch,
+    lenisSmoothWheel: nextSettings.lenisSmoothWheel,
     updatedAt: serverTimestamp(),
   });
   localStorage.setItem(storageKey, JSON.stringify(nextSettings));

@@ -13,9 +13,10 @@ function NavScrollExample() {
   const currentPath = location.pathname;
   const { theme, toggleTheme } = useContext(ThemeContext);
   const featureSettings = useFeatureSettings() || {};
-  const toastStyle = {
-    '--theme-toast-x': `${Number(featureSettings.themeToastX ?? 16)}px`,
-    '--theme-toast-y': `${Number(featureSettings.themeToastY ?? 72)}px`,
+  const toastContainerStyle = {
+    top: `${Number(featureSettings.themeToastY ?? 72)}px`,
+    left: `${Number(featureSettings.themeToastX ?? 16)}px`,
+    right: 'auto',
   };
   const onPageLoad = (currentTheme) => {
     toast.dismiss();
@@ -40,7 +41,6 @@ function NavScrollExample() {
           padding: '0.85rem 1rem',
           width: 'min(32rem, calc(100vw - 2rem))',
           minWidth: 0,
-          ...toastStyle,
         },
         className: 'teaser',
       });
@@ -65,7 +65,6 @@ function NavScrollExample() {
           padding: '0.85rem 1rem',
           width: 'min(32rem, calc(100vw - 2rem))',
           minWidth: 0,
-          ...toastStyle,
         },
         className: 'teaser',
       });
@@ -105,7 +104,7 @@ useEffect(() => {
           </Nav>
         </Navbar.Collapse>
       </Container>
-      <Toaster />
+      <Toaster containerStyle={toastContainerStyle} />
     </Navbar>    
   );
 }
