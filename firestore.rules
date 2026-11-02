@@ -68,10 +68,28 @@ service cloud.firestore {
           'astralShellPulseSpeed',
           'astralShellSeed',
           'terminalRainCharacters',
+          'terminalRainPreset',
+          'terminalRainMode',
+          'terminalRainTrailColor',
+          'terminalRainHeadColor',
+          'terminalRainBackground',
+          'terminalRainFontSize',
+          'terminalRainSpacing',
           'terminalRainTrailLength',
           'terminalRainSpeed',
           'terminalRainDensity',
+          'terminalRainVariance',
+          'terminalRainAngle',
+          'terminalRainShuffle',
+          'terminalRainDepth',
           'terminalRainGlow',
+          'terminalRainIntensity',
+          'terminalRainSlowRadius',
+          'terminalRainSlowStrength',
+          'terminalRainBurstSize',
+          'terminalRainMirror',
+          'terminalRainBulletTime',
+          'terminalRainClickBurst',
           'terminalRainInteractive',
           'terminalRainCascade',
           'terminalRainResolution',
@@ -218,6 +236,24 @@ service cloud.firestore {
           || (request.resource.data.terminalRainCharacters is string
             && request.resource.data.terminalRainCharacters.size() >= 2
             && request.resource.data.terminalRainCharacters.size() <= 64))
+        && (!('terminalRainPreset' in request.resource.data)
+          || request.resource.data.terminalRainPreset in ['aurora', 'matrix', 'amber', 'binary', 'storm', 'drizzle', 'mono'])
+        && (!('terminalRainMode' in request.resource.data)
+          || request.resource.data.terminalRainMode in ['auto', 'glow', 'ink'])
+        && (!('terminalRainTrailColor' in request.resource.data)
+          || (request.resource.data.terminalRainTrailColor is string && request.resource.data.terminalRainTrailColor.matches('^#[0-9a-fA-F]{6}$')))
+        && (!('terminalRainHeadColor' in request.resource.data)
+          || (request.resource.data.terminalRainHeadColor is string && request.resource.data.terminalRainHeadColor.matches('^#[0-9a-fA-F]{6}$')))
+        && (!('terminalRainBackground' in request.resource.data)
+          || (request.resource.data.terminalRainBackground is string && request.resource.data.terminalRainBackground.matches('^#[0-9a-fA-F]{6}$')))
+        && (!('terminalRainFontSize' in request.resource.data)
+          || (request.resource.data.terminalRainFontSize is number
+            && request.resource.data.terminalRainFontSize >= 10
+            && request.resource.data.terminalRainFontSize <= 32))
+        && (!('terminalRainSpacing' in request.resource.data)
+          || (request.resource.data.terminalRainSpacing is number
+            && request.resource.data.terminalRainSpacing >= 0.5
+            && request.resource.data.terminalRainSpacing <= 2))
         && (!('terminalRainTrailLength' in request.resource.data)
           || (request.resource.data.terminalRainTrailLength is number
             && request.resource.data.terminalRainTrailLength >= 4
@@ -230,10 +266,45 @@ service cloud.firestore {
           || (request.resource.data.terminalRainDensity is number
             && request.resource.data.terminalRainDensity >= 0.1
             && request.resource.data.terminalRainDensity <= 1))
+        && (!('terminalRainVariance' in request.resource.data)
+          || (request.resource.data.terminalRainVariance is number
+            && request.resource.data.terminalRainVariance >= 0
+            && request.resource.data.terminalRainVariance <= 1))
+        && (!('terminalRainAngle' in request.resource.data)
+          || (request.resource.data.terminalRainAngle is number
+            && request.resource.data.terminalRainAngle >= -30
+            && request.resource.data.terminalRainAngle <= 30))
+        && (!('terminalRainShuffle' in request.resource.data)
+          || (request.resource.data.terminalRainShuffle is number
+            && request.resource.data.terminalRainShuffle >= 0
+            && request.resource.data.terminalRainShuffle <= 1))
+        && (!('terminalRainDepth' in request.resource.data)
+          || (request.resource.data.terminalRainDepth is number
+            && request.resource.data.terminalRainDepth >= 0
+            && request.resource.data.terminalRainDepth <= 1))
         && (!('terminalRainGlow' in request.resource.data)
           || (request.resource.data.terminalRainGlow is number
             && request.resource.data.terminalRainGlow >= 0
             && request.resource.data.terminalRainGlow <= 1))
+        && (!('terminalRainIntensity' in request.resource.data)
+          || (request.resource.data.terminalRainIntensity is number
+            && request.resource.data.terminalRainIntensity >= 0.2
+            && request.resource.data.terminalRainIntensity <= 2))
+        && (!('terminalRainSlowRadius' in request.resource.data)
+          || (request.resource.data.terminalRainSlowRadius is number
+            && request.resource.data.terminalRainSlowRadius >= 0
+            && request.resource.data.terminalRainSlowRadius <= 300))
+        && (!('terminalRainSlowStrength' in request.resource.data)
+          || (request.resource.data.terminalRainSlowStrength is number
+            && request.resource.data.terminalRainSlowStrength >= 0
+            && request.resource.data.terminalRainSlowStrength <= 1))
+        && (!('terminalRainBurstSize' in request.resource.data)
+          || (request.resource.data.terminalRainBurstSize is number
+            && request.resource.data.terminalRainBurstSize >= 0.2
+            && request.resource.data.terminalRainBurstSize <= 2))
+        && (!('terminalRainMirror' in request.resource.data) || request.resource.data.terminalRainMirror is bool)
+        && (!('terminalRainBulletTime' in request.resource.data) || request.resource.data.terminalRainBulletTime is bool)
+        && (!('terminalRainClickBurst' in request.resource.data) || request.resource.data.terminalRainClickBurst is bool)
         && (!('terminalRainInteractive' in request.resource.data)
           || request.resource.data.terminalRainInteractive is bool)
         && (!('terminalRainCascade' in request.resource.data)

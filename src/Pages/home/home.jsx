@@ -63,10 +63,28 @@ function Home() {
               {heroBackground === "terminal-rain" && (
                 <TerminalRain
                   characters={settings?.terminalRainCharacters}
+                  preset={settings?.terminalRainPreset}
+                  mode={settings?.terminalRainMode}
+                  trailColor={settings?.terminalRainTrailColor}
+                  headColor={settings?.terminalRainHeadColor}
+                  backgroundColor={settings?.terminalRainBackground}
+                  fontSize={settings?.terminalRainFontSize}
+                  spacing={settings?.terminalRainSpacing}
                   trailLength={settings?.terminalRainTrailLength}
                   speed={settings?.terminalRainSpeed}
                   density={settings?.terminalRainDensity}
+                  variance={settings?.terminalRainVariance}
+                  angle={settings?.terminalRainAngle}
+                  shuffle={settings?.terminalRainShuffle}
+                  depth={settings?.terminalRainDepth}
                   glow={settings?.terminalRainGlow}
+                  intensity={settings?.terminalRainIntensity}
+                  slowRadius={settings?.terminalRainSlowRadius}
+                  slowStrength={settings?.terminalRainSlowStrength}
+                  burstSize={settings?.terminalRainBurstSize}
+                  mirror={settings?.terminalRainMirror}
+                  bulletTime={settings?.terminalRainBulletTime}
+                  clickBurst={settings?.terminalRainClickBurst}
                   interactive={settings?.terminalRainInteractive}
                   cascade={settings?.terminalRainCascade}
                   resolution={settings?.terminalRainResolution}

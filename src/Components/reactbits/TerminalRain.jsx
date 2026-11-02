@@ -4,15 +4,28 @@ import "./TerminalRain.css";
 const defaultCharacters = "01アイウエオカキクケコ";
 
 function TerminalRain({
-  colors = ["#54c8ff", "#d7f7ff"],
-  background = "#07111f",
+  trailColor = "#9d7bff",
+  headColor = "#ffd6f5",
+  backgroundColor = "#0a0a0a",
   characters = defaultCharacters,
   fontSize = 18,
+  spacing = 1,
   density = 0.45,
   trailLength = 16,
   speed = 1,
+  variance = 0.5,
+  angle = 0,
+  shuffle = 0.35,
+  depth = 0.6,
   glow = 0.22,
+  intensity = 1,
+  slowRadius = 170,
+  slowStrength = 0.6,
   interactive = true,
+  bulletTime = true,
+  clickBurst = true,
+  burstSize = 1,
+  mirror = false,
   cascade = true,
   paused = false,
   resolution = 0.7,
@@ -33,12 +46,12 @@ function TerminalRain({
     let height = 0;
     let columns = 0;
     let lastTime = performance.now();
-
+    const radians = angle * Math.PI / 180;
     const randomChar = () => characterSet[Math.floor(Math.random() * characterSet.length)] || "0";
     const resetStream = (stream, startAbove = false) => {
       stream.x = Math.floor(Math.random() * Math.max(1, columns));
       stream.y = startAbove ? -Math.random() * height / fontSize : Math.random() * height / fontSize;
-      stream.length = Math.max(4, trailLength + Math.round((Math.random() - 0.5) * 5));
+      stream.length = Math.max(4, trailLength + Math.round((Math.random() - 0.5) * trailLength * variance));
       stream.speed = (0.65 + Math.random() * 0.7) * speed;
       stream.phase = Math.random() * Math.PI * 2;
     };
@@ -47,7 +60,7 @@ function TerminalRain({
       const ratio = Math.min(window.devicePixelRatio || 1, 2) * Math.max(0.25, Math.min(1, resolution));
       width = Math.max(1, bounds.width);
       height = Math.max(1, bounds.height);
-      columns = Math.ceil(width / Math.max(10, fontSize));
+      columns = Math.ceil(width / Math.max(10, fontSize * spacing));
       canvas.width = Math.floor(width * ratio);
       canvas.height = Math.floor(height * ratio);
       context.setTransform(ratio, 0, 0, ratio, 0, 0);
@@ -59,26 +72,30 @@ function TerminalRain({
     const draw = (time) => {
       const delta = Math.min(40, time - lastTime) / 16.67;
       lastTime = time;
-      context.fillStyle = background;
+      context.fillStyle = backgroundColor;
       context.fillRect(0, 0, width, height);
       context.font = `${fontSize}px ui-monospace, SFMono-Regular, Menlo, monospace`;
       context.textAlign = "center";
       streams.forEach((stream) => {
-        const x = stream.x * fontSize + fontSize / 2;
+        const x = stream.x * fontSize * spacing + fontSize / 2;
         const pointerDistance = interactive && pointer.active
           ? Math.hypot(x - pointer.x, stream.y * fontSize - pointer.y)
           : Infinity;
-        const slowdown = pointerDistance < 170 ? 1 - (1 - pointerDistance / 170) * 0.6 : 1;
+        const slowdown = bulletTime && pointerDistance < slowRadius
+          ? 1 - (1 - pointerDistance / slowRadius) * slowStrength
+          : 1;
         stream.y += stream.speed * slowdown * delta;
         for (let index = 0; index < stream.length; index += 1) {
+          const progress = 1 - index / stream.length;
+          const baseX = x + Math.sin(stream.phase + index * shuffle) * angle;
           const y = (stream.y - index) * fontSize;
           if (y < -fontSize || y > height + fontSize) continue;
-          const progress = 1 - index / stream.length;
-          context.globalAlpha = progress * 0.8;
-          context.shadowBlur = index === 0 ? glow * 18 : 0;
-          context.shadowColor = colors[1];
-          context.fillStyle = index === 0 ? colors[1] : colors[0];
-          context.fillText(randomChar(), x, y);
+          context.globalAlpha = Math.min(1, progress * intensity * (1 - depth * index / stream.length));
+          context.shadowBlur = index === 0 ? glow * 18 : glow * 5;
+          context.shadowColor = headColor;
+          context.fillStyle = index === 0 ? headColor : trailColor;
+          context.fillText(randomChar(), baseX, y);
+          if (mirror) context.fillText(randomChar(), width - baseX, y);
         }
         context.globalAlpha = 1;
         context.shadowBlur = 0;
@@ -91,10 +108,11 @@ function TerminalRain({
       pointer.x = event.clientX - bounds.left;
       pointer.y = event.clientY - bounds.top;
       pointer.active = true;
-      if (cascade && event.type === "pointerdown") {
-        streams.slice(0, 3).forEach((stream) => {
-          stream.x = Math.floor(pointer.x / Math.max(10, fontSize)) + Math.round((Math.random() - 0.5) * 4);
+      if (cascade && clickBurst && event.type === "pointerdown") {
+        streams.slice(0, Math.max(1, Math.round(3 * burstSize))).forEach((stream) => {
+          stream.x = Math.floor(pointer.x / Math.max(10, fontSize * spacing)) + Math.round((Math.random() - 0.5) * 4);
           stream.y = pointer.y / fontSize;
+          stream.speed *= 1 + burstSize;
         });
       }
     };
@@ -113,7 +131,11 @@ function TerminalRain({
       canvas.removeEventListener("pointerdown", handlePointer);
       canvas.removeEventListener("pointerleave", clearPointer);
     };
-  }, [background, cascade, characterSet, colors, density, fontSize, glow, interactive, paused, resolution, speed, trailLength]);
+  }, [
+    angle, backgroundColor, bulletTime, cascade, characterSet, clickBurst, density, depth,
+    fontSize, glow, headColor, intensity, interactive, mirror, paused, resolution, shuffle,
+    slowRadius, slowStrength, spacing, speed, trailColor, trailLength, variance, burstSize,
+  ]);
 
   return <canvas ref={canvasRef} className={`terminal-rain ${className}`} aria-label="Animated terminal rain background" />;
 }

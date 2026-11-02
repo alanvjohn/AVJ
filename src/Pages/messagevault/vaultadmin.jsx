@@ -104,6 +104,27 @@ const astralShellPresetOptions = Object.keys(astralShellPresets).map((value) => 
   value,
   value[0].toUpperCase() + value.slice(1),
 ]);
+const terminalRainPresets = {
+  aurora: { trailColor: "#9d7bff", headColor: "#ffd6f5", background: "#0a0a0a" },
+  matrix: { trailColor: "#29d17d", headColor: "#e5fff0", background: "#020a05" },
+  amber: { trailColor: "#d99b38", headColor: "#fff0bd", background: "#100b03" },
+  binary: { trailColor: "#5da9ff", headColor: "#eef7ff", background: "#050b16" },
+  storm: { trailColor: "#7d8ca8", headColor: "#e5ebf5", background: "#080b12" },
+  drizzle: { trailColor: "#41b8c5", headColor: "#e8ffff", background: "#061012" },
+  mono: { trailColor: "#8f969f", headColor: "#ffffff", background: "#090909" },
+};
+const terminalRainPresetOptions = Object.keys(terminalRainPresets).map((value) => [
+  value,
+  value[0].toUpperCase() + value.slice(1),
+]);
+const terminalRainModes = [["auto", "Auto"], ["glow", "Glow"], ["ink", "Ink"]];
+const terminalRainGlyphs = [
+  ["katakana", "Katakana", "アイウエオカキクケコサシスセソ"],
+  ["binary", "Binary", "01"],
+  ["hex", "Hex", "0123456789ABCDEF"],
+  ["latin", "Latin", "ABCDEFGHIJKLMNOPQRSTUVWXYZ"],
+  ["symbols", "Symbols", "!@#$%^&*+-=[]{}<>?/|"],
+];
 const accentOptions = [
   ["blue", "AVJ blue"],
   ["cyan", "Cyber cyan"],
@@ -482,11 +503,29 @@ function VaultAdmin() {
                   />
                   : settings.heroBackground === "terminal-rain"
                     ? <TerminalRain
+                      preset={settings.terminalRainPreset}
+                      mode={settings.terminalRainMode}
+                      trailColor={settings.terminalRainTrailColor}
+                      headColor={settings.terminalRainHeadColor}
+                      backgroundColor={settings.terminalRainBackground}
                       characters={settings.terminalRainCharacters}
+                      fontSize={settings.terminalRainFontSize}
+                      spacing={settings.terminalRainSpacing}
                       trailLength={settings.terminalRainTrailLength}
                       speed={settings.terminalRainSpeed}
                       density={settings.terminalRainDensity}
+                      variance={settings.terminalRainVariance}
+                      angle={settings.terminalRainAngle}
+                      shuffle={settings.terminalRainShuffle}
+                      depth={settings.terminalRainDepth}
                       glow={settings.terminalRainGlow}
+                      intensity={settings.terminalRainIntensity}
+                      slowRadius={settings.terminalRainSlowRadius}
+                      slowStrength={settings.terminalRainSlowStrength}
+                      burstSize={settings.terminalRainBurstSize}
+                      mirror={settings.terminalRainMirror}
+                      bulletTime={settings.terminalRainBulletTime}
+                      clickBurst={settings.terminalRainClickBurst}
                       interactive={settings.terminalRainInteractive}
                       cascade={settings.terminalRainCascade}
                       resolution={settings.terminalRainResolution}
@@ -526,9 +565,40 @@ function VaultAdmin() {
               </FeatureSettingsContext.Provider>
             </div>
             {settings.heroBackground === "terminal-rain" && (
-              <div className="admin-background-controls">
+              <div className="admin-background-controls admin-background-controls-grid">
+                <label className="admin-select-label">Preset
+                  <select value={settings.terminalRainPreset} onChange={(event) => {
+                    const preset = event.target.value;
+                    setSettings((current) => ({ ...current, terminalRainPreset: preset, ...{
+                      terminalRainTrailColor: terminalRainPresets[preset].trailColor,
+                      terminalRainHeadColor: terminalRainPresets[preset].headColor,
+                      terminalRainBackground: terminalRainPresets[preset].background,
+                    } }));
+                  }}>
+                    {terminalRainPresetOptions.map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+                  </select>
+                </label>
+                <label className="admin-select-label">Mode
+                  <select value={settings.terminalRainMode} onChange={(event) => updateAsciiSetting("terminalRainMode", event.target.value)}>
+                    {terminalRainModes.map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+                  </select>
+                </label>
+                <label className="admin-select-label">Glyphs
+                  <select value={terminalRainGlyphs.find(([value, , glyphs]) => value !== "custom" && glyphs === settings.terminalRainCharacters)?.[0] || "custom"}
+                    onChange={(event) => updateAsciiSetting("terminalRainCharacters", terminalRainGlyphs.find(([value]) => value === event.target.value)?.[2] || settings.terminalRainCharacters)}>
+                    {terminalRainGlyphs.map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+                    <option value="custom">Custom</option>
+                  </select>
+                </label>
+                {[
+                  ["terminalRainTrailColor", "Trail", "color"],
+                  ["terminalRainHeadColor", "Head", "color"],
+                  ["terminalRainBackground", "Background", "color"],
+                ].map(([key, label, type]) => <label className="admin-select-label" key={key}>{label}
+                  <input type={type} value={settings[key]} onChange={(event) => updateAsciiSetting(key, event.target.value)} />
+                </label>)}
                 <label className="admin-select-label">
-                  Rain characters
+                  Custom glyphs
                   <input
                     value={settings.terminalRainCharacters}
                     maxLength={64}
@@ -541,12 +611,12 @@ function VaultAdmin() {
                     onChange={(event) => updateAsciiSetting("terminalRainTrailLength", Number(event.target.value))} />
                 </label>
                 <label className="admin-range-label">
-                  <span><span>Rain speed</span><strong>{settings.terminalRainSpeed.toFixed(1)}×</strong></span>
+                  <span><span>                  Speed</span><strong>{settings.terminalRainSpeed.toFixed(1)}×</strong></span>
                   <input type="range" min="0.2" max="2" step="0.1" value={settings.terminalRainSpeed}
                     onChange={(event) => updateAsciiSetting("terminalRainSpeed", Number(event.target.value))} />
                 </label>
                 <label className="admin-range-label">
-                  <span><span>Column density</span><strong>{Math.round(settings.terminalRainDensity * 100)}%</strong></span>
+                  <span><span>                  Density</span><strong>{Math.round(settings.terminalRainDensity * 100)}%</strong></span>
                   <input type="range" min="0.1" max="1" step="0.05" value={settings.terminalRainDensity}
                     onChange={(event) => updateAsciiSetting("terminalRainDensity", Number(event.target.value))} />
                 </label>
@@ -560,10 +630,32 @@ function VaultAdmin() {
                   <input type="range" min="0.25" max="1" step="0.05" value={settings.terminalRainResolution}
                     onChange={(event) => updateAsciiSetting("terminalRainResolution", Number(event.target.value))} />
                 </label>
+                {[
+                  ["terminalRainFontSize", "Glyph size", 10, 32, 1, (value) => `${value}px`],
+                  ["terminalRainSpacing", "Spacing", 0.5, 2, 0.05, (value) => value.toFixed(2)],
+                  ["terminalRainVariance", "Variance", 0, 1, 0.05, (value) => value.toFixed(2)],
+                  ["terminalRainAngle", "Angle", -30, 30, 1, (value) => `${value}°`],
+                  ["terminalRainShuffle", "Shuffle", 0, 1, 0.05, (value) => value.toFixed(2)],
+                  ["terminalRainDepth", "Depth", 0, 1, 0.05, (value) => value.toFixed(2)],
+                  ["terminalRainIntensity", "Intensity", 0.2, 2, 0.05, (value) => value.toFixed(2)],
+                  ["terminalRainSlowRadius", "Slow radius", 0, 300, 10, (value) => `${value}px`],
+                  ["terminalRainSlowStrength", "Slow strength", 0, 1, 0.05, (value) => value.toFixed(2)],
+                  ["terminalRainBurstSize", "Burst size", 0.2, 2, 0.05, (value) => value.toFixed(2)],
+                ].map(([key, label, min, max, step, format]) => <label className="admin-range-label" key={key}>
+                  <span><span>{label}</span><strong>{format(settings[key])}</strong></span>
+                  <input type="range" min={min} max={max} step={step} value={settings[key]}
+                    onChange={(event) => updateAsciiSetting(key, Number(event.target.value))} />
+                </label>)}
+                <label className="admin-check-label"><input type="checkbox" checked={settings.terminalRainBulletTime}
+                  onChange={(event) => updateAsciiSetting("terminalRainBulletTime", event.target.checked)} /> Bullet time</label>
+                <label className="admin-check-label"><input type="checkbox" checked={settings.terminalRainClickBurst}
+                  onChange={(event) => updateAsciiSetting("terminalRainClickBurst", event.target.checked)} /> Click burst</label>
+                <label className="admin-check-label"><input type="checkbox" checked={settings.terminalRainMirror}
+                  onChange={(event) => updateAsciiSetting("terminalRainMirror", event.target.checked)} /> Mirror</label>
                 <label className="admin-check-label">
                   <input type="checkbox" checked={settings.terminalRainInteractive}
                     onChange={(event) => updateAsciiSetting("terminalRainInteractive", event.target.checked)} />
-                  Pointer slowdown
+                  Interactive
                 </label>
                 <label className="admin-check-label">
                   <input type="checkbox" checked={settings.terminalRainCascade}
