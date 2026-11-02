@@ -37,14 +37,15 @@
 }
 .theme-toast-content {
   display: flex;
-  align-items: flex-start;
+  flex-direction: row;
+  align-items: center;
   gap: 0.75rem;
   width: 100%;
   min-width: 0;
 }
 .theme-toast {
-  width: min(19rem, calc(100vw - 2rem)) !important;
-  min-width: 0 !important;
+  width: 340px !important;
+  min-width: 280px !important;
   max-width: calc(100vw - 2rem) !important;
   box-sizing: border-box;
 }
@@ -60,13 +61,13 @@
   display: block;
   overflow: visible;
   text-overflow: clip;
-  white-space: normal;
-  overflow-wrap: anywhere;
+  white-space: nowrap;
+  overflow-wrap: normal;
   line-height: 1.25;
 }
 .theme-toast-content small { opacity: 0.72; }
 .theme-toast-content button {
-  align-self: flex-start;
+  align-self: center;
   flex: 0 0 auto;
   border: 1px solid currentColor;
   border-radius: 999px;
@@ -84,6 +85,7 @@
 .dark-theme .theme-toast-content button:hover { color: #121212; }
 @media (max-width: 420px) {
   .theme-toast {
+    width: calc(100vw - 2rem) !important;
     min-width: 0 !important;
   }
 }

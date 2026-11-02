@@ -15,9 +15,10 @@ function NavScrollExample() {
   const currentPath = location.pathname;
   const { theme, toggleTheme } = useContext(ThemeContext);
   const toastContainerStyle = {
-    top: '76px',
+    top: '92px',
     left: '16px',
     right: 'auto',
+    width: 'auto',
   };
 
   useEffect(() => {
@@ -45,8 +46,8 @@ function NavScrollExample() {
         backgroundColor: isDark ? '#fff' : '#1f1f1f',
         color: isDark ? '#000' : '#fff',
         padding: '0.7rem 0.85rem',
-        width: 'min(19rem, calc(100vw - 2rem))',
-        minWidth: '0',
+        width: '340px',
+        minWidth: '280px',
         maxWidth: 'calc(100vw - 2rem)',
         boxSizing: 'border-box',
       },

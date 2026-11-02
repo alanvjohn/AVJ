@@ -44,10 +44,60 @@
 }
 
 .about-card {
+  --card-rotate-x: 0deg;
+  --card-rotate-y: 0deg;
+  --card-glow-x: 50%;
+  --card-glow-y: 50%;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   padding: 1.5rem;
   border: 1px solid #e5e7eb;
   border-radius: 1.25rem;
   background: #f7f8fa;
+  box-shadow: 0 1.5rem 3rem rgba(23, 78, 166, 0.08);
+  transform: perspective(900px) rotateX(var(--card-rotate-x)) rotateY(var(--card-rotate-y));
+  transform-style: preserve-3d;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+  will-change: transform;
+}
+
+.about-card.is-tilting {
+  box-shadow: 0 2rem 4rem rgba(23, 78, 166, 0.18);
+}
+
+.about-card-edge,
+.about-card-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.about-card-edge {
+  z-index: -1;
+  inset: 0.45rem -0.45rem -0.45rem 0.45rem;
+  border: 1px solid rgba(23, 78, 166, 0.2);
+  background: linear-gradient(135deg, rgba(139, 185, 255, 0.3), transparent 55%);
+  transform: translateZ(-18px);
+}
+
+.about-card-glow {
+  z-index: 0;
+  background: radial-gradient(circle at var(--card-glow-x) var(--card-glow-y), rgba(139, 185, 255, 0.34), transparent 38%);
+  opacity: 0.45;
+  transition: opacity 180ms ease;
+}
+
+.about-card.is-tilting .about-card-glow {
+  opacity: 0.85;
+}
+
+.about-card-content {
+  position: relative;
+  z-index: 1;
+  transform: translateZ(28px);
+  transform-style: preserve-3d;
 }
 
 .about-skill-grid {
@@ -65,6 +115,8 @@
   color: #1f2937;
   font-family: "Satoshi Variable";
   font-size: 0.9rem;
+  box-shadow: 0 0.35rem 0 rgba(23, 78, 166, 0.1);
+  transform: translateZ(12px);
 }
 
 .about-github-link {
@@ -107,11 +159,24 @@
 }
 .dark-theme .about-card {
   border-color: #333;
-  background: #1d1d1d;
+  background: linear-gradient(145deg, #202a3f, #171b28);
+  box-shadow: 0 1.5rem 3rem rgba(0, 0, 0, 0.3);
+}
+.dark-theme .about-card-edge {
+  border-color: rgba(139, 185, 255, 0.3);
+  background: linear-gradient(135deg, rgba(139, 185, 255, 0.22), transparent 55%);
 }
 
 .dark-theme .about-skill {
   border-color: #444;
-  background: #292929;
+  background: rgba(255, 255, 255, 0.08);
   color: #f5f5f5;
+  box-shadow: 0 0.35rem 0 rgba(139, 185, 255, 0.16);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-card {
+    transform: none;
+    transition: none;
+  }
 }
