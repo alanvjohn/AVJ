@@ -24,6 +24,29 @@ function Home() {
               {heroBackground === "voxel-arc" && (
                 <VoxelArc
                   interactive={settings?.voxelArcInteractive}
+                  preset={settings?.voxelArcPreset}
+                  color={settings?.voxelArcColor}
+                  accent={settings?.voxelArcAccent}
+                  backgroundColor={settings?.voxelArcBackground}
+                  density={settings?.voxelArcDensity}
+                  voxelSize={settings?.voxelArcSize}
+                  roundness={settings?.voxelArcRoundness}
+                  tilt={settings?.voxelArcTilt}
+                  horizon={settings?.voxelArcHorizon}
+                  curvature={settings?.voxelArcCurvature}
+                  waveHeight={settings?.voxelArcWaveHeight}
+                  waveLength={settings?.voxelArcWaveLength}
+                  speed={settings?.voxelArcSpeed}
+                  turbulence={settings?.voxelArcTurbulence}
+                  brightness={settings?.voxelArcBrightness}
+                  glowStrength={settings?.voxelArcGlow}
+                  haze={settings?.voxelArcHaze}
+                  bloom={settings?.voxelArcBloom}
+                  focus={settings?.voxelArcFocus}
+                  aperture={settings?.voxelArcAperture}
+                  grain={settings?.voxelArcGrain}
+                  ripples={settings?.voxelArcRipples}
+                  intro={settings?.voxelArcIntro}
                   paused={settings?.voxelArcPaused}
                   waveStrength={settings?.voxelArcWaveStrength}
                   cellSize={settings?.voxelArcCellSize}

@@ -125,6 +125,19 @@ const terminalRainGlyphs = [
   ["latin", "Latin", "ABCDEFGHIJKLMNOPQRSTUVWXYZ"],
   ["symbols", "Symbols", "!@#$%^&*+-=[]{}<>?/|"],
 ];
+const voxelArcPresets = {
+  horizon: { color: "#5227ff", accent: "#b19eef", background: "#0a0a0a" },
+  dusk: { color: "#c05cff", accent: "#ffd0f2", background: "#100817" },
+  calm: { color: "#2c9cff", accent: "#b9e8ff", background: "#06101c" },
+  storm: { color: "#4772a8", accent: "#d5e5ff", background: "#080d16" },
+  dots: { color: "#36d399", accent: "#d4ffe9", background: "#04100b" },
+  grid: { color: "#8b98ad", accent: "#edf2f7", background: "#0b0d10" },
+  planet: { color: "#ff914d", accent: "#ffe2c9", background: "#130b05" },
+};
+const voxelArcPresetOptions = Object.keys(voxelArcPresets).map((value) => [
+  value,
+  value[0].toUpperCase() + value.slice(1),
+]);
 const accentOptions = [
   ["blue", "AVJ blue"],
   ["cyan", "Cyber cyan"],
@@ -496,6 +509,29 @@ function VaultAdmin() {
                 {settings.heroBackground === "voxel-arc"
                   ? <VoxelArc
                     interactive={settings.voxelArcInteractive}
+                    preset={settings.voxelArcPreset}
+                    color={settings.voxelArcColor}
+                    accent={settings.voxelArcAccent}
+                    backgroundColor={settings.voxelArcBackground}
+                    density={settings.voxelArcDensity}
+                    voxelSize={settings.voxelArcSize}
+                    roundness={settings.voxelArcRoundness}
+                    tilt={settings.voxelArcTilt}
+                    horizon={settings.voxelArcHorizon}
+                    curvature={settings.voxelArcCurvature}
+                    waveHeight={settings.voxelArcWaveHeight}
+                    waveLength={settings.voxelArcWaveLength}
+                    speed={settings.voxelArcSpeed}
+                    turbulence={settings.voxelArcTurbulence}
+                    brightness={settings.voxelArcBrightness}
+                    glowStrength={settings.voxelArcGlow}
+                    haze={settings.voxelArcHaze}
+                    bloom={settings.voxelArcBloom}
+                    focus={settings.voxelArcFocus}
+                    aperture={settings.voxelArcAperture}
+                    grain={settings.voxelArcGrain}
+                    ripples={settings.voxelArcRipples}
+                    intro={settings.voxelArcIntro}
                     paused={settings.voxelArcPaused}
                     waveStrength={settings.voxelArcWaveStrength}
                     cellSize={settings.voxelArcCellSize}
@@ -668,31 +704,61 @@ function VaultAdmin() {
               </div>
             )}
             {settings.heroBackground === "voxel-arc" && (
-              <div className="admin-background-controls admin-background-controls-single">
+              <div className="admin-background-controls admin-background-controls-grid">
+                <label className="admin-select-label">Preset
+                  <select value={settings.voxelArcPreset} onChange={(event) => {
+                    const preset = event.target.value;
+                    setSettings((current) => ({ ...current, voxelArcPreset: preset, ...{
+                      voxelArcColor: voxelArcPresets[preset].color,
+                      voxelArcAccent: voxelArcPresets[preset].accent,
+                      voxelArcBackground: voxelArcPresets[preset].background,
+                    } }));
+                  }}>
+                    {voxelArcPresetOptions.map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+                  </select>
+                </label>
+                {[
+                  ["voxelArcColor", "Color"],
+                  ["voxelArcAccent", "Accent"],
+                  ["voxelArcBackground", "Background"],
+                ].map(([key, label]) => <label className="admin-select-label" key={key}>{label}
+                  <input type="color" value={settings[key]} onChange={(event) => updateAsciiSetting(key, event.target.value)} />
+                </label>)}
+                {[
+                  ["voxelArcDensity", "Density", 0.1, 1, 0.05, (value) => value.toFixed(2)],
+                  ["voxelArcSize", "Voxel size", 0.2, 1, 0.01, (value) => value.toFixed(2)],
+                  ["voxelArcRoundness", "Roundness", 0, 1, 0.05, (value) => value.toFixed(2)],
+                  ["voxelArcTilt", "Tilt", 0, 2, 0.05, (value) => value.toFixed(2)],
+                  ["voxelArcHorizon", "Horizon", 0.2, 0.8, 0.01, (value) => value.toFixed(2)],
+                  ["voxelArcCurvature", "Curvature", 0, 1, 0.05, (value) => value.toFixed(2)],
+                  ["voxelArcWaveHeight", "Wave height", 0, 2, 0.05, (value) => value.toFixed(2)],
+                  ["voxelArcWaveLength", "Wave length", 0.2, 2, 0.05, (value) => value.toFixed(2)],
+                  ["voxelArcSpeed", "Speed", 0, 2, 0.05, (value) => value.toFixed(2)],
+                  ["voxelArcTurbulence", "Turbulence", 0, 1, 0.05, (value) => value.toFixed(2)],
+                  ["voxelArcBrightness", "Brightness", 0, 2, 0.05, (value) => value.toFixed(2)],
+                  ["voxelArcGlow", "Glow", 0, 2, 0.05, (value) => value.toFixed(2)],
+                  ["voxelArcHaze", "Haze", 0, 1, 0.05, (value) => value.toFixed(2)],
+                  ["voxelArcBloom", "Bloom", 0, 1, 0.05, (value) => value.toFixed(2)],
+                  ["voxelArcFocus", "Focus", 0, 1, 0.05, (value) => value.toFixed(2)],
+                  ["voxelArcAperture", "Aperture", 0, 1, 0.05, (value) => value.toFixed(2)],
+                  ["voxelArcGrain", "Grain", 0, 1, 0.05, (value) => value.toFixed(2)],
+                  ["voxelArcRipples", "Ripples", 0, 2, 0.05, (value) => value.toFixed(2)],
+                ].map(([key, label, min, max, step, format]) => <label className="admin-range-label" key={key}>
+                  <span><span>{label}</span><strong>{format(settings[key])}</strong></span>
+                  <input type="range" min={min} max={max} step={step} value={settings[key]}
+                    onChange={(event) => updateAsciiSetting(key, Number(event.target.value))} />
+                </label>)}
                 <label className="admin-check-label">
                   <input type="checkbox" checked={settings.voxelArcInteractive}
-                    onChange={(event) => updateAsciiSetting("voxelArcInteractive", event.target.checked)} />
-                  Pointer wake interaction
+                    onChange={(event) => updateAsciiSetting("voxelArcInteractive", event.target.checked)} /> Interactive
+                </label>
+                <label className="admin-check-label">
+                  <input type="checkbox" checked={settings.voxelArcIntro}
+                    onChange={(event) => updateAsciiSetting("voxelArcIntro", event.target.checked)} /> Intro
                 </label>
                 <label className="admin-check-label">
                   <input type="checkbox" checked={settings.voxelArcPaused}
-                    onChange={(event) => updateAsciiSetting("voxelArcPaused", event.target.checked)} />
-                  Pause animation
-                </label>
-                <label className="admin-range-label">
-                  <span><span>Wave height</span><strong>{settings.voxelArcWaveStrength}px</strong></span>
-                  <input type="range" min="0" max="14" step="1" value={settings.voxelArcWaveStrength}
-                    onChange={(event) => updateAsciiSetting("voxelArcWaveStrength", Number(event.target.value))} />
-                </label>
-                <label className="admin-range-label">
-                  <span><span>Voxel spacing</span><strong>{settings.voxelArcCellSize}px</strong></span>
-                  <input type="range" min="10" max="32" step="1" value={settings.voxelArcCellSize}
-                    onChange={(event) => updateAsciiSetting("voxelArcCellSize", Number(event.target.value))} />
-                </label>
-                <label className="admin-range-label">
-                  <span><span>Hue</span><strong>{settings.voxelArcHue}°</strong></span>
-                  <input type="range" min="160" max="280" step="1" value={settings.voxelArcHue}
-                    onChange={(event) => updateAsciiSetting("voxelArcHue", Number(event.target.value))} />
+                    onChange={(event) => updateAsciiSetting("voxelArcPaused", event.target.checked)} /> Paused
                 </label>
                 <button type="button" className="reset-features ascii-save-button" onClick={() => saveSettings(settings, "Voxel Arc settings saved and applied.")} disabled={isSaving}>
                   {isSaving ? "Saving..." : "Save Voxel Arc settings"}

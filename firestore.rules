@@ -36,6 +36,29 @@ service cloud.firestore {
           'reactBitsCards',
           'heroBackground',
           'voxelArcInteractive',
+          'voxelArcPreset',
+          'voxelArcColor',
+          'voxelArcAccent',
+          'voxelArcBackground',
+          'voxelArcDensity',
+          'voxelArcSize',
+          'voxelArcRoundness',
+          'voxelArcTilt',
+          'voxelArcHorizon',
+          'voxelArcCurvature',
+          'voxelArcWaveHeight',
+          'voxelArcWaveLength',
+          'voxelArcSpeed',
+          'voxelArcTurbulence',
+          'voxelArcBrightness',
+          'voxelArcGlow',
+          'voxelArcHaze',
+          'voxelArcBloom',
+          'voxelArcFocus',
+          'voxelArcAperture',
+          'voxelArcGrain',
+          'voxelArcRipples',
+          'voxelArcIntro',
           'voxelArcPaused',
           'voxelArcWaveStrength',
           'voxelArcCellSize',
@@ -131,6 +154,87 @@ service cloud.firestore {
         && (!('heroBackground' in request.resource.data)
           || request.resource.data.heroBackground in ['ascii', 'voxel-arc', 'terminal-rain', 'astral-shell', 'grid', 'plain'])
         && (!('voxelArcInteractive' in request.resource.data) || request.resource.data.voxelArcInteractive is bool)
+        && (!('voxelArcPreset' in request.resource.data)
+          || request.resource.data.voxelArcPreset in ['horizon', 'dusk', 'calm', 'storm', 'dots', 'grid', 'planet'])
+        && (!('voxelArcColor' in request.resource.data)
+          || (request.resource.data.voxelArcColor is string && request.resource.data.voxelArcColor.matches('^#[0-9a-fA-F]{6}$')))
+        && (!('voxelArcAccent' in request.resource.data)
+          || (request.resource.data.voxelArcAccent is string && request.resource.data.voxelArcAccent.matches('^#[0-9a-fA-F]{6}$')))
+        && (!('voxelArcBackground' in request.resource.data)
+          || (request.resource.data.voxelArcBackground is string && request.resource.data.voxelArcBackground.matches('^#[0-9a-fA-F]{6}$')))
+        && (!('voxelArcDensity' in request.resource.data)
+          || (request.resource.data.voxelArcDensity is number
+            && request.resource.data.voxelArcDensity >= 0.1
+            && request.resource.data.voxelArcDensity <= 1))
+        && (!('voxelArcSize' in request.resource.data)
+          || (request.resource.data.voxelArcSize is number
+            && request.resource.data.voxelArcSize >= 0.2
+            && request.resource.data.voxelArcSize <= 1))
+        && (!('voxelArcRoundness' in request.resource.data)
+          || (request.resource.data.voxelArcRoundness is number
+            && request.resource.data.voxelArcRoundness >= 0
+            && request.resource.data.voxelArcRoundness <= 1))
+        && (!('voxelArcTilt' in request.resource.data)
+          || (request.resource.data.voxelArcTilt is number
+            && request.resource.data.voxelArcTilt >= 0
+            && request.resource.data.voxelArcTilt <= 2))
+        && (!('voxelArcHorizon' in request.resource.data)
+          || (request.resource.data.voxelArcHorizon is number
+            && request.resource.data.voxelArcHorizon >= 0.2
+            && request.resource.data.voxelArcHorizon <= 0.8))
+        && (!('voxelArcCurvature' in request.resource.data)
+          || (request.resource.data.voxelArcCurvature is number
+            && request.resource.data.voxelArcCurvature >= 0
+            && request.resource.data.voxelArcCurvature <= 1))
+        && (!('voxelArcWaveHeight' in request.resource.data)
+          || (request.resource.data.voxelArcWaveHeight is number
+            && request.resource.data.voxelArcWaveHeight >= 0
+            && request.resource.data.voxelArcWaveHeight <= 2))
+        && (!('voxelArcWaveLength' in request.resource.data)
+          || (request.resource.data.voxelArcWaveLength is number
+            && request.resource.data.voxelArcWaveLength >= 0.2
+            && request.resource.data.voxelArcWaveLength <= 2))
+        && (!('voxelArcSpeed' in request.resource.data)
+          || (request.resource.data.voxelArcSpeed is number
+            && request.resource.data.voxelArcSpeed >= 0
+            && request.resource.data.voxelArcSpeed <= 2))
+        && (!('voxelArcTurbulence' in request.resource.data)
+          || (request.resource.data.voxelArcTurbulence is number
+            && request.resource.data.voxelArcTurbulence >= 0
+            && request.resource.data.voxelArcTurbulence <= 1))
+        && (!('voxelArcBrightness' in request.resource.data)
+          || (request.resource.data.voxelArcBrightness is number
+            && request.resource.data.voxelArcBrightness >= 0
+            && request.resource.data.voxelArcBrightness <= 2))
+        && (!('voxelArcGlow' in request.resource.data)
+          || (request.resource.data.voxelArcGlow is number
+            && request.resource.data.voxelArcGlow >= 0
+            && request.resource.data.voxelArcGlow <= 2))
+        && (!('voxelArcHaze' in request.resource.data)
+          || (request.resource.data.voxelArcHaze is number
+            && request.resource.data.voxelArcHaze >= 0
+            && request.resource.data.voxelArcHaze <= 1))
+        && (!('voxelArcBloom' in request.resource.data)
+          || (request.resource.data.voxelArcBloom is number
+            && request.resource.data.voxelArcBloom >= 0
+            && request.resource.data.voxelArcBloom <= 1))
+        && (!('voxelArcFocus' in request.resource.data)
+          || (request.resource.data.voxelArcFocus is number
+            && request.resource.data.voxelArcFocus >= 0
+            && request.resource.data.voxelArcFocus <= 1))
+        && (!('voxelArcAperture' in request.resource.data)
+          || (request.resource.data.voxelArcAperture is number
+            && request.resource.data.voxelArcAperture >= 0
+            && request.resource.data.voxelArcAperture <= 1))
+        && (!('voxelArcGrain' in request.resource.data)
+          || (request.resource.data.voxelArcGrain is number
+            && request.resource.data.voxelArcGrain >= 0
+            && request.resource.data.voxelArcGrain <= 1))
+        && (!('voxelArcRipples' in request.resource.data)
+          || (request.resource.data.voxelArcRipples is number
+            && request.resource.data.voxelArcRipples >= 0
+            && request.resource.data.voxelArcRipples <= 2))
+        && (!('voxelArcIntro' in request.resource.data) || request.resource.data.voxelArcIntro is bool)
         && (!('voxelArcPaused' in request.resource.data) || request.resource.data.voxelArcPaused is bool)
         && (!('voxelArcWaveStrength' in request.resource.data)
           || (request.resource.data.voxelArcWaveStrength is number
