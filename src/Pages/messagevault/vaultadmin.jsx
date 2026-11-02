@@ -693,7 +693,7 @@ function VaultAdmin() {
           </button>
         </section>
 
-        <section className="vault-admin-ascii-settings" aria-labelledby="hero-content-title">
+        <section className="vault-admin-ascii-settings vault-admin-homepage-settings" aria-labelledby="hero-content-title">
           <div className="vault-admin-ascii-heading">
             <p className="vault-admin-eyebrow">Homepage content</p>
             <h2 id="hero-content-title">Hero text and visibility</h2>

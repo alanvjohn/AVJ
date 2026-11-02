@@ -216,6 +216,17 @@
   border-radius: 1rem;
   background: #fff;
 }
+.vault-admin-homepage-settings {
+  grid-template-columns: minmax(0, 1fr);
+}
+.vault-admin-homepage-settings .admin-select-label,
+.vault-admin-homepage-settings .admin-check-label,
+.vault-admin-homepage-settings .ascii-save-button {
+  width: min(100%, 48rem);
+}
+.vault-admin-homepage-settings .admin-select-label input {
+  min-height: 3.25rem;
+}
 .vault-admin-ascii-heading { grid-column: 1 / -1; }
 .vault-admin-ascii-heading h2 {
   margin: 0 0 0.35rem;
