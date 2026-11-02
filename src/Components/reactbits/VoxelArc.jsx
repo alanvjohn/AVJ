@@ -53,54 +53,101 @@ function VoxelArc({
     let width = 0;
     let height = 0;
     let startTime = performance.now();
+    let grid = { columns: 0, rows: 0, spacing: 0, columnsData: [], rowsData: [] };
+    let grainPoints = [];
+
+    const rebuildGrid = () => {
+      const columns = Math.max(18, Math.floor(width / Math.max(5, cellSize * voxelSize * (1.15 - density * 0.35))));
+      const rows = Math.max(12, Math.floor(height / Math.max(6, cellSize * voxelSize)));
+      const horizonY = height * horizon;
+      const spacing = width / columns;
+      const columnsData = Array.from({ length: columns }, (_, column) => ({
+        x: column * spacing + spacing / 2,
+        wavePhase: column * (0.25 + waveLength),
+        turbulencePhase: column * 0.22,
+      }));
+      const rowsData = Array.from({ length: rows }, (_, row) => {
+        const depth = row / rows;
+        const scale = 0.35 + depth * 1.25;
+        const yBase = horizonY + Math.pow(depth, 1.2 + curvature) * height * 0.62;
+        const size = Math.max(1, spacing * (0.3 + voxelSize * 0.55) * scale);
+        const light = Math.min(100, 25 + depth * 45 + brightness * 22);
+        const baseAlpha = Math.min(1, 0.2 + depth * 0.65 + haze * 0.12);
+        const mix = Math.min(1, depth * 0.7);
+        const red = Math.round(primary.r + (highlight.r - primary.r) * mix);
+        const green = Math.round(primary.g + (highlight.g - primary.g) * mix);
+        const blue = Math.round(primary.b + (highlight.b - primary.b) * mix);
+        return {
+          depth,
+          scale,
+          yBase,
+          size,
+          radius: Math.min(size / 2, roundness * size / 2),
+          baseAlpha: baseAlpha * (light / 75),
+          baseStyle: `rgba(${red}, ${green}, ${blue}, ${baseAlpha * (light / 75)})`,
+        };
+      });
+      grid = { columns, rows, spacing, columnsData, rowsData };
+
+      const grainCount = Math.floor(width * height * 0.00004);
+      grainPoints = Array.from({ length: grainCount }, (_, index) => [
+        (index * 47) % width,
+        (index * 83) % height,
+      ]);
+    };
 
     const resize = () => {
       const bounds = canvas.getBoundingClientRect();
-      const ratio = Math.min(window.devicePixelRatio || 1, 1.25);
+      const ratio = Math.min(window.devicePixelRatio || 1, 1);
       width = Math.max(1, bounds.width);
       height = Math.max(1, bounds.height);
       canvas.width = Math.floor(width * ratio);
       canvas.height = Math.floor(height * ratio);
       context.setTransform(ratio, 0, 0, ratio, 0, 0);
+      rebuildGrid();
     };
 
     const draw = (time) => {
       const elapsed = (time - startTime) / 1000;
       context.fillStyle = backgroundColor;
       context.fillRect(0, 0, width, height);
-      const columns = Math.max(18, Math.floor(width / Math.max(5, cellSize * voxelSize * (1.15 - density * 0.35))));
-      const rows = Math.max(12, Math.floor(height / Math.max(6, cellSize * voxelSize)));
+      const { columns, rows, columnsData, rowsData } = grid;
       const horizonY = height * horizon;
-      const spacing = width / columns;
       const motion = paused || reducedMotion ? 0 : speed;
       const introProgress = intro ? Math.min(1, elapsed * 0.65) : 1;
-      context.shadowBlur = Math.max(0, glowStrength * 8 + bloom * 8);
-      context.shadowColor = color;
+      context.shadowBlur = 0;
 
       for (let row = 0; row < rows; row += 1) {
-        const depth = row / rows;
-        const yBase = horizonY + Math.pow(depth, 1.2 + curvature) * height * 0.62;
-        const scale = 0.35 + depth * 1.25;
+        const rowData = rowsData[row];
+        const {
+          depth, scale, yBase, size, radius, baseAlpha, baseStyle,
+        } = rowData;
         for (let column = 0; column < columns; column += 1) {
-          const x = column * spacing + spacing / 2;
-          const wave = Math.sin(column * (0.25 + waveLength) + elapsed * motion * 2.4) * waveHeight * scale * 8;
-          const turbulenceWave = Math.sin(row * 0.7 + column * 0.22 + elapsed * motion * 1.5) * turbulence * scale * 5;
+          const columnData = columnsData[column];
+          const { x, wavePhase, turbulencePhase } = columnData;
+          const wave = Math.sin(wavePhase + elapsed * motion * 2.4) * waveHeight * scale * 8;
+          const turbulenceWave = Math.sin(row * 0.7 + turbulencePhase + elapsed * motion * 1.5) * turbulence * scale * 5;
           const pointerRipple = interactive && pointer.active
             ? Math.max(0, 1 - Math.hypot(x / width - pointer.x, depth - pointer.y) * 4) * ripples
             : 0;
-          const size = Math.max(1, spacing * (0.3 + voxelSize * 0.55) * scale);
-          const light = Math.min(100, 25 + depth * 45 + brightness * 22 + pointerRipple * 26);
-          const alpha = Math.min(1, (0.2 + depth * 0.65 + haze * 0.12) * introProgress);
           const mix = Math.min(1, depth * 0.7 + pointerRipple * 0.35);
-          const red = Math.round(primary.r + (highlight.r - primary.r) * mix);
-          const green = Math.round(primary.g + (highlight.g - primary.g) * mix);
-          const blue = Math.round(primary.b + (highlight.b - primary.b) * mix);
-          context.fillStyle = `rgba(${red}, ${green}, ${blue}, ${alpha * (light / 75)})`;
+          if (pointerRipple > 0 || introProgress < 1) {
+            const red = Math.round(primary.r + (highlight.r - primary.r) * mix);
+            const green = Math.round(primary.g + (highlight.g - primary.g) * mix);
+            const blue = Math.round(primary.b + (highlight.b - primary.b) * mix);
+            const light = Math.min(100, 25 + depth * 45 + brightness * 22 + pointerRipple * 26);
+            context.fillStyle = `rgba(${red}, ${green}, ${blue}, ${Math.min(1, baseAlpha * introProgress * (light / (25 + depth * 45 + brightness * 22)))})`;
+          } else {
+            context.fillStyle = baseStyle;
+          }
           const offset = (wave + turbulenceWave) * tilt;
-          const radius = Math.min(size / 2, roundness * size / 2);
-          context.beginPath();
-          context.roundRect(x - size / 2, yBase + offset - size / 2, size, size, radius);
-          context.fill();
+          if (radius > 0) {
+            context.beginPath();
+            context.roundRect(x - size / 2, yBase + offset - size / 2, size, size, radius);
+            context.fill();
+          } else {
+            context.fillRect(x - size / 2, yBase + offset - size / 2, size, size);
+          }
         }
       }
 
@@ -114,8 +161,8 @@ function VoxelArc({
 
       if (grain > 0) {
         context.fillStyle = `rgba(255,255,255,${grain * 0.025})`;
-        for (let index = 0; index < width * height * 0.00004; index += 1) {
-          context.fillRect((index * 47) % width, (index * 83) % height, 1, 1);
+        for (const [x, y] of grainPoints) {
+          context.fillRect(x, y, 1, 1);
         }
       }
       if (!paused && !reducedMotion && !document.hidden) frameId = requestAnimationFrame(draw);
