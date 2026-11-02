@@ -8,8 +8,14 @@ const Skills = () => {
         <h1 className="header-skills">Tools I use to build and secure products.</h1>
       </div>
       <div className="skillslist">
-        {skills.map((skill) => (
-          <span key={skill}>{skill}</span>
+        {skills.map((skill, index) => (
+          <span
+            key={skill}
+            className="skill-chip"
+            style={{ "--skill-index": index }}
+          >
+            {skill}
+          </span>
         ))}
       </div>
     </section>

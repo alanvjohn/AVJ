@@ -1,11 +1,42 @@
 .skill-holder {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   padding: 5rem clamp(1.25rem, 5vw, 6rem);
   background-color: #f7f8fa;
+}
+
+.skill-holder::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(rgba(23, 78, 166, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(23, 78, 166, 0.045) 1px, transparent 1px);
+  background-size: 3.5rem 3.5rem;
+  content: "";
+  mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 82%, transparent);
+  animation: toolkit-grid-drift 18s linear infinite;
+}
+
+.skill-holder::after {
+  position: absolute;
+  top: 8%;
+  left: -12rem;
+  z-index: -1;
+  width: 20rem;
+  height: 20rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(139, 185, 255, 0.24), transparent 68%);
+  content: "";
+  filter: blur(8px);
+  animation: toolkit-orb 10s ease-in-out infinite alternate;
 }
 
 .skills-heading {
   max-width: 760px;
   margin: 0 auto 2rem;
+  animation: toolkit-heading-in 700ms both;
 }
 
 .skills-eyebrow {
@@ -27,6 +58,8 @@
 }
 
 .skillslist span {
+  --skill-index: 0;
+  position: relative;
   padding: 0.85rem 1.1rem;
   border: 1px solid #d9dee7;
   border-radius: 0.8rem;
@@ -34,6 +67,34 @@
   color: #1f2937;
   font-family: "Satoshi Variable";
   font-size: 1rem;
+  box-shadow: 0 0.25rem 0 rgba(23, 78, 166, 0.08);
+  transform: translateY(1.5rem) scale(0.94);
+  animation: toolkit-chip-in 600ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: calc(var(--skill-index) * 55ms + 180ms);
+  transition: border-color 180ms ease, background-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+}
+
+.skillslist span::after {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(120deg, transparent 20%, rgba(255, 255, 255, 0.55), transparent 80%);
+  content: "";
+  opacity: 0;
+  transform: translateX(-120%);
+  transition: opacity 180ms ease;
+}
+
+.skillslist span:hover {
+  border-color: var(--avj-accent);
+  background: #f5f9ff;
+  box-shadow: 0 0.7rem 1.4rem rgba(23, 78, 166, 0.16);
+  transform: translateY(-0.3rem) rotate(-1deg);
+}
+
+.skillslist span:hover::after {
+  opacity: 1;
+  animation: toolkit-chip-shine 650ms ease;
 }
 
 .header-skills {
@@ -44,7 +105,17 @@
 }
 
 .dark-theme .skill-holder {
-  background-color: #181818;
+  background-color: #111827;
+}
+
+.dark-theme .skill-holder::before {
+  background:
+    linear-gradient(rgba(139, 185, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(139, 185, 255, 0.08) 1px, transparent 1px);
+}
+
+.dark-theme .skill-holder::after {
+  background: radial-gradient(circle, rgba(124, 107, 255, 0.26), transparent 68%);
 }
 
 .dark-theme .skills-eyebrow {
@@ -59,4 +130,55 @@
   border-color: #444;
   background: #242424;
   color: #f5f5f5;
+}
+
+.dark-theme .skillslist span:hover {
+  border-color: var(--avj-accent-light);
+  background: #273653;
+  box-shadow: 0 0.7rem 1.4rem rgba(0, 0, 0, 0.3);
+}
+
+@keyframes toolkit-heading-in {
+  from {
+    opacity: 0;
+    transform: translateY(1.2rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes toolkit-chip-in {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes toolkit-chip-shine {
+  from { transform: translateX(-120%); }
+  to { transform: translateX(120%); }
+}
+
+@keyframes toolkit-grid-drift {
+  to { background-position: 3.5rem 3.5rem; }
+}
+
+@keyframes toolkit-orb {
+  to { transform: translate3d(58rem, 5rem, 0) scale(1.35); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skill-holder::before,
+  .skill-holder::after,
+  .skills-heading,
+  .skillslist span {
+    animation: none;
+  }
+
+  .skillslist span {
+    opacity: 1;
+    transform: none;
+  }
 }
