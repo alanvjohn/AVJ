@@ -58,6 +58,7 @@ const asciiCharacterOptions = [
   ["classic", "Classic"],
   ["letters", "Letters"],
   ["symbols", "Symbols"],
+  ["custom", "Custom"],
 ];
 
 function VaultAdmin() {
@@ -499,6 +500,26 @@ function VaultAdmin() {
               {asciiCharacterOptions.map(([value, label]) => <option key={value} value={value}>{label}</option>)}
             </select>
           </label>
+          {settings.asciiCharacters === "custom" && (
+            <label className="admin-select-label ascii-custom-characters-label">
+              Custom characters
+              <input
+                type="text"
+                value={settings.asciiCustomCharacters}
+                maxLength={64}
+                spellCheck="false"
+                onChange={(event) => updateAsciiSetting(
+                  "asciiCustomCharacters",
+                  event.target.value.replace(/[\r\n]/g, "")
+                )}
+                placeholder=" .·:+*#@"
+                aria-describedby="ascii-custom-characters-help"
+              />
+              <small id="ascii-custom-characters-help">
+                Use at least two characters. Keep a leading space if you want the dimmest cells to stay blank.
+              </small>
+            </label>
+          )}
           <label className="admin-check-label">
             <input
               type="checkbox"

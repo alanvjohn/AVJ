@@ -71,7 +71,11 @@ service cloud.firestore {
           'violet'
         ])
         && (!('asciiCharacters' in request.resource.data)
-          || request.resource.data.asciiCharacters in ['classic', 'letters', 'symbols'])
+          || request.resource.data.asciiCharacters in ['classic', 'letters', 'symbols', 'custom'])
+        && (!('asciiCustomCharacters' in request.resource.data)
+          || (request.resource.data.asciiCustomCharacters is string
+            && request.resource.data.asciiCustomCharacters.size() >= 2
+            && request.resource.data.asciiCustomCharacters.size() <= 64))
         && (!('asciiMouseInteraction' in request.resource.data)
           || request.resource.data.asciiMouseInteraction is bool)
         && (!('asciiDesktopCellSize' in request.resource.data)

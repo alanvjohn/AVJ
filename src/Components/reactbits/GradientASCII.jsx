@@ -37,6 +37,7 @@ function GradientASCII() {
   const ascii = {
     preset: settings?.asciiPreset ?? "atmosphere",
     characters: settings?.asciiCharacters ?? "classic",
+    customCharacters: settings?.asciiCustomCharacters ?? " .·:+*#@",
     mouseInteraction: settings?.asciiMouseInteraction ?? true,
     desktopCellSize: settings?.asciiDesktopCellSize ?? 10,
     mobileCellSize: settings?.asciiMobileCellSize ?? 16,
@@ -93,7 +94,9 @@ function GradientASCII() {
     const draw = (time = 0) => {
       context.clearRect(0, 0, width, height);
       const preset = presets[ascii.preset] || presets.atmosphere;
-      const characters = characterSets[ascii.characters] || characterSets.classic;
+      const characters = ascii.characters === "custom" && ascii.customCharacters.length >= 2
+        ? ascii.customCharacters
+        : characterSets[ascii.characters] || characterSets.classic;
       context.font = "12px monospace";
       context.textAlign = "center";
       context.textBaseline = "middle";
@@ -191,6 +194,7 @@ function GradientASCII() {
     ascii.mobileMouseInteraction,
     ascii.preset,
     ascii.characters,
+    ascii.customCharacters,
   ]);
 
   return <canvas ref={canvasRef} className="gradient-ascii" aria-hidden="true" />;
