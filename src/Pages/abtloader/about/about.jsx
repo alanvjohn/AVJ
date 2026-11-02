@@ -71,7 +71,6 @@ function About() {
             </p>
           </div>
           <aside ref={cardRef} className="about-card" aria-label="Technology skills card">
-            <div className="about-card-edge" aria-hidden="true" />
             <div className="about-card-glow" aria-hidden="true" />
             <div className="about-card-content">
             <p className="about-eyebrow">Currently building with</p>

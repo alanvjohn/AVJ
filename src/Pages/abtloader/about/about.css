@@ -66,20 +66,11 @@
   box-shadow: 0 2rem 4rem rgba(23, 78, 166, 0.18);
 }
 
-.about-card-edge,
 .about-card-glow {
   position: absolute;
   inset: 0;
   pointer-events: none;
   border-radius: inherit;
-}
-
-.about-card-edge {
-  z-index: -1;
-  inset: 0.45rem -0.45rem -0.45rem 0.45rem;
-  border: 1px solid rgba(23, 78, 166, 0.2);
-  background: linear-gradient(135deg, rgba(139, 185, 255, 0.3), transparent 55%);
-  transform: translateZ(-18px);
 }
 
 .about-card-glow {
@@ -162,11 +153,6 @@
   background: linear-gradient(145deg, #202a3f, #171b28);
   box-shadow: 0 1.5rem 3rem rgba(0, 0, 0, 0.3);
 }
-.dark-theme .about-card-edge {
-  border-color: rgba(139, 185, 255, 0.3);
-  background: linear-gradient(135deg, rgba(139, 185, 255, 0.22), transparent 55%);
-}
-
 .dark-theme .about-skill {
   border-color: #444;
   background: rgba(255, 255, 255, 0.08);
